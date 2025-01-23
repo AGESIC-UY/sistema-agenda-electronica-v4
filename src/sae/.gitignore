@@ -1,0 +1,6 @@
+# ECLIPSE SPECIFIC
+.project
+.project/
+.settings/
+.classpath
+.vscode

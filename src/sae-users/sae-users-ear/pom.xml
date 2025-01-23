@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>sae-users-code</artifactId>
+        <groupId>saeusersgroup</groupId>
+        <version>0.3.0</version>
+    </parent>
+    
+    <artifactId>sae-users-ear</artifactId>
+    
+    <packaging>ear</packaging>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <display_version>${project.version}</display_version>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+    </properties>
+  
+   <profiles>
+        <profile>
+            <id>sae-users-dev</id>
+                <activation>
+                       <activeByDefault>true</activeByDefault>
+                </activation>  
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>${maven.compiler.source}</source>
+                            <target>${maven.compiler.source}</target>
+                        </configuration>
+                    </plugin>  
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-ear-plugin</artifactId>
+                        <configuration>
+                            <version>${applicationXml.version}</version>
+                            <defaultLibBundleDir>lib</defaultLibBundleDir>
+                            <modules>
+                                <webModule>
+                                    <groupId>saeusersgroup</groupId>
+                                    <artifactId>sae-users-web</artifactId>
+                                    <contextRoot>/sae-users</contextRoot>
+                                </webModule>
+                            </modules>
+                            <outputDirectory>${env.SAE4_DEPLOYMENT_FOLDER}</outputDirectory>
+                            <!--<outputDirectory>D:\Servers\wildfly-11.0.0.Final\standalone\deployments</outputDirectory>-->
+                           <!--<outputDirectory>${sae.deployment}</outputDirectory>-->
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+   </profiles>
+    
+    
+    
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sae-users-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sae-users-web</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+    <name>sae-users-ear</name>
+</project>

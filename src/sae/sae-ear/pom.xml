@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+    <artifactId>sae</artifactId>
+    <groupId>uy.com.sofis</groupId>
+    <version>4.6.1-r5</version>
+  </parent>
+
+    <artifactId>sae-ear</artifactId>
+    <version>4.6.1-r5</version>
+    <packaging>ear</packaging>
+
+    <name>sae-ear</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+  
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>${applicationXml.version}</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <outputDirectory>${env.SAE4_DEPLOYMENT_FOLDER}</outputDirectory>
+                    <!--SAE4_DEPLOYMENT_FOLDER es una variable de entorno que apunta al directorio deployment de Wildfly, por ejemplo D:\Servers\wildfly-11.0.0.Final\standalone\deployments-->
+                    <!--<outputDirectory>/home/sofis/CEIP-SAE/AMBIENTES/wildfly-11/standalone/deployments</outputDirectory>-->
+<!--                    <outputDirectory>/home/sofis-iquezada/Workspace/SAE/AMBIENTE_SAE/wildfly-11/standalone/deployments</outputDirectory>-->
+<!--                    <outputDirectory>/home/usuario/Documentos/Ambientes/SAE_NuevaVersion/wildfly-11/standalone/deployments</outputDirectory>-->
+                    <modules>
+                        <webModule>
+                          <groupId>uy.com.sofis</groupId>
+                          <artifactId>sae-web</artifactId>
+                          <contextRoot>/sae</contextRoot>
+                        </webModule>
+                        <webModule>
+                          <groupId>uy.com.sofis</groupId>
+                          <artifactId>sae-rest</artifactId>
+                          <contextRoot>/sae-admin</contextRoot>
+                        </webModule>
+                    </modules>
+                </configuration>                
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>uy.com.sofis</groupId>
+            <artifactId>sae-ejb</artifactId>
+            <version>4.6.1-r5</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>uy.com.sofis</groupId>
+            <artifactId>sae-ejb-client</artifactId>
+            <version>4.6.1-r5</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>uy.com.sofis</groupId>
+            <artifactId>sae-web</artifactId>
+            <version>4.6.1-r5</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>uy.com.sofis</groupId>
+            <artifactId>sae-web-admin</artifactId>
+            <version>4.6.1-r5</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>uy.com.sofis</groupId>
+            <artifactId>sae-rest</artifactId>
+            <version>4.6.1-r5</version>
+            <type>war</type>
+        </dependency>
+        <!-- itext -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+        </dependency>
+    </dependencies>
+</project>

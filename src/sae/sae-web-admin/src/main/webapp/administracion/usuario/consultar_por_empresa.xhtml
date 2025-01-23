@@ -1,0 +1,108 @@
+<ui:composition template="/templates/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui/sofis" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+    <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
+    <ui:define name="cuerpo">
+        <f:view beforePhase="#{usuarioMBean.beforePhaseConsultarPorEmpresa}">
+            <p:dialog id="listadoRolesUsuarioRecurso" closable="true" widgetVar="listarRolesUsuarioRecurso" modal="true">
+                <f:facet name="header">
+                    <h:outputText value="#{sessionMBean.textos['roles_del_usuario_por_recurso']}" />
+                </f:facet>
+                <h:form id="rolesUsuarioRecurso">
+                    <p:dataTable id="tablaUsuariosRolesRecurso" value="#{empresaMBean.rolesUsuarioRecursosActual}"
+                        var="row" caption="#{sessionMBean.textos['listado_de_usuarios']}"
+                        emptyMessage="#{sessionMBean.textos['no_hay_datos_para_mostrar']}" paginator="true"
+                        rows="#{sessionMBean.tablasFilasPorPagina}"
+                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                        paginatorFirstPageLabel="#{sessionMBean.textos['pagina_primera']}"
+                        paginatorPrevPageLabel="#{sessionMBean.textos['pagina_anterior']}"
+                        paginatorNextPageLabel="#{sessionMBean.textos['pagina_siguiente']}"
+                        paginatorLastPageLabel="#{sessionMBean.textos['pagina_ultima']}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{sessionMBean.textos['usuario']}" />
+                            </f:facet>
+                            <h:outputText value="#{row.data.usuario}"></h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{sessionMBean.textos['recurso']}" />
+                            </f:facet>
+                            <h:outputText value="#{row.data.nombreRecurso}"></h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{sessionMBean.textos['roles']}" />
+                            </f:facet>
+                            <h:outputText value="#{row.data.roles}" />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:dialog>
+            <h:form id="form">
+                <p:outputPanel styleClass="form-group">
+                    <h:outputLabel value="#{sessionMBean.textos['listado_de_empresas']}" for="empresa"
+                        styleClass="col-sm-3 control-label label" />
+                    <p:outputPanel styleClass="col-sm-9">
+                        <h:selectOneMenu id="empresa" styleClass="form-control" value="#{empresaMBean.empresaActual.id}"
+                            valueChangeListener="#{empresaMBean.cambioEmpresaActual}">
+                            <p:ajax update="form" process="@this" />
+                            <f:selectItem itemValue="0" itemLabel="Seleccione una empresa"></f:selectItem>
+                            <f:selectItems value="#{empresaMBean.empresasSeleccion}" var="row"
+                                itemValue="#{row.data.id}" itemLabel="#{row.data.nombre}"></f:selectItems>
+                        </h:selectOneMenu>
+                    </p:outputPanel>
+                </p:outputPanel>
+                <p:dataTable id="tablaUsuariosEmpresa" value="#{empresaMBean.usuariosEmpresaActual}" var="row"
+                    caption="#{sessionMBean.textos['listado_de_usuarios']}"
+                    emptyMessage="#{sessionMBean.textos['no_hay_datos_para_mostrar']}" paginator="true"
+                    rows="#{sessionMBean.tablasFilasPorPagina}"
+                    paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                    paginatorFirstPageLabel="#{sessionMBean.textos['pagina_primera']}"
+                    paginatorPrevPageLabel="#{sessionMBean.textos['pagina_anterior']}"
+                    paginatorNextPageLabel="#{sessionMBean.textos['pagina_siguiente']}"
+                    paginatorLastPageLabel="#{sessionMBean.textos['pagina_ultima']}">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['cedula_de_identidad']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.codigo}"></h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['nombre_y_apellido']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.nombre}"></h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['correo_electronico']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.correo}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['roles_del_usuario_en_la_empresa']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.rolesEmpresa}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['roles_del_usuario_por_recurso']}" />
+                        </f:facet>
+                        <p:commandButton id="listarRolesUsuarioRecurso"
+                            value="#{sessionMBean.textos['roles_del_usuario_por_recurso']}" icon="ui-icon-extlink"
+                            action="#{empresaMBean.obtenerRolesUsuarioRecurso(row.data.id)}"
+                            title="#{sessionMBean.textos['roles_del_usuario_por_recurso']}"
+                            styleClass="ui-button-icon-only" update="listadoRolesUsuarioRecurso" />
+                    </p:column>
+                </p:dataTable>
+                <ul class="form-action-buttons">
+                        <li class="action-buttons-primary">
+                            <h:commandButton value="#{sessionMBean.textos['consultar']}" action="#{empresaMBean.reporteUsuarioXEmpresa}" styleClass="btn-lg btn-primario" />
+                        </li>
+                    </ul>
+            </h:form>
+        </f:view>
+    </ui:define>
+</ui:composition>

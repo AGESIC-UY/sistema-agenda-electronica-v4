@@ -1,0 +1,117 @@
+-- =================================================================
+-- Versión 3.1.0
+
+Para la integración con CAS:
+
+1 - Añadir el certificado digital del servidor CAS al truststore usado por el servidor Wildfly
+2 - Configurar el Wildfly
+    2.1 - Actualizar el módulo de login (jar y xml)
+    2.2 - Añadir el login module SAEAutoLoginModule al security domain
+        <login-module code="uy.gub.imm.sae.login.SAEAutoLoginModule" flag="sufficient" module="lat.sofis.saelogin">
+            <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+            <module-option name="enabled" value="true"/>
+        </login-module>
+    2.3 - Añadir cache-type="default al security domain
+    2.4 - Cambiar spec-descriptor-property-replacement a "true"        
+    2.5 - Añadir las system-properties
+	<property name="sae.server.name" value="localhost:8443"/>
+        <property name="cas.server.url" value="https://guri-test.sofis.com.uy:8443/cas"/>
+
+-- =================================================================
+-- Versión 3.1.1
+
+Actualizar el módulo de login a la versión 2.2 (jar y xml)
+
+-- =================================================================
+-- Versión 3.2.0
+
+No hay cambios de configuración
+
+-- =================================================================
+-- Versión 3.2.1
+
+No hay cambios de configuración
+
+-- =================================================================
+-- Versión 3.2.2
+
+No hay cambios de configuración
+
+
+-- Versión 4.0.0
+
+1 - Configurar el Wildfly
+    1.1 - Añadir el módulo de iduruguay
+    1.2 - Actualizar el módulo de login (jar y xml)
+    1.3 - En el standalone.xml y buscar el subsistema llamado “urn:jboss:domain:naming:2.0” y  añadir lo siguiente (propiedades especificadas en el manual de instlación):
+        <bindings>
+           <simple name="java:global/iduruguayhttphandler/ssoState" value="AGESIC_SAE" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/returnPath" value="/iduruguay"    	type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoBaseUrl" value="https://auth-testing.iduruguay.gub.uy/oidc/v1/" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoClientId" value="688479" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoSecret" 	value="1c722202c79e4f915674e9fcf44d6026e4707beabcb37982e6148fc4" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoReturnUrl" value="https://sae-http-sae.okd.paas.infra.sofis.lat/sae-web-admin/iduruguay" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoReturnUrlSaePublico" value="https://sae-http-sae.okd.paas.infra.sofis.lat/sae-web/iduruguay" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoHomePage" value="https://sae-http-	sae.okd.paas.infra.sofis.lat/sae-web-admin/administracion/inicio.xhtml" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoLogoutUrl" value="https://auth-testing.iduruguay.gub.uy/auth/logout" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoRedirectUrl" value="https://sae-http-sae.okd.paas.infra.sofis.lat/sae-web-admin/" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/ssoRedirectUrlSaePublico" value="https://sae-http-sae.okd.paas.infra.sofis.lat/sae-web/" type="java.lang.String"/> 
+           <simple name="java:global/iduruguayhttphandler/dsJndiName" value="java:/postgres-sae-ds" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguay/typeHandlerAdmin" value="OPENID" type="java.lang.String"/>                   
+           <simple name="java:global/iduruguay/typeHandlerPub" value="SAML" type="java.lang.String"/>        
+           <simple name="java:global/iduruguaysamlhttphandler/idpUrlLogin" value="https://auth-testing.iduruguay.gub.uy/v1.1/idp/profile/SAML2/POST/SSO" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/providerIdAdmin" value="http://sae-http-sae.okd.paas.infra.sofis.lat/admin/" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/spReturnUrlAdmin" value="https://sae-http-sae.okd.paas.infra.sofis.lat/sae-web-admin/cda" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/providerIdPub" value="http://sae-http-sae.okd.paas.infra.sofis.lat/pub/" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/spReturnUrlPub" value="https://sae-http-	sae.okd.paas.infra.sofis.lat/sae-web/cda" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/returnPath" value="/cda" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/keystorePath" 	value="/opt/wildfly/standalone/configuration/cert/cda-ks-2020.jks" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/keystorePass" value="sofis2uy" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/certAlias" value="agenda.sofis.com.uy" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/truststorePath" 	value="/opt/wildfly/standalone/configuration/cert/cda-ts-2020.jks" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/truststorePass" value="agesic" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/validarFirma" value="false" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/logoutPath" value="/logoutcda" 	type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/idpUrlLogout" value="https://auth-	testing.iduruguay.gub.uy/v1.1/idp/profile/SAML2/Redirect/SLO" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/attributeMappings" value="sae-	admin.uid=codigocda,sae-admin.Documento=documentocda" type="java.lang.String"/> 
+           <simple name="java:global/iduruguaysamlhttphandler/relaxValidityPeriod" value="true" 	type="java.lang.String"/> 
+        </bindings>
+    1.4 - Borrar el security domain de nombre "SDSAE"
+    1.5 - Añadir el security domain de nombre "iduruguay"
+          <security-domain name="iduruguay" cache-type="default">
+                <authentication>
+                    <login-module code="uy.com.sofis.iduruguay.IDURUGUAYLoginModule" flag="sufficient" module="iduruguay"/>
+                    <login-module code="uy.gub.imm.sae.login.SAEPorEmpresaLoginModule" flag="sufficient" module="lat.sofis.saelogin">
+                        <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+                        <module-option name="enabled" value="true"/>
+                    </login-module>
+                    <login-module code="uy.gub.imm.sae.login.SAEAutoLoginModule" flag="sufficient" module="lat.sofis.saelogin">
+                        <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+                        <module-option name="enabled" value="true"/>
+                    </login-module>
+                    <login-module code="uy.gub.imm.sae.login.SAEAnonimoLoginModule" flag="sufficient" module="lat.sofis.saelogin">
+                        <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+                    </login-module>
+                </authentication>
+           </security-domain>  
+
+-- =======================================================================================================================
+-- 4.0.1
+-- Nada para hacer
+-- =======================================================================================================================
+-- 4.1.0
+-- Nada para hacer
+-- =======================================================================================================================
+-- 4.3.0
+-- Nada para hacer
+-- =======================================================================================================================
+-- 4.4.0
+-- Nada para hacer
+-- =======================================================================================================================
+-- 4.4.6
+-- Nada para hacer
+-- =======================================================================================================================
+-- 4.4.7
+-- Nada para hacer
+
+   

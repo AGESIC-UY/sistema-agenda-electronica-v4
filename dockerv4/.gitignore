@@ -1,0 +1,4 @@
+/volumes/postgres
+!/volumes/postgres/.gitkeep
+/volumes/wildfly11/logs
+!/volumes/wildfly11/logs/.gitkeep

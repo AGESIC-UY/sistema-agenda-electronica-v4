@@ -1,0 +1,70 @@
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
+    <ui:define name="cuerpo">
+        <f:view beforePhase="#{usuarioMBean.beforePhaseConsultar}" >
+            <p:dialog closable="false" widgetVar="eliminarUsuario" modal="true" focus="elimRec:btn_eliminar">
+                <f:facet name="header">
+                    <h:outputText value="#{sessionMBean.textos['confirmacion']}" />
+                </f:facet>
+                <h:form id="elimRec">
+                    <h:outputText value="#{sessionMBean.textos['esta_seguro_que_desea_eliminar_el_usuario']}" />
+                    <p:outputPanel styleClass="row panelBotonesPopUp">
+                        <p:outputPanel styleClass="col-sm-6">
+                            <p:commandButton id="btn_eliminar" update="form:tablaUsuarios" actionListener="#{usuarioMBean.eliminar}" value="#{sessionMBean.textos['eliminar']}"
+                                             onclick="PF('eliminarUsuario').hide();" styleClass="btn-primario btn-100 btn" />
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="col-sm-6">
+                            <p:commandButton onclick="PF('eliminarUsuario').hide();" value="#{sessionMBean.textos['cancelar']}" styleClass="btn-link btn-100 btn" />
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
+
+            <h:form id="form">
+                <p:dataTable id="tablaUsuarios" value="#{usuarioMBean.usuariosSeleccion}" var="row" 
+                             caption="#{sessionMBean.textos['listado_de_usuarios']}" emptyMessage="#{sessionMBean.textos['no_hay_datos_para_mostrar']}"
+                             paginator="true" rows="#{sessionMBean.tablasFilasPorPagina}" 
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
+                             paginatorFirstPageLabel="#{sessionMBean.textos['pagina_primera']}"
+                             paginatorPrevPageLabel="#{sessionMBean.textos['pagina_anterior']}"
+                             paginatorNextPageLabel="#{sessionMBean.textos['pagina_siguiente']}"
+                             paginatorLastPageLabel="#{sessionMBean.textos['pagina_ultima']}"
+                             >
+                    <p:column width="5%">
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['cedula_de_identidad']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.codigo}"></h:outputText>
+                    </p:column>
+                    <p:column width="40%">
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['nombre_y_apellido']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.nombre}"></h:outputText>
+                    </p:column>
+                    <p:column width="40%">
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['correo_electronico']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.correoe}" />
+                    </p:column>
+                    <p:column styleClass="alinCentro" width="15%">
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['acciones']}" />
+                        </f:facet>
+                        <p:commandButton id="modificarUsuario" value="#{sessionMBean.textos['modificar']}" action="#{usuarioMBean.modificar(row.data.id)}" update="tablaUsuarios" 
+                                         styleClass="ui-button-icon-only" icon="ui-icon-pencil" title="#{sessionMBean.textos['modificar']}" />
+                        <p:commandButton id="eliminarUsuario" value="#{sessionMBean.textos['eliminar']}"  icon="ui-icon-trash"
+                                         action="#{usuarioMBean.selecUsuarioEliminar(row.data.id)}" title="#{sessionMBean.textos['eliminar']}" styleClass="ui-button-icon-only" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+        </f:view>
+    </ui:define>
+</ui:composition>

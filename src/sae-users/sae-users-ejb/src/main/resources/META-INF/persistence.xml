@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+             xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+      
+    <persistence-unit name="AGENDA-GLOBAL">
+        <jta-data-source>java:/postgres-sae-ds</jta-data-source>
+        <class>uy.com.sofis.entities.Usuario</class>
+        <class>uy.com.sofis.entities.Empresa</class>
+        <class>uy.com.sofis.entities.Organismo</class>
+        <class>uy.com.sofis.entities.RelUsuarioOrganismo</class>
+        <properties>
+            <property name="hibernate.default_schema" value="global" />
+            <property name="hibernate.format_sql" value="false" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheproviders" />
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="hibernate.cache.use_query_cache" value="false" />
+            <property name="hibernate.cache.use_second_level_cache" value="false" />
+            <property name="hibernate.dialect" value="uy.com.sofis.persistence.helpers.CustomPostgresDialect"/>
+            <property name="hibernate.jdbc.batch_size" value="20" />
+            <property name="hibernate.cache.use_second_level_cache" value="false" />
+                 <property name=" hibernate.query.plan_cache_max_size" value="3072" />
+            <property name="ibernate.connection.provider_disables_autocommit" value="true" />
+            <property name="hibernate.query.in_clause_parameter_padding" value="true" />
+        </properties>
+        
+    
+    
+    
+        
+    </persistence-unit>
+
+
+</persistence>

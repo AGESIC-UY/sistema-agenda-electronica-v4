@@ -1,0 +1,48 @@
+<ui:composition template="/templates/layout.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
+    <ui:define name="cuerpo">
+        <f:view beforePhase="#{sessionMBean.beforePhaseInicio}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h:panelGroup style="width:5px;height:5px" />
+                    </div>
+                </div>
+            </div>
+        </f:view>
+        <p:dialog id="dialogOrganismo" closable="false" rendered="#{sessionMBean.mostrarDialogOrganismo}" visible="#{sessionMBean.mostrarDialogOrganismo}" resizable="false" widgetVar="seleccionOrganismo" modal="true" dynamic="true" >
+                <f:facet name="header">
+                    <h:outputText value="#{sessionMBean.textos['seleccion_organismo']}" />
+                </f:facet>
+                <h:form id="formSelecOrganismo">
+                    <p:outputPanel styleClass="form-group">
+                        <h:outputText value="#{sessionMBean.textos['dispone_varios_organismos']}" />
+                    </p:outputPanel>
+                    
+                    <p:outputPanel styleClass="form-group">
+                        <p:outputLabel value="#{sessionMBean.textos['organismo']}" for="organismo" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                        <div class="col-sm-7">
+                            <h:selectOneMenu id="organismo" value="#{sessionMBean.organismoIdSelec}" valueChangeListener="#{sessionMBean.cambioOrganismo}" styleClass="form-control">
+                                    <f:selectItems value="#{sessionMBean.organismosUsuario}" />
+                                    <p:ajax update="btnOk" process="@this" />
+                            </h:selectOneMenu>
+                        </div>
+                        <p:message for="organismo" />
+                    </p:outputPanel>
+                        
+                    <p:outputPanel styleClass="row panelBotonesPopUp" id="btnOk">
+                        <p:outputPanel styleClass="col-sm-6 align-center">
+                            <p:commandButton id="btn_seleccion" update="@all" actionListener="#{sessionMBean.seleccionarOrganismo}" value="OK"
+                                             styleClass="btn-primario btn-100 btn" disabled="#{sessionMBean.mostrarBtnOk}">
+                            </p:commandButton>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

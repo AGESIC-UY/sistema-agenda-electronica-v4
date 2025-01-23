@@ -1,0 +1,4 @@
+<system-properties>
+  <property name="sae.server.name" value="{sae-host}:{sae-port}"/>
+  <property name="cas.server.url" value="{cas-url}"/>
+</system-properties>

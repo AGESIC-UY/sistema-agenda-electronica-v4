@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+      
+    <persistence-unit name="AGENDA-GLOBAL" transaction-type="JTA">
+        <jta-data-source>java:/postgres-sae-ds</jta-data-source>
+        <class>uy.gub.imm.sae.entity.global.Configuracion</class>
+        <class>uy.gub.imm.sae.entity.global.Empresa</class>
+        <class>uy.gub.imm.sae.entity.global.Oficina</class>
+        <class>uy.gub.imm.sae.entity.global.Organismo</class>
+        <class>uy.gub.imm.sae.entity.global.Tramite</class>
+        <class>uy.gub.imm.sae.entity.global.UnidadEjecutora</class>
+        <class>uy.gub.imm.sae.entity.global.Usuario</class>
+        <class>uy.gub.imm.sae.entity.global.TextoGlobal</class>
+        <class>uy.gub.imm.sae.entity.global.Trazabilidad</class>
+        <class>uy.gub.imm.sae.entity.global.Novedad</class>
+        <class>uy.gub.imm.sae.entity.global.Token</class>
+        <properties>
+            <property name="hibernate.default_schema" value="global" />
+            <property name="hibernate.format_sql" value="false" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.cache.use_query_cache" value="false" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheproviders" />
+            <property name="hibernate.cache.use_second_level_cache" value="false" />
+        </properties>
+    </persistence-unit>
+
+
+</persistence>

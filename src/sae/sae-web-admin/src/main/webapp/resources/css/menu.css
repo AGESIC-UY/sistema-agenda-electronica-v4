@@ -1,0 +1,7 @@
+.MyOneMenu.ui-selectonemenu .ui-selectonemenu-label {
+	font-size: 10px;
+}
+        
+.MyOneMenu.ui-selectonemenu .ui-selectonemenu-trigger {
+	height: 33px !important; /* you can change this value according to the value of your font-size. */
+}

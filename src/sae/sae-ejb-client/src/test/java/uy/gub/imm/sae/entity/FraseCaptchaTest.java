@@ -1,0 +1,43 @@
+package uy.gub.imm.sae.entity;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class FraseCaptchaTest {
+    @Test
+    void givenObjectsWithSameId_whenEqual_thenReturnTrue() {
+        FraseCaptcha fraseCaptcha1 = new FraseCaptcha("1");
+        FraseCaptcha fraseCaptcha2 = new FraseCaptcha("1");
+
+        assertTrue(fraseCaptcha1.equals(fraseCaptcha2));
+    }
+
+    @Test
+    void givenObjectsWithDifferentId_whenEqual_thenReturnFalse() {
+        FraseCaptcha fraseCaptcha1 = new FraseCaptcha("1");
+        FraseCaptcha fraseCaptcha2 = new FraseCaptcha();
+        fraseCaptcha2.setClave(null);
+
+        assertFalse(fraseCaptcha1.equals(fraseCaptcha2));
+    }
+
+    @Test
+    void givenObjectsWithSameClave_whenHashcode_thenReturnSameNumber() {
+        int hashCode1 = new FraseCaptcha("1").hashCode();
+        int hashCode2 = new FraseCaptcha("1").hashCode();
+
+        assertEquals(hashCode1, hashCode2);
+    }
+
+    @Test
+    void givenObjectsWithDifferentClave_whenHashcode_thenReturnDifferentNumber() {
+        int hashCode1 = new FraseCaptcha("1").hashCode();
+        int hashCode2 = new FraseCaptcha().hashCode();
+
+        assertNotEquals(hashCode1, hashCode2);
+    }
+}

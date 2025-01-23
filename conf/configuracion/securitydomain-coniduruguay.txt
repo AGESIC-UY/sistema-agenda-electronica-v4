@@ -1,0 +1,16 @@
+<security-domain name="iduruguay" cache-type="default">
+  <authentication>
+    <login-module code="uy.com.sofis.iduruguay.IDURUGUAYLoginModule" flag="sufficient"    	module="iduruguay"/>
+    <login-module code="uy.gub.imm.sae.login.SAEPorEmpresaLoginModule" flag="sufficient" 	module="lat.sofis.saelogin">
+      <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+      <module-option name="enabled" value="true"/>
+    </login-module>
+    <login-module code="uy.gub.imm.sae.login.SAEAutoLoginModule" flag="sufficient"    	module="lat.sofis.saelogin">
+      <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+      <module-option name="enabled" value="true"/>
+    </login-module>
+    <login-module code="uy.gub.imm.sae.login.SAEAnonimoLoginModule" flag="sufficient" 	module="lat.sofis.saelogin">
+      <module-option name="dsJndiName" value="java:/postgres-sae-ds"/>
+    </login-module>
+  </authentication>
+</security-domain>

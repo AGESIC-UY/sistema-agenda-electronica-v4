@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+
+    <managed-bean>
+        <managed-bean-name>datosFiltroReservaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.common.MapRemovableFromSession</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datosReservaMBean</managed-bean-name>
+        <managed-bean-class>java.util.HashMap</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/agendarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/agendarReserva/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>reservaConfirmada</from-outcome>
+            <to-view-id>/agendarReserva/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/agendarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso.template.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/agendarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>agendaInvalida</from-outcome>
+            <to-view-id>/error/agendaInvalida.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>estadoInvalido</from-outcome>
+            <to-view-id>/error/estadoInvalido.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>periodoInvalido</from-outcome>
+            <to-view-id>/error/periodoInvalido.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/reservaMultiple/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/reservaMultiple/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/reservaMultiple/Paso4.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/reservaMultiple/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso4.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/reservaMultiple/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/PasoFinal.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>otraReserva</from-outcome>
+            <to-view-id>/reservaMultiple/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/modificarReserva/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservaConfirmada</from-outcome>
+            <to-view-id>/modificarReserva/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+</faces-config>

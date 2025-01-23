@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+
+    <managed-bean>
+        <managed-bean-name>datosFiltroReservaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.common.MapRemovableFromSession</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datosReservaMBean</managed-bean-name>
+        <managed-bean-class>java.util.HashMap</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>consReservaDatosSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ConsultaReservaDSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+<!--    
+    <managed-bean>
+        <managed-bean-name>sessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>agendaSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.AgendaSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>agendaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.AgendaMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>agendaSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.AgendaSessionMBean</property-class>
+            <value>#{agendaSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>recursoMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.RecursoMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>recursoSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.RecursoSessionMBean</property-class>
+            <value>#{recursoSessionMBean}</value>
+        </managed-property>
+    </managed-bean>    
+    <managed-bean>
+        <managed-bean-name>textoAgendaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.TextoAgendaMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>textoRecursoMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.TextoRecursoMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>configuracionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ConfiguracionMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>disponibilidadMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.DisponibilidadMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>dispSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.DispSessionMBean</property-class>
+            <value>#{dispSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>dispSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.DispSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>crearDispSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.CrearDispSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>crearDisponibilidadMBean</managed-bean-name>
+        <managed-bean-class>
+            uy.gub.imm.sae.web.mbean.administracion.CrearDisponibilidadMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>crearDispSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.CrearDispSessionMBean</property-class>
+            <value>#{crearDispSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>genDispSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.GenDispSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>genDisponibilidadMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.GenDisponibilidadMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>genDispSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.GenDispSessionMBean</property-class>
+            <value>#{genDispSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>disenioFormularioMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.DisenioFormularioMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>datosReservaMBean</property-name>
+            <property-class>java.util.Map</property-class>
+            <value>#{datosReservaMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datoASSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.DatoASSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+   <managed-bean>
+        <managed-bean-name>agrupacionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.AgrupacionMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>datoASSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.DatoASSessionMBean</property-class>
+            <value>#{datoASSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datoASolicitarMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.DatoASolicitarMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>datoASSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.DatoASSessionMBean</property-class>
+            <value>#{datoASSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>datoASolicitarValoresMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.DatoASolicitarValoresMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>datoASSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.DatoASSessionMBean</property-class>
+            <value>#{datoASSessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>llamadorMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.LlamadorMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>llamadorSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.LlamadorSessionMBean</property-class>
+            <value>#{llamadorSessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>llamadorSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.LlamadorSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>paso1AdminMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.Paso1AdminMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>paso2AdminMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.Paso2AdminMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>paso3AdminMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.Paso3AdminMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>datosReservaMBean</property-name>
+            <property-class>java.util.Map</property-class>
+            <value>#{datosReservaMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>pasoFinalAdminMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.PasoFinalAdminMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>atencionPresencialMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.AtencionPresencialMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>datosReservaMBean</property-name>
+            <property-class>java.util.Map</property-class>
+            <value>#{datosReservaMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>reservaSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ReservaSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>reservaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ReservaMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>reservaSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.ReservaSessionMBean</property-class>
+            <value>#{reservaSessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>datosFiltroReservaMBean</property-name>
+            <property-class>java.util.Map</property-class>
+            <value>#{datosFiltroReservaMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>eliminarDispMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.EliminarDispMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>consultaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ConsultaMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>consultaReservaDatosMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ConsultaReservaDatosMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>consReservaDatosSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.ConsultaReservaDSessionMBean</property-class>
+            <value>#{consReservaDatosSessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>datosFiltroReservaMBean</property-name>
+            <property-class>java.util.Map</property-class>
+            <value>#{datosFiltroReservaMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>reporteMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ReporteMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>listaDeEsperaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ListaDeEsperaMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>listaDeEsperaSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.ListaDeEsperaSessionMBean</property-class>
+            <value>#{listaDeEsperaSessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>listaDeEsperaSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ListaDeEsperaSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>empresaMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.EmpresaMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>empresaSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.EmpresaSessionMBean</property-class>
+            <value>#{empresaSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>empresaSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.EmpresaSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>usuarioMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.UsuarioMBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>usuarioSessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.UsuarioSessionMBean</property-class>
+            <value>#{usuarioSessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>usuarioSessionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.UsuarioSessionMBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>tokensMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.TokensMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>accionMantenimientoMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.AccionMantenimientoMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>accionAsignacionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.AccionAsignacionMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>validacionAsignacionMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ValidacionAsignacionMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>validacionMantenimientoMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ValidacionMantenimientoMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>consultaCancelacionesMBean</managed-bean-name>
+        <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ConsultaCancelacionesMBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionMBean</property-name>
+            <property-class>uy.gub.imm.sae.web.mbean.administracion.SessionMBean</property-class>
+            <value>#{sessionMBean}</value>
+        </managed-property>
+    </managed-bean>
+
+-->    
+
+
+
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>noAutorizado</from-outcome>
+            <to-view-id>/error/accesoNoAutorizado.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/agenda/crear.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/agenda/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+	
+    <navigation-rule>
+        <from-view-id>/administracion/agenda/modificarConsultar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>modificar</from-outcome>
+            <to-view-id>/administracion/agenda/modificar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/agenda/modificar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>guardar</from-outcome>
+            <to-view-id>/administracion/agenda/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/agenda/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/agenda/modificarTextos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/agenda/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/crear.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/recurso/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/modificar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/recurso/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/modificarTextos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/modificarTextos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>refrescar</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/modificarConsultar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>modificar</from-outcome>
+            <to-view-id>/administracion/recurso/modificar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/importar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>modificar</from-outcome>
+            <to-view-id>/administracion/recurso/modificar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/recurso/consultarDatos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>consultarRecursos</from-outcome>
+            <to-view-id>/administracion/recurso/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>volverConsultar</from-outcome>
+            <to-view-id>/administracion/datoASolicitar/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/reserva/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/administracion/reserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/reserva/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/administracion/reserva/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/administracion/reserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/reserva/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>reservaConfirmada</from-outcome>
+            <to-view-id>/administracion/reserva/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/administracion/reserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/reserva/cancelarReserva.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/administracion/reserva/moverReservas.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>moverReservas</from-outcome>
+            <to-view-id>/administracion/reserva/moverReservas.xhtml</to-view-id>
+        <redirect />
+        </navigation-case>
+    </navigation-rule>
+    
+
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/agendarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/agendarReserva/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>reservaConfirmada</from-outcome>
+            <to-view-id>/agendarReserva/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/agendarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/agendarReserva/Paso.template.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/agendarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>agendaInvalida</from-outcome>
+            <to-view-id>/error/agendaInvalida.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>estadoInvalido</from-outcome>
+            <to-view-id>/error/estadoInvalido.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>periodoInvalido</from-outcome>
+            <to-view-id>/error/periodoInvalido.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/empresa/consultar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>modificar</from-outcome>
+            <to-view-id>/administracion/empresa/editar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administracion/empresa/editar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/empresa/consultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administracion/usuario/consultar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>modificar</from-outcome>
+            <to-view-id>/administracion/usuario/editar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administracion/usuario/editar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/usuario/consultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/disponibilidad/crearDisponibilidades.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/disponibilidad/consultarDisponibilidades.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>consultarPorDia</from-outcome>
+            <to-view-id>/administracion/disponibilidad/consultarDia.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/disponibilidad/consultarDia.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/disponibilidad/consultarDisponibilidades.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/datoASolicitar/crear.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>cancelar</from-outcome>
+            <to-view-id>/administracion/datoASolicitar/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/datoASolicitar/modificarConsultar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>modificar</from-outcome>
+            <to-view-id>/administracion/datoASolicitar/modificar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/datoASolicitar/modificar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/datoASolicitar/modificarConsultar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/datoASolicitar/modificarAgrupaciones.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/administracion/inicio.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/administracion/consulta/consultarReservaDatos.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>detalleReserva</from-outcome>
+            <to-view-id>/administracion/consulta/detalleReserva.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/reservaMultiple/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/reservaMultiple/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/reservaMultiple/Paso4.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/reservaMultiple/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+  
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/Paso4.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/reservaMultiple/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>confirmarReservas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservasCanceladas</from-outcome>
+            <to-view-id>/reservaMultiple/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/reservaMultiple/PasoFinal.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>otraReserva</from-outcome>
+            <to-view-id>/reservaMultiple/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso1.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso2.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/modificarReserva/Paso3.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso3.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>reservaConfirmada</from-outcome>
+            <to-view-id>/modificarReserva/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+
+    <validator>
+        <validator-id>xmlValidator</validator-id>
+        <validator-class>uy.gub.imm.sae.web.validator.XMLValidator</validator-class>
+    </validator>
+
+
+
+
+
+
+</faces-config>

@@ -1,0 +1,6 @@
+Los diagramas actualmente se encuentran generados utilizando la herramienta DBEAVER.
+
+1)- Instalar DBEAVER
+2)- Configurar conexión con la BD.
+3)- DBEAVER permite exportar digramas por esquema. Situarse sobre el esquema click derecho -> ver diagrama.
+4)- Exportar diagrama con formato externo png. 

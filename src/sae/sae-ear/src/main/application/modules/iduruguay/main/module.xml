@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <module xmlns="urn:jboss:module:1.3" name="iduruguay">
+            <resources>
+                <resource-root path="UY_AGESIC-IDURUGUAY-LoginModule-1.0.jar"/>
+            </resources>
+            <dependencies>
+                <module name="javaee.api"/>
+                <module name="org.picketbox"/>
+            </dependencies>
+        </module> 

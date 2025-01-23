@@ -1,0 +1,723 @@
+package uy.gub.imm.sae.web.mbean.reserva;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.PhaseEvent;
+import javax.faces.model.SelectItem;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+
+import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
+import uy.gub.imm.sae.business.ejb.facade.ComunicacionesLocal;
+import uy.gub.imm.sae.business.ejb.facade.ConsultasLocal;
+import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
+import uy.gub.imm.sae.common.enumerados.Estado;
+import uy.gub.imm.sae.entity.AgrupacionDato;
+import uy.gub.imm.sae.entity.DatoASolicitar;
+import uy.gub.imm.sae.entity.DatoReserva;
+import uy.gub.imm.sae.entity.Recurso;
+import uy.gub.imm.sae.entity.Reserva;
+import uy.gub.imm.sae.entity.ValorPosible;
+import uy.gub.imm.sae.entity.constantes.Constantes;
+import uy.gub.imm.sae.entity.global.Empresa;
+import uy.gub.imm.sae.exception.ApplicationException;
+import uy.gub.imm.sae.exception.BusinessException;
+import uy.gub.imm.sae.exception.UserException;
+import uy.gub.imm.sae.login.Utilidades;
+import uy.gub.imm.sae.web.common.FormularioDinReservaClient;
+
+@ManagedBean
+@ViewScoped
+public class CancelarReservaPublicMBean extends BaseMBean {
+
+    private static final Logger LOGGER = Logger.getLogger(CancelarReservaPublicMBean.class.getName());
+
+    @EJB
+    private AgendarReservasLocal agendarReservasEJB;
+
+    @EJB
+    private RecursosLocal recursosEJB;
+
+    @EJB
+    private ConsultasLocal consultaEJB;
+
+    @EJB
+    private ComunicacionesLocal comunicacionesEJB;
+
+    @ManagedProperty(value = "#{sesionMBean}")
+    private SesionMBean sesionMBean;
+
+    @ManagedProperty(value = "#{datosFiltroReservaMBean}")
+    private Map<String, Object> datosFiltroReservaMBean;
+
+    private UIComponent filtroConsulta;
+    private UIComponent campos;
+    private Map<String, DatoASolicitar> datosASolicitar;
+
+    private boolean hayErrorInit;
+
+    //VALIDAR_DATOS, BUSCAR_RESERVAS, LISTAR_RESERVAS
+    private String mostrar = "";
+
+    private List<SelectItem> tiposDocumento = new ArrayList<>();
+    private String tipoDocumento;
+    private String numeroDocumento;
+    private String codigoSeguridad;
+
+    @PostConstruct
+    @SuppressWarnings("UseSpecificCatch")
+    public void init() {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            //Estos dos son obligatorios
+            String sEmpresaId = request.getParameter("e");
+            String sAgendaId = request.getParameter("a");
+            //De estos dos, uno debe estar necesariamente
+            String sRecursoId = request.getParameter("r");
+            String sReservaId = request.getParameter("ri");
+
+            Integer empresaId;
+            Integer agendaId;
+            Integer recursoId;
+            Integer reservaId;
+
+            if (sEmpresaId != null && sAgendaId != null && (sRecursoId != null || sReservaId != null)) {
+                try {
+                    empresaId = Integer.valueOf(sEmpresaId);
+                    agendaId = Integer.valueOf(sAgendaId);
+                    if (sReservaId != null) {
+                        //Se especificó una reserva por id
+                        reservaId = Integer.valueOf(sReservaId);
+                        recursoId = null;
+                    } else {
+                        //No se especificó una reserva pero sí un recurso
+                        reservaId = null;
+                        recursoId = Integer.valueOf(sRecursoId);
+                    }
+                    limpiarSession();
+                    sesionMBean.setEmpresaId(empresaId);
+                    sesionMBean.setAgendaId(agendaId);
+                    sesionMBean.setRecursoId(recursoId);
+                    sesionMBean.setReservaId(reservaId);
+                } catch (Exception ex) {
+                    addErrorMessage(sesionMBean.getTextos().get("la_combinacion_de_parametros_especificada_no_es_valida"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                }
+            } else {
+                //No hay parámetros, pueden estar ya en la sesion
+                empresaId = sesionMBean.getEmpresaId();
+                agendaId = sesionMBean.getAgendaId();
+                reservaId = sesionMBean.getReservaId();
+                recursoId = sesionMBean.getRecursoId();
+
+                if (empresaId == null || agendaId == null || (reservaId == null && recursoId == null)) {
+                    //Tampoco están en sesión
+                    addErrorMessage(sesionMBean.getTextos().get("la_combinacion_de_parametros_especificada_no_es_valida"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                }
+            }
+
+            //Poner en sesion los datos de la empresa  y la agenda para la válvula de CDA 
+            //(necesita estos datos para determinar si la agenda particular requiere o no CDA)
+            HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            httpSession.setAttribute("e", empresaId.toString());
+            httpSession.setAttribute("a", agendaId.toString());
+            Map<String, Object> sessionAttrs = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+            String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+
+            try {
+                // Crear un usuario falso temporal
+                String falsoUsuario;
+                if (remoteUser == null) {
+                    //No hay usuario, se crea uno
+                    sesionMBean.setUsuarioCda(null);
+                    falsoUsuario = "sae" + empresaId;
+                } else {
+                     //Hay usuario, tres alternativas: es de iduruguay, cda o es local de otra empresa
+                    if(sessionAttrs.containsKey(Constantes.IDURUGUAY_OPENID_SESION_ATTRIBUTE)){
+                        //hacer otro logeo fake
+                        sesionMBean.setUsuarioIduruguay(remoteUser);
+                        falsoUsuario = remoteUser;
+                    }
+                    else if (sessionAttrs.containsKey(Constantes.IDURUGUAY_SAML_SESION_ATTRIBUTE)) {
+                        //Es un usuario de CDA
+                        sesionMBean.setUsuarioCda(remoteUser);
+                        falsoUsuario = remoteUser;
+                    } 
+                    else {
+                        //Es un usuario de otra empresa
+                        falsoUsuario = "sae" + empresaId;
+                        sesionMBean.setUsuarioCda(null);
+                    }
+                    //Desloguear al usuario actual (inválido)
+                    try {
+                        request.logout();
+                    } catch (Exception ex) {
+                        LOGGER.log(Level.WARNING, "No se pudo hacer logout del usuario para volver a hacer login", ex);
+                    }
+                }
+                
+                if (falsoUsuario.startsWith("sae")) {
+                    Random random = new Random();
+                    falsoUsuario = falsoUsuario + "-" + ((new Date()).getTime() + random.nextInt(1000));
+                }
+                
+                falsoUsuario = falsoUsuario + "/" + empresaId;
+                // Autenticarlo
+                String password = Utilidades.encriptarPassword(falsoUsuario);
+                request.login(falsoUsuario, password);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "No se pudo registrar un usuario anónimo", ex);
+                throw new ApplicationException(sesionMBean.getTextos().get("no_se_pudo_registrar_un_usuario_anonimo"));
+            }
+
+            // Guardar la empresa en la sesion
+            try {
+                Empresa empresa = agendarReservasEJB.obtenerEmpresaPorId(empresaId);
+                sesionMBean.setEmpresaActual(empresa);
+                if (empresa == null) {
+                    addErrorMessage(sesionMBean.getTextos().get("la_empresa_especificada_no_es_valida"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                }
+            } catch (Exception e) {
+                addErrorMessage(sesionMBean.getTextos().get("la_empresa_especificada_no_es_valida"));
+                limpiarSession();
+                hayErrorInit = true;
+                return;
+            }
+
+            //Guardar la agenda
+            try {
+                sesionMBean.seleccionarAgenda(agendaId);
+            } catch (Exception ex) {
+                addErrorMessage(sesionMBean.getTextos().get("la_agenda_especificada_no_es_valida"));
+                limpiarSession();
+                hayErrorInit = true;
+                return;
+            }
+            
+            String url = "/cancelarReserva/Paso1.xhtml?e=" + empresaId + "&a=" + agendaId;
+            if (recursoId != null) {
+                url = url + "&r=" + recursoId;
+            }
+            //Si la agenda es con iduruguay, redireccionar para hacer login con IDURUGUAY
+            if(sesionMBean.getAgenda().getConCda()!=null){
+                if(sesionMBean.getAgenda().getConCda().equals(Boolean.TRUE)){
+                    try {
+                        Context initContext = new InitialContext();
+                        String typeHanlder = (String)initContext.lookup("java:global/iduruguay/typeHandlerPub");
+                        if(typeHanlder.equals(Constantes.OPENID_HANLDER) && !sessionAttrs.containsKey(Constantes.IDURUGUAY_OPENID_SESION_ATTRIBUTE)){
+                            //guardo en session la homePage
+                            httpSession.setAttribute(Constantes.SSO_HOME_PAGE,request.getContextPath() + url);
+                            //redirecciono a la página que tiene idUruguay
+                            request.logout();
+                            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + sesionMBean.URL_BASE_TO_FORWARD_IDURUGUAY);
+                            return;
+                        }
+                        else if(typeHanlder.equals(Constantes.SAML_HANLDER) && !sessionAttrs.containsKey(Constantes.IDURUGUAY_SAML_SESION_ATTRIBUTE)){
+                            //guardo en session la homePage
+                            httpSession.setAttribute(Constantes.SSO_HOME_PAGE,request.getContextPath() + url);
+                            //redirecciono a la página que tiene idUruguay
+                            request.logout();
+                            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + sesionMBean.URL_BASE_TO_FORWARD_IDURUGUAY);
+                            return;
+                        }
+
+                    } catch (NamingException | ServletException | IOException ex) {
+                        java.util.logging.Logger.getLogger(Paso1MBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }    
+                }
+                
+            }
+
+            //Si hay recurso obtenerlo
+            if (reservaId != null) {
+                //Primero obtener el recurso de la reserva
+                Recurso recurso;
+                try {
+                    recurso = agendarReservasEJB.consultarRecursoPorReservaId(reservaId);
+                } catch (Exception ex) {
+                    LOGGER.log(Level.WARNING, "Error al obtener el recurso a partir de la reserva", ex);
+                    recurso = null;
+                }
+                if (recurso == null || !sesionMBean.getAgenda().getId().equals(recurso.getAgenda().getId())) {
+                    addErrorMessage(sesionMBean.getTextos().get("no_se_encuentra_la_reserva_o_ya_fue_cancelada"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                }
+                sesionMBean.setRecurso(recurso);
+                recursoId = recurso.getId();
+                //Obtener la reserva
+                Reserva reserva = consultaEJB.consultarReservaId(reservaId, recurso.getId());
+
+                if (reserva == null) {
+                    addErrorMessage(sesionMBean.getTextos().get("no_se_encuentra_la_reserva_o_ya_fue_cancelada"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                } else if (!reserva.getEstado().toString().equals("R")) {
+                    //Determinar si la reserva está en estado Reservada
+                    addErrorMessage(sesionMBean.getTextos().get("no_se_encuentra_la_reserva_o_ya_fue_cancelada"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                } else {
+                    //Determinar si la reserva está vigente
+                    Calendar calAhora = new GregorianCalendar();
+                    calAhora.add(Calendar.MILLISECOND, sesionMBean.getTimeZone().getOffset(calAhora.getTimeInMillis()));
+                    Calendar calReserva = new GregorianCalendar();
+                    calReserva.setTime(reserva.getDisponibilidades().get(0).getHoraInicio());
+                    if (calReserva.before(calAhora)) {
+                        addErrorMessage(sesionMBean.getTextos().get("no_se_encuentra_la_reserva_o_ya_fue_cancelada"));
+                        limpiarSession();
+                        hayErrorInit = true;
+                        return;
+                    }
+                }
+
+                //this.sesionMBean.setReserva(reserva); //Para la cancelación se usa setReservaDatos
+                this.sesionMBean.setReservaDatos(reserva);
+                this.sesionMBean.setCodigoSeguridadReserva("");
+                this.sesionMBean.setRenderedVolverBotom(false);
+
+                mostrar = "VALIDAR_DATOS";
+            } else if (recursoId != null) {
+                List<Recurso> recursos = agendarReservasEJB.consultarRecursos(sesionMBean.getAgenda());
+                for (Recurso recurso0 : recursos) {
+                    if (recurso0.getId().equals(recursoId)) {
+                        sesionMBean.setRecurso(recurso0);
+                        break;
+                    }
+                }
+                if (sesionMBean.getRecurso() == null) {
+                    addErrorMessage(sesionMBean.getTextos().get("el_recurso_especificado_no_es_valido"));
+                    limpiarSession();
+                    hayErrorInit = true;
+                    return;
+                }
+                this.sesionMBean.setRenderedVolverBotom(true);
+
+                mostrar = "BUSCAR_RESERVAS";
+            }
+
+            String urlCancelar = null;
+            if (empresaId != null && agendaId != null && recursoId != null) {
+                urlCancelar = request.getContextPath() + "/cancelarReserva/Paso1.xhtml?e=" + empresaId + "&a=" + agendaId + "&r=" + recursoId + "&faces-redirect=true";
+            }
+            sesionMBean.setUrlCancelarReserva(urlCancelar);
+
+            try {
+                // guardo en session los datos a solicitar del recurso
+                List<DatoASolicitar> listaDatoSolicitar = recursosEJB.consultarDatosSolicitar(sesionMBean.getRecurso());
+                Map<String, DatoASolicitar> datoSolicMap = new HashMap<>();
+                for (DatoASolicitar dato : listaDatoSolicitar) {
+                    datoSolicMap.put(dato.getNombre(), dato);
+                }
+                setDatosASolicitar(datoSolicMap);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "No se pudo obtener los datos a solicitar del recurso", ex);
+                addErrorMessage(sesionMBean.getTextos().get("el_recurso_especificado_no_es_valido"));
+                limpiarSession();
+            }
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error al inicializar", ex);
+            redirect(ERROR_PAGE_OUTCOME);
+        }
+    }
+
+    public SesionMBean getSesionMBean() {
+        return sesionMBean;
+    }
+
+    public void setSesionMBean(SesionMBean sesionMBean) {
+        this.sesionMBean = sesionMBean;
+    }
+
+    public UIComponent getFiltroConsulta() {
+        return filtroConsulta;
+    }
+
+    public void setFiltroConsulta(UIComponent filtroConsulta) {
+        if (hayErrorInit || (this.sesionMBean.getReserva() == null && this.sesionMBean.getRecurso() == null)) {
+            return;
+        }
+        this.filtroConsulta = filtroConsulta;
+        try {
+            if (this.sesionMBean.getReservaId() != null && this.sesionMBean.getEmpresaId() != null) {
+                if (this.sesionMBean.getReservaDatos() == null) {
+                    Reserva reserva = consultaEJB.consultarReservaId(this.sesionMBean.getReservaId(), sesionMBean.getRecurso().getId());
+                    sesionMBean.setReservaDatos(reserva);
+                }
+                tiposDocumento = new ArrayList<>();
+                List<DatoASolicitar> datos = recursosEJB.consultarDatosSolicitar(sesionMBean.getRecurso());
+                if (datos != null) {
+                    for (DatoASolicitar dato : datos) {
+                        if (!dato.getAgrupacionDato().getBorrarFlag() && dato.getNombre().equals(DatoASolicitar.TIPO_DOCUMENTO)) {
+                            for (ValorPosible valor : dato.getValoresPosibles()) {
+                                tiposDocumento.add(new SelectItem(valor.getValor(), valor.getEtiqueta()));
+                            }
+                        }
+                    }
+                }
+                tipoDocumento = (String) tiposDocumento.get(0).getValue();
+                numeroDocumento = "";
+            } else {
+                AgrupacionDato agrupacion = null;
+                List<AgrupacionDato> agrupaciones = recursosEJB.consultarDefCamposTodos(this.sesionMBean.getRecurso());
+                for (AgrupacionDato agrupacionDato : agrupaciones) {
+                    if (!agrupacionDato.getBorrarFlag()) {
+                        agrupacion = agrupacionDato;
+                        break;
+                    }
+                }
+                agrupaciones.clear();
+                agrupaciones.add(agrupacion);
+                FormularioDinReservaClient.armarFormularioEdicionDinamico(this.sesionMBean.getRecurso(), filtroConsulta, agrupaciones,
+                        sesionMBean.getFormatoFecha(), new Locale(sesionMBean.getIdiomaActual()));
+            }
+        } catch (Exception e) {
+            addErrorMessage(e);
+        }
+    }
+
+    public void buscarReservaDatos(ActionEvent e) {
+
+        limpiarMensajesError();
+
+        boolean huboError = false;
+
+        if (sesionMBean.getAgenda() == null) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("debe_especificar_la_agenda."));
+        }
+        if (sesionMBean.getRecurso() == null) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("debe_especificar_el_recurso"));
+        }
+
+        if (huboError) {
+            return;
+        }
+
+        try {
+            List<DatoReserva> datos;
+            if (this.sesionMBean.getReservaId() != null && this.sesionMBean.getEmpresaId() != null) {
+                datos = new ArrayList<>();
+                datos.addAll(this.sesionMBean.getReservaDatos().getDatosReserva());
+            } else {
+                datos = FormularioDinReservaClient.obtenerDatosReserva(datosFiltroReservaMBean, datosASolicitar);
+            }
+            if (datos.size() <= 1) {
+                huboError = true;
+                addErrorMessage(sesionMBean.getTextos().get("debe_ingresar_al_menos_dos_de_los_datos_solicitados"));
+            }
+            if (sesionMBean.getCodigoSeguridadReserva().trim().isEmpty()) {
+                huboError = true;
+                addErrorMessage(sesionMBean.getTextos().get("debe_ingresar_codigo_de_seguridad"), "formConBusqueda:codSeg");
+            }
+
+            if (huboError) {
+                return;
+            }
+
+            List<Reserva> reservas = (ArrayList<Reserva>) consultaEJB.consultarReservasParaModificarCancelar(datos, sesionMBean.getRecurso(), sesionMBean.getCodigoSeguridadReserva(), sesionMBean.getTimeZone());
+            if (reservas.isEmpty()) {
+                this.sesionMBean.setListaReservas(new ArrayList<>());
+                addErrorMessage(sesionMBean.getTextos().get("los_datos_ingresados_no_son_correctos"));
+            } else {
+                this.sesionMBean.setListaReservas(reservas);
+                mostrar = "LISTAR_RESERVAS";
+            }
+        } catch (Exception ex) {
+            addErrorMessage(ex);
+        }
+
+    }
+
+    public Map<String, DatoASolicitar> getDatosASolicitar() {
+        return datosASolicitar;
+    }
+
+    public void setDatosASolicitar(Map<String, DatoASolicitar> datosASolicitar) {
+        this.datosASolicitar = datosASolicitar;
+    }
+
+    public void selecReservaEliminar(int rowIndex) {
+        Reserva r = this.sesionMBean.getListaReservas().get(rowIndex);
+        this.sesionMBean.setReservaDatos(r);
+        this.sesionMBean.setDisponibilidadCancelarReserva(r.getDisponibilidades().get(0));
+    }
+
+    public Map<String, Object> getDatosFiltroReservaMBean() {
+        return datosFiltroReservaMBean;
+    }
+
+    public void setDatosFiltroReservaMBean(
+            Map<String, Object> datosFiltroReservaMBean) {
+        this.datosFiltroReservaMBean = datosFiltroReservaMBean;
+    }
+
+    public UIComponent getCampos() {
+        return campos;
+    }
+
+    public void setCampos(UIComponent campos) {
+        this.campos = campos;
+        try {
+            List<AgrupacionDato> agrupaciones = recursosEJB.consultarDefinicionDeCampos(sesionMBean.getRecurso(), sesionMBean.getTimeZone());
+            FormularioDinReservaClient.armarFormularioLecturaDinamico(sesionMBean.getRecurso(), this.sesionMBean.getReservaDatos(), this.campos,
+                    agrupaciones, sesionMBean.getFormatoFecha(), new Locale(sesionMBean.getIdiomaActual()));
+        } catch (BusinessException be) {
+            addErrorMessage(be);
+        } catch (Exception e) {
+            addErrorMessage(e);
+        }
+    }
+
+    public void beforePhase(PhaseEvent phaseEvent) {
+        disableBrowserCache(phaseEvent);
+    }
+
+    public void cancelarReserva(ActionEvent event) {
+
+        limpiarMensajesError();
+
+        boolean huboError = false;
+        if (sesionMBean.getAgenda() == null) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("debe_especificar_la_agenda"));
+        }
+
+        if (sesionMBean.getRecurso() == null) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("debe_especificar_el_recurso"));
+        }
+
+        if (sesionMBean.getReservaDatos() == null || sesionMBean.getReservaDatos().getId() == null) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("debe_especificar_la_reserva"));
+        }
+
+        if (sesionMBean.getReservaDatos().getEstado() != Estado.R) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("no_es_posible_cancelar_la_reserva"));
+        }
+
+        if (!huboError) {
+            try {
+                //Cancelar la reserva
+                agendarReservasEJB.cancelarReserva(sesionMBean.getEmpresaActual(), sesionMBean.getRecurso(), sesionMBean.getReservaDatos());
+
+                //Recargar la reserva cancelada
+                Reserva r = consultaEJB.consultarReservaPorNumero(sesionMBean.getRecurso(), sesionMBean.getDisponibilidadCancelarReserva().getHoraInicio(), sesionMBean.getReservaDatos().getNumero());
+                List<DatoReserva> datos = FormularioDinReservaClient.obtenerDatosReserva(datosFiltroReservaMBean, datosASolicitar);
+
+                try {
+                    //Enviar el mail de confirmacion
+                    comunicacionesEJB.enviarComunicacionesCancelacion(sesionMBean.getEmpresaActual(), r, sesionMBean.getIdiomaActual(), sesionMBean.getFormatoFecha(),
+                            sesionMBean.getFormatoHora());
+                } catch (UserException ex) {
+                    addAdvertenciaMessage(sesionMBean.getTextos().get(ex.getCodigoError()));
+                }
+
+                //Recargar el resto de las reservas
+                ArrayList<Reserva> reservas = (ArrayList<Reserva>) consultaEJB.consultarReservasParaModificarCancelar(datos, sesionMBean.getRecurso(),
+                        sesionMBean.getCodigoSeguridadReserva(), sesionMBean.getTimeZone());
+                this.sesionMBean.setListaReservas(reservas);
+
+                //Quitar los datos de la reserva cancelada (por si acaso)
+                sesionMBean.setReservaId(null);
+                sesionMBean.setReservaDatos(null);
+
+                addInfoMessage(sesionMBean.getTextos().get("reserva_cancelada_correctamente"));
+
+            } catch (Exception ex) {
+                addErrorMessage(ex);
+            }
+        }
+    }
+
+    public Boolean getConfirmarDeshabilitado() {
+        return sesionMBean.getReservaDatos() == null
+                || sesionMBean.getReservaDatos().getEstado() == Estado.C
+                || sesionMBean.getReservaDatos().getEstado() == Estado.U;
+    }
+
+    public String getUrlBuscarReservas() {
+        return sesionMBean.getUrlCancelarReserva();
+    }
+
+    private void limpiarSession() {
+        sesionMBean.setAgenda(null);
+        sesionMBean.setListaReservas(null);
+        sesionMBean.setReservaDatos(null);
+        sesionMBean.setDisponibilidadCancelarReserva(null);
+        sesionMBean.setUrlCancelarReserva(null);
+        sesionMBean.setEmpresaId(null);
+        sesionMBean.setAgendaId(null);
+        sesionMBean.setRecursoId(null);
+        sesionMBean.setReservaId(null);
+        sesionMBean.setCodigoSeguridadReserva(null);
+        sesionMBean.setEmpresaActual(null);
+    }
+
+    public boolean isHayErrorInit() {
+        return hayErrorInit;
+    }
+
+    public void setHayErrorInit(boolean hayErrorInit) {
+        this.hayErrorInit = hayErrorInit;
+    }
+
+    public String getMostrar() {
+        return mostrar;
+    }
+
+    public String getCodigoSeguridad() {
+        return codigoSeguridad;
+    }
+
+    public void setCodigoSeguridad(String codigoSeguridad) {
+        this.codigoSeguridad = codigoSeguridad;
+    }
+
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public List<SelectItem> getTiposDocumento() {
+        return tiposDocumento;
+    }
+
+    public void setTiposDocumento(List<SelectItem> tiposDocumento) {
+        this.tiposDocumento = tiposDocumento;
+    }
+
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+
+    public void verificarDatos(ActionEvent event) {
+
+        limpiarMensajesError();
+
+        boolean huboError = false;
+        if (tipoDocumento == null || tipoDocumento.trim().isEmpty()) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("el_tipo_de_documento_es_obligatorio"), "formSinBusqueda:tipoDoc");
+        }
+        if (numeroDocumento == null || numeroDocumento.trim().isEmpty()) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("el_numero_de_documento_es_obligatorio"), "formSinBusqueda:numDoc");
+        }
+        if (codigoSeguridad == null || codigoSeguridad.trim().isEmpty()) {
+            huboError = true;
+            addErrorMessage(sesionMBean.getTextos().get("el_codigo_de_seguridad_es_obligatorio"), "formSinBusqueda:codSeg");
+        }
+
+        if (huboError) {
+            return;
+        }
+
+        //Verificar el documento y el código de reserva
+        Reserva reserva = this.sesionMBean.getReservaDatos();
+        if (reserva == null) {
+            addErrorMessage(sesionMBean.getTextos().get("debe_haber_una_agenda_seleccionada"));
+            return;
+        }
+
+        String resTipoDocumento = null;
+        String resNumDocumento = null;
+        String resCodigoSeguridad = reserva.getCodigoSeguridad();
+
+        for (DatoReserva dato : reserva.getDatosReserva()) {
+            if (!dato.getDatoASolicitar().getAgrupacionDato().getBorrarFlag()) {
+                if (dato.getDatoASolicitar().getNombre().equals(DatoASolicitar.TIPO_DOCUMENTO)) {
+                    resTipoDocumento = dato.getValor();
+                } else if (dato.getDatoASolicitar().getNombre().equals(DatoASolicitar.NUMERO_DOCUMENTO)) {
+                    resNumDocumento = dato.getValor();
+                }
+            }
+        }
+
+        boolean datosOk = ((resTipoDocumento == null || resTipoDocumento.equals(tipoDocumento))
+                && (resNumDocumento == null || resNumDocumento.equals(numeroDocumento))
+                && (resCodigoSeguridad == null || resCodigoSeguridad.equals(codigoSeguridad)));
+        if (!datosOk) {
+            addErrorMessage(sesionMBean.getTextos().get("los_datos_ingresados_no_son_correctos"));
+            return;
+        }
+
+        List<Reserva> reservas = new ArrayList<>();
+        reservas.add(reserva);
+        this.sesionMBean.setListaReservas(reservas);
+        mostrar = "LISTAR_RESERVAS";
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        try {
+            this.agendarReservasEJB = null;
+            this.campos = null;
+            this.consultaEJB = null;
+            if (this.datosASolicitar != null) {
+                this.datosASolicitar.clear();
+            }
+            this.datosASolicitar = null;
+            if (this.datosFiltroReservaMBean != null) {
+                this.datosFiltroReservaMBean.clear();
+            }
+            this.datosFiltroReservaMBean = null;
+            this.filtroConsulta = null;
+            this.recursosEJB = null;
+            this.sesionMBean = null;
+            if (this.tiposDocumento != null) {
+                this.tiposDocumento.clear();
+            }
+            this.tiposDocumento = null;
+        } catch (Exception ex) {
+            //Nada para hacer
+        }
+    }
+
+}

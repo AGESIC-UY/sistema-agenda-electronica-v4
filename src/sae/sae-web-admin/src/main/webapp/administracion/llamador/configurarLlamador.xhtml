@@ -1,0 +1,58 @@
+<ui:composition template="/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
+    <ui:define name="cuerpo">
+        <f:view beforePhase="#{llamadorMBean.beforePhaseConfiguracionLlamador}">
+            <h:form>
+                <p:outputPanel id="panelForm">
+                    <fieldset id="basic">
+                        <legend>
+                            <h:outputText value="#{sessionMBean.textos['datos_de_la_agenda']}" />
+                        </legend>
+                        <p:outputPanel styleClass="form-horizontal">
+                            <div class="form-group">
+                                <h:outputLabel value="#{sessionMBean.textos['tamano_de_la_pantalla']}" styleClass="col-sm-3 control-label label" for="monitor" />
+                                <p:outputPanel styleClass="col-sm-9">
+                                    <h:selectOneMenu id="monitor" valueChangeListener="#{llamadorMBean.cambioTipoMonitor}" styleClass="form-control">
+                                        <f:selectItems value="#{llamadorMBean.tiposDeMonitores}" />
+                                    </h:selectOneMenu>
+                                </p:outputPanel>
+                            </div>
+                            <div class="form-group">
+                                <h:outputLabel value="#{sessionMBean.textos['recursos_a_mostrar']}" styleClass="col-sm-3 control-label label" for="recursos" />
+                                <p:outputPanel styleClass="col-sm-9">
+                                    <p:selectManyCheckbox id="recursos" value="#{llamadorMBean.recursosSeleccionados}" columns="2" layout="pageDirection">
+                                        <f:selectItems value="#{llamadorMBean.recursosSeleccionables}" var="recurso" itemLabel="#{recurso.label}" 
+                                                       itemValue="#{recurso.value}" />
+                                    </p:selectManyCheckbox>
+                                </p:outputPanel>
+                            </div>
+                        </p:outputPanel>
+                    </fieldset>
+                    <ul class="form-action-buttons">
+                        <li class="action-buttons-primary">
+                            <ul>
+                                <li>
+                                    <p:commandButton value="#{sessionMBean.textos['abrir_llamador_externo']}" action="#{llamadorMBean.abrirLlamadorExterno}" 
+                                                 styleClass="btn-lg btn-primario margen_izq" />
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="action-buttons-second">
+                            <ul>
+                                <li class="float-left">
+                                    <p:commandButton value="#{sessionMBean.textos['abrir_llamador_interno']}" action="#{llamadorMBean.abrirLlamadorInterno}" 
+                                                 styleClass="btn-lg btn-primario margen_izq" />
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p:outputPanel>
+            </h:form>
+        </f:view>
+    </ui:define>
+</ui:composition>

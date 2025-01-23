@@ -1,0 +1,2571 @@
+{ "paises" : [
+	
+	{
+	"id" : "4",
+	"name" : "Afghanistan",
+	"alpha2Code" : "AF",
+	"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "248",
+		"name" : "Åland Islands",
+		"alpha2Code" : "AX",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "8",
+		"name" : "Albania",
+		"alpha2Code" : "AL",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "12",
+		"name" : "Algeria",
+		"alpha2Code" : "DZ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "16",
+		"name" : "American Samoa",
+		"alpha2Code" : "AS",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "20",
+		"name" : "Andorra",
+		"alpha2Code" : "AD",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "24",
+		"name" : "Angola",
+		"alpha2Code" : "AO",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "660",
+		"name" : "Anguilla",
+		"alpha2Code" : "AI",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "10",
+		"name" : "Antarctica",
+		"alpha2Code" : "AQ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "28",
+		"name" : "Antigua and Barbuda",
+		"alpha2Code" : "AG",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "32",
+		"name" : "Argentina",
+		"alpha2Code" : "AR",
+		"documentos" : [{
+			"id" : "68910",
+			"abreviacion" : "dni",
+			"descripcion" : "Documento Nacional de Identidad"		
+		},{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "51",
+		"name" : "Armenia",
+		"alpha2Code" : "AM",
+			"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "533",
+		"name" : "Aruba",
+		"alpha2Code" : "AW",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "36",
+		"name" : "Australia",
+		"alpha2Code" : "AU",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "40",
+		"name" : "Austria",
+		"alpha2Code" : "AT",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "31",
+		"name" : "Azerbaijan",
+		"alpha2Code" : "AZ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "44",
+		"name" : "Bahamas (the)",
+		"alpha2Code" : "BS",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "48",
+		"name" : "Bahrain",
+		"alpha2Code" : "BH",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "50",
+		"name" : "Bangladesh",
+		"alpha2Code" : "BD",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "52",
+		"name" : "Barbados",
+		"alpha2Code" : "BB",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "112",
+		"name" : "Belarus",
+		"alpha2Code" : "BY",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "56",
+		"name" : "Belgium",
+		"alpha2Code" : "BE",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "84",
+		"name" : "Belize",
+		"alpha2Code" : "BZ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "204",
+		"name" : "Benin",
+		"alpha2Code" : "BJ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "60",
+		"name" : "Bermuda",
+		"alpha2Code" : "BM",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "64",
+		"name" : "Bhutan",
+		"alpha2Code" : "BT",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "68",
+		"name" : "Bolivia (Plurinational State of)",
+		"alpha2Code" : "BO",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		},{
+			"id" : "68916",
+			"abreviacion" : "cin",
+			"descripcion" : "Cédula de Identidad para Nacionales"		
+		},{
+			"id" : "68917",
+			"abreviacion" : "cie",
+			"descripcion" : "Cédula de Identidad para Extranjeros"		
+		}]		
+	},
+	{
+		"id" : "535",
+		"name" : "Bonaire, Sint Eustatius and Saba",
+		"alpha2Code" : "BQ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		},{
+			"id" : "68916",
+			"abreviacion" : "cin",
+			"descripcion" : "Cédula de Identidad para Nacionales"		
+		},{
+			"id" : "68917",
+			"abreviacion" : "cie",
+			"descripcion" : "Cédula de Identidad para Extranjeros"		
+		}]		
+	},
+	{
+		"id" : "70",
+		"name" : "Bosnia and Herzegovina",
+		"alpha2Code" : "BA",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "72",
+		"name" : "Botswana",
+		"alpha2Code" : "BW",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "74",
+		"name" : "Bouvet Island",
+		"alpha2Code" : "BV",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "76",
+		"name" : "Brazil",
+		"alpha2Code" : "BR",
+		"documentos" : [{
+			"id" : "68911",
+			"abreviacion" : "ric",
+			"descripcion" : "Registro de Identidad Civil"		
+		},{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		},{
+			"id" : "68913",
+			"abreviacion" : "ci",
+			"descripcion" : "Cédula de Identidad"		
+		},{
+			"id" : "68914",
+			"abreviacion" : "cie",
+			"descripcion" : "Cédula de Identidad de Extranjero"		
+		}]		
+	},
+	{
+		"id" : "86",
+		"name" : "British Indian Ocean Territory (the)",
+		"alpha2Code" : "IO",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "96",
+		"name" : "Brunei Darussalam",
+		"alpha2Code" : "BN",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "100",
+		"name" : "Bulgaria",
+		"alpha2Code" : "BG",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "854",
+		"name" : "Burkina Faso",
+		"alpha2Code" : "BF",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "108",
+		"name" : "Burundi",
+		"alpha2Code" : "BI",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "132",
+		"name" : "Cabo Verde",
+		"alpha2Code" : "CV",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "116",
+		"name" : "Cambodia",
+		"alpha2Code" : "KH",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "120",
+		"name" : "Cameroon",
+		"alpha2Code" : "CM",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "124",
+		"name" : "Canada",
+		"alpha2Code" : "CA",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "136",
+		"name" : "Cayman Islands (the)",
+		"alpha2Code" : "KY",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "140",
+		"name" : "Central African Republic (the)",
+		"alpha2Code" : "CF",
+			"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "148",
+		"name" : "Chad",
+		"alpha2Code" : "TD",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "152",
+		"name" : "Chile",
+		"alpha2Code" : "CL",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		},{
+			"id" : "68918",
+			"abreviacion" : "ci",
+			"descripcion" : "Cédula de Identidad"		
+		}]		
+	},
+	{
+		"id" : "156",
+		"name" : "China",
+		"alpha2Code" : "CN",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "162",
+		"name" : "Christmas Island",
+		"alpha2Code" : "CX",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "166",
+		"name" : "Cocos (Keeling) Islands (the)",
+		"alpha2Code" : "CC",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "170",
+		"name" : "Colombia",
+		"alpha2Code" : "CO",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		},{
+			"id" : "68919",
+			"abreviacion" : "cc",
+			"descripcion" : "Cédula de Ciudadanía"		
+		},{
+			"id" : "68920",
+			"abreviacion" : "ti",
+			"descripcion" : "Tarjeta de Identidad"		
+		},{
+			"id" : "68921",
+			"abreviacion" : "ce",
+			"descripcion" : "Cédula de Extranjería"		
+		}]		
+	},
+	{
+		"id" : "174",
+		"name" : "Comoros (the)",
+		"alpha2Code" : "KM",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "180",
+		"name" : "Congo (the Democratic Republic of the)",
+		"alpha2Code" : "CD",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "178",
+		"name" : "Congo (the)",
+		"alpha2Code" : "CG",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "184",
+		"name" : "Cook Islands (the)",
+		"alpha2Code" : "CK",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "188",
+		"name" : "Costa Rica",
+		"alpha2Code" : "CR",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "384",
+		"name" : "Côte d'Ivoire",
+		"alpha2Code" : "CI",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "191",
+		"name" : "Croatia",
+		"alpha2Code" : "HR",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "192",
+		"name" : "Cuba",
+		"alpha2Code" : "CU",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "531",
+		"name" : "Curaçao",
+		"alpha2Code" : "CW",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "196",
+		"name" : "Cyprus",
+		"alpha2Code" : "CY",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "203",
+		"name" : "Czechia",
+		"alpha2Code" : "CZ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "208",
+		"name" : "Denmark",
+		"alpha2Code" : "DK",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "262",
+		"name" : "Djibouti",
+		"alpha2Code" : "DJ",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "212",
+		"name" : "Dominica",
+		"alpha2Code" : "DM",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "214",
+		"name" : "Dominican Republic (the)",
+		"alpha2Code" : "DO",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "218",
+		"name" : "Ecuador",
+		"alpha2Code" : "EC",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		},{
+			"id" : "68922",
+			"abreviacion" : "cc",
+			"descripcion" : "Cédula de Ciudadanía"		
+		},{
+			"id" : "68923",
+			"abreviacion" : "cie",
+			"descripcion" : "Cédula de Identidad para Extranjeros"		
+		}]		
+	},
+	{
+		"id" : "818",
+		"name" : "Egypt",
+		"alpha2Code" : "EG",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "222",
+		"name" : "El Salvador",
+		"alpha2Code" : "SV",
+		"documentos" : [{
+			"id" : "68912",
+			"abreviacion" : "psp",
+			"descripcion" : "Pasaporte"		
+		}]		
+	},
+	{
+		"id" : "226",
+		"name" : "Equatorial Guinea",
+		"alpha2Code" : "GQ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "232",
+		"name" : "Eritrea",
+		"alpha2Code" : "ER",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "233",
+		"name" : "Estonia",
+		"alpha2Code" : "EE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "231",
+		"name" : "Ethiopia",
+		"alpha2Code" : "ET",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "238",
+		"name" : "Falkland Islands (the) [Malvinas]",
+		"alpha2Code" : "FK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "234",
+		"name" : "Faroe Islands (the)",
+		"alpha2Code" : "FO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "242",
+		"name" : "Fiji",
+		"alpha2Code" : "FJ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "246",
+		"name" : "Finland",
+		"alpha2Code" : "FI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "250",
+		"name" : "France",
+		"alpha2Code" : "FR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "254",
+		"name" : "French Guiana",
+		"alpha2Code" : "GF",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "258",
+		"name" : "French Polynesia",
+		"alpha2Code" : "PF",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "260",
+		"name" : "French Southern Territories (the)",
+		"alpha2Code" : "TF",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "266",
+		"name" : "Gabon",
+		"alpha2Code" : "GA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "270",
+		"name" : "Gambia (the)",
+		"alpha2Code" : "GM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "268",
+		"name" : "Georgia",
+		"alpha2Code" : "GE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "276",
+		"name" : "Germany",
+		"alpha2Code" : "DE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "288",
+		"name" : "Ghana",
+		"alpha2Code" : "GH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "292",
+		"name" : "Gibraltar",
+		"alpha2Code" : "GI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "300",
+		"name" : "Greece",
+		"alpha2Code" : "GR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "304",
+		"name" : "Greenland",
+		"alpha2Code" : "GL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "308",
+		"name" : "Grenada",
+		"alpha2Code" : "GD",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "312",
+		"name" : "Guadeloupe",
+		"alpha2Code" : "GP",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "316",
+		"name" : "Guam",
+		"alpha2Code" : "GU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "320",
+		"name" : "Guatemala",
+		"alpha2Code" : "GT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "831",
+		"name" : "Guernsey",
+		"alpha2Code" : "GG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "324",
+		"name" : "Guinea",
+		"alpha2Code" : "GN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "624",
+		"name" : "Guinea-Bissau",
+		"alpha2Code" : "GW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "328",
+		"name" : "Guyana",
+		"alpha2Code" : "GY",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "332",
+		"name" : "Haiti",
+		"alpha2Code" : "HT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "334",
+		"name" : "Heard Island and McDonald Islands",
+		"alpha2Code" : "HM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "336",
+		"name" : "Holy See (the)",
+		"alpha2Code" : "VA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "340",
+		"name" : "Honduras",
+		"alpha2Code" : "HN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "344",
+		"name" : "Hong Kong",
+		"alpha2Code" : "HK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "348",
+		"name" : "Hungary",
+		"alpha2Code" : "HU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "352",
+		"name" : "Iceland",
+		"alpha2Code" : "IS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "356",
+		"name" : "India",
+		"alpha2Code" : "IN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "360",
+		"name" : "Indonesia",
+		"alpha2Code" : "ID",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "364",
+		"name" : "Iran (Islamic Republic of)",
+		"alpha2Code" : "IR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "368",
+		"name" : "Iraq",
+		"alpha2Code" : "IQ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "372",
+		"name" : "Ireland",
+		"alpha2Code" : "IE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "833",
+		"name" : "Isle of Man",
+		"alpha2Code" : "IM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "376",
+		"name" : "Israel",
+		"alpha2Code" : "IL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "380",
+		"name" : "Italy",
+		"alpha2Code" : "IT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "388",
+		"name" : "Jamaica",
+		"alpha2Code" : "JM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "392",
+		"name" : "Japan",
+		"alpha2Code" : "JP",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "832",
+		"name" : "Jersey",
+		"alpha2Code" : "JE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "400",
+		"name" : "Jordan",
+		"alpha2Code" : "JO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "398",
+		"name" : "Kazakhstan",
+		"alpha2Code" : "KZ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "404",
+		"name" : "Kenya",
+		"alpha2Code" : "KE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "296",
+		"name" : "Kiribati",
+		"alpha2Code" : "KI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "408",
+		"name" : "Korea (the Democratic People's Republic of)",
+		"alpha2Code" : "KP",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "410",
+		"name" : "Korea (the Republic of)",
+		"alpha2Code" : "KR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "414",
+		"name" : "Kuwait",
+		"alpha2Code" : "KW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "417",
+		"name" : "Kyrgyzstan",
+		"alpha2Code" : "KG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "418",
+		"name" : "Lao People's Democratic Republic (the)",
+		"alpha2Code" : "LA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "428",
+		"name" : "Latvia",
+		"alpha2Code" : "LV",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "422",
+		"name" : "Lebanon",
+		"alpha2Code" : "LB",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "426",
+		"name" : "Lesotho",
+		"alpha2Code" : "LS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "430",
+		"name" : "Liberia",
+		"alpha2Code" : "LR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "434",
+		"name" : "Libya",
+		"alpha2Code" : "LY",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "438",
+		"name" : "Liechtenstein",
+		"alpha2Code" : "LI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "440",
+		"name" : "Lithuania",
+		"alpha2Code" : "LT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "442",
+		"name" : "Luxembourg",
+		"alpha2Code" : "LU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "446",
+		"name" : "Macao",
+		"alpha2Code" : "MO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "807",
+		"name" : "Macedonia (the former Yugoslav Republic of)",
+		"alpha2Code" : "MK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "450",
+		"name" : "Madagascar",
+		"alpha2Code" : "MG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "454",
+		"name" : "Malawi",
+		"alpha2Code" : "MW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "458",
+		"name" : "Malaysia",
+		"alpha2Code" : "MY",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "462",
+		"name" : "Maldives",
+		"alpha2Code" : "MV",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "466",
+		"name" : "Mali",
+		"alpha2Code" : "ML",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "470",
+		"name" : "Malta",
+		"alpha2Code" : "MT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "584",
+		"name" : "Marshall Islands (the)",
+		"alpha2Code" : "MH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "474",
+		"name" : "Martinique",
+		"alpha2Code" : "MQ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "478",
+		"name" : "Mauritania",
+		"alpha2Code" : "MR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "480",
+		"name" : "Mauritius",
+		"alpha2Code" : "MU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "175",
+		"name" : "Mayotte",
+		"alpha2Code" : "YT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "484",
+		"name" : "Mexico",
+		"alpha2Code" : "MX",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "583",
+		"name" : "Micronesia (Federated States of)",
+		"alpha2Code" : "FM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "498",
+		"name" : "Moldova (the Republic of)",
+		"alpha2Code" : "MD",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "492",
+		"name" : "Monaco",
+		"alpha2Code" : "MC",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "496",
+		"name" : "Mongolia",
+		"alpha2Code" : "MN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "499",
+		"name" : "Montenegro",
+		"alpha2Code" : "ME",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "500",
+		"name" : "Montserrat",
+		"alpha2Code" : "MS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "504",
+		"name" : "Morocco",
+		"alpha2Code" : "MA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "508",
+		"name" : "Mozambique",
+		"alpha2Code" : "MZ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "104",
+		"name" : "Myanmar",
+		"alpha2Code" : "MM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "516",
+		"name" : "Namibia",
+		"alpha2Code" : "NA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "520",
+		"name" : "Nauru",
+		"alpha2Code" : "NR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "524",
+		"name" : "Nepal",
+		"alpha2Code" : "NP",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "528",
+		"name" : "Netherlands (the)",
+		"alpha2Code" : "NL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "540",
+		"name" : "New Caledonia",
+		"alpha2Code" : "NC",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "554",
+		"name" : "New Zealand",
+		"alpha2Code" : "NZ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "558",
+		"name" : "Nicaragua",
+		"alpha2Code" : "NI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "562",
+		"name" : "Niger (the)",
+		"alpha2Code" : "NE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "566",
+		"name" : "Nigeria",
+		"alpha2Code" : "NG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "570",
+		"name" : "Niue",
+		"alpha2Code" : "NU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "574",
+		"name" : "Norfolk Island",
+		"alpha2Code" : "NF",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "580",
+		"name" : "Northern Mariana Islands (the)",
+		"alpha2Code" : "MP",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "578",
+		"name" : "Norway",
+		"alpha2Code" : "NO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "512",
+		"name" : "Oman",
+		"alpha2Code" : "OM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "586",
+		"name" : "Pakistan",
+		"alpha2Code" : "PK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "585",
+		"name" : "Palau",
+		"alpha2Code" : "PW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "275",
+		"name" : "Palestine, State of",
+		"alpha2Code" : "PS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "591",
+		"name" : "Panama",
+		"alpha2Code" : "PA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "598",
+		"name" : "Papua New Guinea",
+		"alpha2Code" : "PG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "600",
+		"name" : "Paraguay",
+		"alpha2Code" : "PY",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	},{
+		"id" : "68915",
+		"abreviacion" : "ci",
+		"descripcion" : "Cédula de Identidad"		
+	}]		
+	},
+	{
+		"id" : "604",
+		"name" : "Peru",
+		"alpha2Code" : "PE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	},{
+		"id" : "68924",
+		"abreviacion" : "dni",
+		"descripcion" : "Documento Nacional de Identidad"		
+	},{
+		"id" : "68925",
+		"abreviacion" : "ce",
+		"descripcion" : "Carné de Extranjería"		
+	}]		
+	},
+	{
+		"id" : "608",
+		"name" : "Philippines (the)",
+		"alpha2Code" : "PH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "612",
+		"name" : "Pitcairn",
+		"alpha2Code" : "PN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "616",
+		"name" : "Poland",
+		"alpha2Code" : "PL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "620",
+		"name" : "Portugal",
+		"alpha2Code" : "PT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "630",
+		"name" : "Puerto Rico",
+		"alpha2Code" : "PR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "634",
+		"name" : "Qatar",
+		"alpha2Code" : "QA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "638",
+		"name" : "Réunion",
+		"alpha2Code" : "RE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "642",
+		"name" : "Romania",
+		"alpha2Code" : "RO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "643",
+		"name" : "Russian Federation (the)",
+		"alpha2Code" : "RU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "646",
+		"name" : "Rwanda",
+		"alpha2Code" : "RW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "652",
+		"name" : "Saint Barthélemy",
+		"alpha2Code" : "BL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "654",
+		"name" : "Saint Helena, Ascension and Tristan da Cunha",
+		"alpha2Code" : "SH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "659",
+		"name" : "Saint Kitts and Nevis",
+		"alpha2Code" : "KN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "662",
+		"name" : "Saint Lucia",
+		"alpha2Code" : "LC",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "663",
+		"name" : "Saint Martin (French part)",
+		"alpha2Code" : "MF",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "666",
+		"name" : "Saint Pierre and Miquelon",
+		"alpha2Code" : "PM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "670",
+		"name" : "Saint Vincent and the Grenadines",
+		"alpha2Code" : "VC",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "882",
+		"name" : "Samoa",
+		"alpha2Code" : "WS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "674",
+		"name" : "San Marino",
+		"alpha2Code" : "SM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "678",
+		"name" : "Sao Tome and Principe",
+		"alpha2Code" : "ST",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "682",
+		"name" : "Saudi Arabia",
+		"alpha2Code" : "SA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "686",
+		"name" : "Senegal",
+		"alpha2Code" : "SN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "688",
+		"name" : "Serbia",
+		"alpha2Code" : "RS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "690",
+		"name" : "Seychelles",
+		"alpha2Code" : "SC",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "694",
+		"name" : "Sierra Leone",
+		"alpha2Code" : "SL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "702",
+		"name" : "Singapore",
+		"alpha2Code" : "SG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "534",
+		"name" : "Sint Maarten (Dutch part)",
+		"alpha2Code" : "SX",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "703",
+		"name" : "Slovakia",
+		"alpha2Code" : "SK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "705",
+		"name" : "Slovenia",
+		"alpha2Code" : "SI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "90",
+		"name" : "Solomon Islands",
+		"alpha2Code" : "SB",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "706",
+		"name" : "Somalia",
+		"alpha2Code" : "SO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "710",
+		"name" : "South Africa",
+		"alpha2Code" : "ZA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "239",
+		"name" : "South Georgia and the South Sandwich Islands",
+		"alpha2Code" : "GS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "728",
+		"name" : "South Sudan",
+		"alpha2Code" : "SS",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "724",
+		"name" : "Spain",
+		"alpha2Code" : "ES",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "144",
+		"name" : "Sri Lanka",
+		"alpha2Code" : "LK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "729",
+		"name" : "Sudan (the)",
+		"alpha2Code" : "SD",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "740",
+		"name" : "Suriname",
+		"alpha2Code" : "SR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "744",
+		"name" : "Svalbard and Jan Mayen",
+		"alpha2Code" : "SJ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "748",
+		"name" : "Swaziland",
+		"alpha2Code" : "SZ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "752",
+		"name" : "Sweden",
+		"alpha2Code" : "SE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "756",
+		"name" : "Switzerland",
+		"alpha2Code" : "CH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "760",
+		"name" : "Syrian Arab Republic",
+		"alpha2Code" : "SY",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "158",
+		"name" : "Taiwan (Province of China)",
+		"alpha2Code" : "TW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "762",
+		"name" : "Tajikistan",
+		"alpha2Code" : "TJ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "834",
+		"name" : "Tanzania, United Republic of",
+		"alpha2Code" : "TZ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "764",
+		"name" : "Thailand",
+		"alpha2Code" : "TH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "626",
+		"name" : "Timor-Leste",
+		"alpha2Code" : "TL",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "768",
+		"name" : "Togo",
+		"alpha2Code" : "TG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "772",
+		"name" : "Tokelau",
+		"alpha2Code" : "TK",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "776",
+		"name" : "Tonga",
+		"alpha2Code" : "TO",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "780",
+		"name" : "Trinidad and Tobago",
+		"alpha2Code" : "TT",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "788",
+		"name" : "Tunisia",
+		"alpha2Code" : "TN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "792",
+		"name" : "Turkey",
+		"alpha2Code" : "TR",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "795",
+		"name" : "Turkmenistan",
+		"alpha2Code" : "TM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "796",
+		"name" : "Turks and Caicos Islands (the)",
+		"alpha2Code" : "TC",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "798",
+		"name" : "Tuvalu",
+		"alpha2Code" : "TV",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "800",
+		"name" : "Uganda",
+		"alpha2Code" : "UG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "804",
+		"name" : "Ukraine",
+		"alpha2Code" : "UA",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "784",
+		"name" : "United Arab Emirates (the)",
+		"alpha2Code" : "AE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "826",
+		"name" : "United Kingdom of Great Britain and Northern Ireland (the)",
+		"alpha2Code" : "GB",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "581",
+		"name" : "United States Minor Outlying Islands (the)",
+		"alpha2Code" : "UM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "840",
+		"name" : "United States of America (the)",
+		"alpha2Code" : "US",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "858",
+		"name" : "Uruguay",
+		"alpha2Code" : "UY",
+		"documentos" : [{
+			"id" : "68909",
+			"abreviacion" : "ci",
+			"descripcion" : "C.I."		
+		},{
+			"id" : "68909",
+			"abreviacion" : "dni",
+			"descripcion" : "Cédula Electrónica"		
+		}]		
+	},
+	{
+		"id" : "860",
+		"name" : "Uzbekistan",
+		"alpha2Code" : "UZ",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "548",
+		"name" : "Vanuatu",
+		"alpha2Code" : "VU",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "862",
+		"name" : "Venezuela (Bolivarian Republic of)",
+		"alpha2Code" : "VE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	},{
+		"id" : "68926",
+		"abreviacion" : "ci",
+		"descripcion" : "Cédula de Identidad"		
+	}]		
+	},
+	{
+		"id" : "704",
+		"name" : "Viet Nam",
+		"alpha2Code" : "VN",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "92",
+		"name" : "Virgin Islands (British)",
+		"alpha2Code" : "VG",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "850",
+		"name" : "Virgin Islands (U.S.)",
+		"alpha2Code" : "VI",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "876",
+		"name" : "Wallis and Futuna",
+		"alpha2Code" : "WF",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "732",
+		"name" : "Western Sahara*",
+		"alpha2Code" : "EH",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "887",
+		"name" : "Yemen",
+		"alpha2Code" : "YE",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "894",
+		"name" : "Zambia",
+		"alpha2Code" : "ZM",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	},
+	{
+		"id" : "716",
+		"name" : "Zimbabwe",
+		"alpha2Code" : "ZW",
+		"documentos" : [{
+		"id" : "68912",
+		"abreviacion" : "psp",
+		"descripcion" : "Pasaporte"		
+	}]		
+	}
+
+]}
+

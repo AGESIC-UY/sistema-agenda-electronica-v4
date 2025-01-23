@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:tns="http://ws.web.bruto.itramites.agesic.gub.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" 
+name="cabezalService" targetNamespace="http://ws.web.bruto.itramites.agesic.gub.uy/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.web.bruto.itramites.agesic.gub.uy/" elementFormDefault="unqualified" targetNamespace="http://ws.web.bruto.itramites.agesic.gub.uy/" version="1.0">
+
+  <xs:element name="cabezal" type="tns:cabezalDTO"/>
+
+  <xs:element name="datosProcesoDTO" type="tns:datosProcesoDTO"/>
+
+  <xs:element name="idTrazaDTO" type="tns:IdTrazaDTO"/>
+
+  <xs:element name="persist" type="tns:persist"/>
+
+  <xs:element name="persistResponse" type="tns:persistResponse"/>
+
+  <xs:element name="ping" type="tns:ping"/>
+
+  <xs:element name="pingResponse" type="tns:pingResponse"/>
+
+  <xs:element name="responseDTO" type="tns:responseDTO"/>
+
+  <xs:complexType name="ping">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="pingResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="persist">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="traza" type="tns:cabezalDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cabezalDTO">
+    <xs:sequence>
+      <xs:element name="idTraza" type="tns:IdTrazaDTO"/>
+      <xs:element name="oidOficina" type="xs:string"/>
+      <xs:element name="oficina" type="xs:string"/>
+      <xs:element name="fechaHoraOrganismo" type="xs:dateTime"/>
+      <xs:element name="appOrigen" type="xs:string"/>
+      <xs:element minOccurs="0" name="involucrados">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="involucrado" nillable="true" type="tns:involucradoDTO"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="datosProceso" type="tns:datosProcesoDTO"/>
+      <xs:element minOccurs="0" name="cantidadPasosProceso" nillable="true" type="xs:long"/>
+      <xs:element minOccurs="0" name="idTrazaPadre" nillable="true" type="tns:IdTrazaDTO"/>
+      <xs:element minOccurs="0" name="pasoPadre" nillable="true" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="IdTrazaDTO">
+    <xs:sequence>
+      <xs:element name="oidOrganismo" type="xs:string"/>
+      <xs:element name="idProceso" type="xs:long"/>
+      <xs:element name="idInstancia" type="xs:string"/>
+      <xs:element name="tipoProceso" type="tns:tipoProcesoEnum"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="involucradoDTO">
+    <xs:sequence>
+      <xs:element name="oid" type="xs:string"/>
+      <xs:element name="role" type="tns:roleEnum"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="datosProcesoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="datosExtra" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="datosProcesoTramiteDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:datosProcesoDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="canalDeInicio" type="tns:datosProcesoTramiteCanalDeInicioEnum"/>
+          <xs:element minOccurs="0" name="inicioAsistidoProceso" type="tns:datosProcesoTramiteInicioAsistidoProcesoEnum"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="datosProcesoExpedienteDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:datosProcesoDTO">
+        <xs:sequence>
+          <xs:element name="formaDeIncio" type="tns:datosProcesoExpedienteFormaDeInicioEnum"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="persistResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:cabezalResponseDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cabezalResponseDTO">
+    <xs:complexContent>
+      <xs:extension base="tns:responseDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="guid" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="responseDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="estado" type="tns:estadoRespuestaEnum"/>
+      <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="tipoProcesoEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TRAMITE"/>
+      <xs:enumeration value="COMPRA"/>
+      <xs:enumeration value="LICITACION"/>
+      <xs:enumeration value="RECLAMO"/>
+      <xs:enumeration value="SERVICIO"/>
+      <xs:enumeration value="EXPEDIENTE"/>
+      <xs:enumeration value="PROCESO_GENERICO"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="roleEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SOLICITANTE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="datosProcesoTramiteCanalDeInicioEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="WEB_PC"/>
+      <xs:enumeration value="WEB_MOVIL"/>
+      <xs:enumeration value="PRESENCIAL"/>
+      <xs:enumeration value="REDES_DE_COBRANZAS"/>
+      <xs:enumeration value="PAC"/>
+      <xs:enumeration value="TELEFONICO"/>
+      <xs:enumeration value="CORREO_ELECTRONICO"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="datosProcesoTramiteInicioAsistidoProcesoEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NO"/>
+      <xs:enumeration value="SI"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="datosProcesoExpedienteFormaDeInicioEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APP_EE"/>
+      <xs:enumeration value="APP_EXTERNA"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="estadoRespuestaEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OK"/>
+      <xs:enumeration value="ERROR"/>
+      <xs:enumeration value="EXCEPTION"/>
+      <xs:enumeration value="EXCEPTION_MENSAJE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="pingResponse">
+    <wsdl:part element="tns:pingResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="persist">
+    <wsdl:part element="tns:persist" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ping">
+    <wsdl:part element="tns:ping" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="persistResponse">
+    <wsdl:part element="tns:persistResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CapturaCabezalSOAP">
+<wsdl:documentation>La numeración de los enumerados está basada en el modelo de trazas definido por Unit</wsdl:documentation>
+    <wsdl:operation name="ping">
+      <wsdl:input message="tns:ping" name="ping">
+    </wsdl:input>
+      <wsdl:output message="tns:pingResponse" name="pingResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="persist">
+      <wsdl:input message="tns:persist" name="persist">
+    </wsdl:input>
+      <wsdl:output message="tns:persistResponse" name="persistResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="cabezalServiceSoapBinding" type="tns:CapturaCabezalSOAP">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ping">
+      <soap:operation soapAction="http://ws.web.bruto.itramites.agesic.gub.uy/cabezalService/ping" style="document"/>
+      <wsdl:input name="ping">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="pingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="persist">
+      <soap:operation soapAction="http://ws.web.bruto.itramites.agesic.gub.uy/cabezalService/persist" style="document"/>
+      <wsdl:input name="persist">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="persistResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="cabezalService">
+    <wsdl:port binding="tns:cabezalServiceSoapBinding" name="CapturaCabezalSOAPPort">
+      <soap:address location="http://10.8.1.95:8080/api/v2/cabezalService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
