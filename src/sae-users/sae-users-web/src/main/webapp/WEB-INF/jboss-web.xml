@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jboss-web xmlns="http://www.jboss.com/xml/ns/javaee">
-    <disable-audit>true</disable-audit>
-<!--     <security-domain>form-auth</security-domain> -->
-    <security-domain>SDSAE</security-domain>
-<!-- 	<security-domain>iduruguay</security-domain> -->
-</jboss-web>

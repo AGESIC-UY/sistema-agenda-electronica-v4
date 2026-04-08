@@ -1,8 +1,0 @@
-<arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.org/schema/arquillian ">
-     
-    <container qualifier="jboss" default="true">
-        <configuration>
-            <property name="jbossHome">C:\Users\Usuario\Desktop\PTOYECTO GENERICO\jbosseap7\jbosseap7</property>
-        </configuration>
-    </container>
-</arquillian>
