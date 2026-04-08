@@ -1,0 +1,13 @@
+
+body .ui-widget{
+    font-size: 0.8rem !important;
+}
+
+body .ui-icon{
+    font-size: x-small;
+}
+
+body .ui-panelmenu .ui-panelmenu-content .ui-menuitem-link>span.ui-icon {
+    margin-right: 0.3rem;
+}
+

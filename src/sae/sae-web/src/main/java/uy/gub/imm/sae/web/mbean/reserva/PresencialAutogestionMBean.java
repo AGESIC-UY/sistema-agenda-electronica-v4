@@ -23,7 +23,7 @@ import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 import uy.gub.imm.sae.business.dto.InformacionRequestDTO;
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
@@ -452,7 +452,7 @@ public class PresencialAutogestionMBean extends BaseMBean {
                     //Reintento hasta tener exito, en algun momento no me va a dar acceso multiple.
                 }
             }
-            RequestContext.getCurrentInstance().execute("PF('reservaConfirmada').show();");
+            PrimeFaces.current().executeScript("PF('reservaConfirmada').show();");
         } catch (ValidacionClaveUnicaException vcuEx) {
             addErrorMessage(sesionMBean.getTextos().get("ya_existe_una_reserva_para_el_dia_especificado_con_los_datos_proporcionados"));
         } catch (UserException uEx) {

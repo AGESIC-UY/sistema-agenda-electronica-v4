@@ -1,7 +1,7 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
@@ -22,10 +22,11 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['cedula_de_identidad']}" for="codigoUsuario" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                             <p:outputPanel styleClass="col-sm-9">
-                                <p:inputText id="codigoUsuario" value="#{usuarioMBean.usuarioEditar.codigo}" valueChangeListener="#{usuarioMBean.cambioCodigoUsuario}"
+                                <h:inputText id="codigoUsuario" value="#{usuarioMBean.usuarioEditar.codigo}" valueChangeListener="#{usuarioMBean.cambioCodigoUsuario}"
                                              maxlength="25" disabled="#{usuarioMBean.usuarioEditar.id != null}" styleClass="form-control textoMedio"> 
-                                    <p:ajax event="blur" update="@form" />
-                                </p:inputText>
+                                    <f:ajax event="blur" update="@form" />
+                                    <f:validator validatorId="documentoValidator" />
+                                </h:inputText>
                                 <h:outputText styleClass="input-msg" value="#{sessionMBean.textos['este_campo_sera_su_codigo_de_usuario']}" />
                                 <p:message for="codigoUsuario" />
                             </p:outputPanel>
@@ -59,7 +60,7 @@
                     </legend>
                     <p:outputPanel id="selRolesEmp" styleClass="form-horizontal">
                         <p:outputPanel styleClass="form-group">
-                            <h:outputText value="#{sessionMBean.textos['rol']}" styleClass="col-sm-3 control-label label" />
+                            <p:outputLabel value="#{sessionMBean.textos['rol']}" styleClass="col-sm-3 control-label label" />
                             <p:outputPanel styleClass="col-sm-9">
                                 <p:outputPanel>
                                     <p:selectBooleanCheckbox id="administrador" value="#{usuarioMBean.usuarioEmpresaRolesEditar.administrador}"  />
@@ -97,7 +98,7 @@
                     <p:outputPanel id="selRolesRecurso" styleClass="form-horizontal">
                         <p:dataGrid var="rec" value="#{usuarioMBean.listaRecursos}" columns="2" layout="grid" styleClass="grid-roles-recurso" emptyMessage="#{sessionMBean.textos['no_hay_datos_para_mostrar']}">             
                             <p:outputPanel styleClass="form-group" >
-                                <h:outputText value="#{rec.agenda.nombre} / #{rec.nombre}" styleClass="col-sm-7 control-label label" />
+                                <p:outputLabel value="#{rec.agenda.nombre} / #{rec.nombre}" styleClass="col-sm-7 control-label label" />
                                 <p:outputPanel styleClass="col-sm-5">
                                     <p:selectManyCheckbox id="recursoRol" value="#{usuarioMBean.rolesRecurso[rec.id]}" layout="responsive" columns="1" >
                                         <f:selectItems value="#{usuarioMBean.listaRolesRecurso}" var="rol" itemLabel="#{rol.getLabel()}" itemValue="#{rol.getValue()}" />
@@ -119,7 +120,7 @@
                     <li class="action-buttons-second">
                         <ul>
                             <li class="float-left">
-                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" immediate="true" styleClass="btn-lg btn-link" />
+                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" immediate="true" styleClass="btn-lg btn-primario" />
                             </li>
                         </ul>
                     </li>

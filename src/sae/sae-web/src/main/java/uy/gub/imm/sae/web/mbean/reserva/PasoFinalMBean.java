@@ -208,7 +208,13 @@ public class PasoFinalMBean extends BaseMBean {
         disableBrowserCache(event);
     }
 
+    /**
+     * Retorna solo la fecha sin la hora del turno
+     */
     public Date getDiaSeleccionado() {
+        if (sesionMBean.getDisponibilidad() != null) {
+            return sesionMBean.getDisponibilidad().getFecha();
+        }
         return sesionMBean.getDiaSeleccionado();
     }
 
@@ -240,6 +246,33 @@ public class PasoFinalMBean extends BaseMBean {
         }
     }
 
+    /**
+     * Retorna solo la dirección del recurso
+     */
+    public String getRecursoDireccion() {
+        Recurso recurso = sesionMBean.getRecurso();
+        if (recurso != null && recurso.getDireccion() != null) {
+            return recurso.getDireccion();
+        }
+        return "";
+    }
+
+    /**
+     * Retorna la URL de Google Maps con las coordenadas del recurso.
+     * Usa la URL base configurada en sesionMBean.textos['url_google_maps']
+     * @return URL completa con coordenadas o null si no hay coordenadas o URL base no configurada
+     */
+    public String getUrlGoogleMaps() {
+        Recurso recurso = sesionMBean.getRecurso();
+        if (recurso != null && recurso.getLatitud() != null && recurso.getLongitud() != null) {
+            String urlBase = sesionMBean.getTextos().get("url_google_maps");
+            if (urlBase != null && !urlBase.isEmpty()) {
+                return urlBase + recurso.getLatitud() + "," + recurso.getLongitud();
+            }
+        }
+        return null;
+    }
+
     public String generarTicket(boolean imprimir) {
         TicketUtiles ticketUtiles = new TicketUtiles();
         ticketUtiles.generarTicket(sesionMBean.getEmpresaActual(), sesionMBean.getAgenda(), sesionMBean.getRecurso(), sesionMBean.getTimeZone(),
@@ -259,6 +292,26 @@ public class PasoFinalMBean extends BaseMBean {
 
             linkCancelacion = linkCancelacion + "/sae/cancelarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&ri=" + reserva.getId();
             return linkCancelacion;
+        }
+        return null;
+    }
+
+    public String getUrlModificacion() {
+        try {
+            Reserva reserva = sesionMBean.getReservaConfirmada();
+            if (reserva != null && reserva.getDisponibilidades() != null && !reserva.getDisponibilidades().isEmpty()) {
+                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                Recurso recurso = reserva.getDisponibilidades().get(0).getRecurso();
+                Agenda agenda = recurso.getAgenda();
+                String linkBase = request.getScheme() + "://" + request.getServerName();
+                if ("http".equals(request.getScheme()) && request.getServerPort() != 80 || "https".equals(request.getScheme()) && request.getServerPort() != 443) {
+                    linkBase = linkBase + ":" + request.getServerPort();
+                }
+                String linkModificacion = linkBase + "/sae/modificarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&r=" + recurso.getId() + "&ri=" + reserva.getId();
+                return linkModificacion;
+            }
+        } catch (Exception e) {
+            logger.error("Error generando URL de modificación", e);
         }
         return null;
     }

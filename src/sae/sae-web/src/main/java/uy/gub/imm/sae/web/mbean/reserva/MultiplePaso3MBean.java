@@ -41,7 +41,7 @@ import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.json.JSONArray;
+import org.primefaces.shaded.json.JSONArray;
 
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
 import uy.gub.imm.sae.common.Utiles;

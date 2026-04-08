@@ -137,7 +137,18 @@ public class EmpresaSessionMBean extends SessionCleanerMBean implements Removabl
         // lo pide está cerrado y no es muestra la imagen        
         if(empresaEditar!=null){
             if (empresaEditar.getLogo() != null) {
-                return new DefaultStreamedContent(new ByteArrayInputStream(empresaEditar.getLogo()));
+                return DefaultStreamedContent.builder()
+                        .contentType("image/png")
+                        .stream(() -> {
+                            try {
+                                return new ByteArrayInputStream(empresaEditar.getLogo());
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                                return null;
+                            }
+                        })
+                        .build();
             }
         }
         return null;

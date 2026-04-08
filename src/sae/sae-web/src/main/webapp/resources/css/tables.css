@@ -1,0 +1,159 @@
+body .ui-datatable .ui-datatable-data>tr>td {
+    padding: 7px 15px;
+    border: 1px solid rgba(0,0,0,.08);
+    border-width: 1px 1px 1px 1px;
+    line-height: 1.25;
+    vertical-align: middle;
+    border: 1px solid #E4E5E6;
+    font-weight: normal;
+    overflow: visible;
+}
+
+body .ui-button.ui-button-icon-only {
+    width: 2rem;
+    height: 2rem;
+}
+
+body .ui-button.ui-button-icon-only {
+    margin: 0.1rem;
+    border: 1px solid #bebebe;
+    background: #F5F5F5;
+    font-weight: normal;
+    color: #141414;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+alt:before, .fa-pencil:before {
+    color: #337AB7;
+    content: "\f304";
+}
+
+.fa-trash:before {
+    color: #337AB7;
+    content: "\f1f8";
+}
+
+body .ui-button.ui-button-icon-only .ui-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -0.3rem;
+    margin-left: -0.3rem;
+}
+
+
+body .ui-datatable thead th .ui-column-title {
+    font-weight: normal;
+    vertical-align: middle;
+    text-align: center;
+}
+
+table > thead > tr > th, .ui-datatable table > thead > tr > th {
+    background: #f4f4f5;
+    padding: 15px;
+    max-width: 150px;
+    border-bottom: none;
+    text-align: center;
+}
+
+
+body .ui-datatable .ui-datatable-data>tr.ui-state-highlight {
+    background: #465869;
+    color: #ffffff;
+    text-shadow: none;
+}
+
+.par{
+background: #F4F7FA;
+}
+
+.impar{
+background: #FFF;
+}
+
+.table {
+    line-height: 1.25;
+    vertical-align: middle;
+    border: 1px solid #E4E5E6;
+    font-weight: normal;
+    overflow: visible;
+}
+
+body .ui-radiobutton {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    width: 20px;
+    height: 9px
+}
+
+body .ui-radiobutton .ui-radiobutton-box {
+    border: 1px solid #ced4da;
+    border-width: 1px;
+    background: #fff;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    position: relative;
+    border-radius: 50%;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-hover {
+    border-color: #2196f3
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-focus {
+    box-shadow: 0 0 0 0 #a6d5fa
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active {
+    border-color: #2196f3;
+    background: #fff;
+    color: #fff
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover {
+    background: #fff
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-active .ui-icon-bullet {
+    background: #0d89ec
+}
+
+body .ui-radiobutton .ui-radiobutton-box.ui-state-error {
+    border-color: #f44336
+}
+
+body .ui-radiobutton .ui-radiobutton-box .ui-radiobutton-icon {
+    width: 8px;
+    height: 8px;
+    vertical-align: middle;
+    position: absolute;
+    top: 70%;
+    left: 70%;
+    margin-top: -6px;
+    margin-left: -6px;
+    border-radius: 100%
+}
+
+body .ui-radiobutton .ui-radiobutton-box .ui-radiobutton-icon:before {
+    display: none
+}
+
+body.ui-input-filled .ui-radiobutton .ui-radiobutton-box,body .ui-input-filled .ui-radiobutton .ui-radiobutton-box {
+    background-color: #f8f9fa
+}
+
+body.ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-hover,body .ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-hover {
+    background-color: #f8f9fa
+}
+
+body.ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active,body .ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active {
+    background: #2196f3
+}
+
+body.ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover,body .ui-input-filled .ui-radiobutton .ui-radiobutton-box.ui-state-active.ui-state-hover {
+    background: #0d89ec
+}

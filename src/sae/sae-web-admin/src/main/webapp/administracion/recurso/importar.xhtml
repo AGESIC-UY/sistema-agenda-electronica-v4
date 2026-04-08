@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -33,8 +33,8 @@
                                 <h:outputLabel value="#{sessionMBean.textos['archivo']}"
                                                for="archivo_input" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                    <p:fileUpload  mode="advanced" id="archivo"
-                                                   fileUploadListener="#{recursoMBean.subirArchivo}" auto="true"
+                                    <p:fileUpload  mode="simple" id="archivo"
+                                                   listener="#{recursoMBean.subirArchivo}" auto="true"
                                                    process="@this" update="nombreArchivo"
                                                    label="#{sessionMBean.textos['subir_archivo']}"
                                                    cancelLabel="#{sessionMBean.textos['cancelar']}"

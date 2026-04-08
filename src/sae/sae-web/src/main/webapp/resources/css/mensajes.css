@@ -1,0 +1,102 @@
+body .ui-messages ul {
+    margin: 25px;
+}
+
+body .ui-messages .ui-messages-warn .ui-messages-warn-icon:before {
+    content: none !important;
+}
+body .ui-dialog.ui-message-dialog .ui-dialog-content>span.ui-dialog-message.ui-messages-warn-icon {
+    ont-style: normal;
+    font-weight: normal;
+    display: inline-block;
+}
+
+body .ui-messages .ui-messages-warn {
+    border: 1px solid;
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    border-color: #e7e2c5;
+    background: #fbf8ea;
+    color: #000000;
+    border-left: 3px solid #d4a017;
+}
+
+body .ui-messages .ui-messages-error {
+    border: 1px solid;
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    background-color: #ffeded;
+    border-color: #e3c4c4;
+    color: #000000;
+    border-left: 3px solid #c0392b;
+}
+
+body .ui-messages .ui-messages-error .ui-messages-error-icon:before {
+    content: none !important;
+}
+body .ui-dialog.ui-message-dialog .ui-dialog-content>span.ui-dialog-message.ui-messages-info-icon {
+    ont-style: normal;
+    font-weight: normal;
+    display: inline-block;
+}
+
+
+body .ui-messages .ui-messages-info {
+    border: 1px solid;
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    border-color: #c1e0b4;
+    background: #ecf6e8;
+    color: #000000;
+    border-left: 3px solid #27ae60;
+}
+
+body .ui-messages .ui-messages-info .ui-messages-info-icon:before {
+    content: none !important;
+}
+body .ui-dialog.ui-message-dialog .ui-dialog-content>span.ui-dialog-message.ui-messages-error-icon {
+    ont-style: normal;
+    font-weight: normal;
+    display: inline-block;
+}
+
+body .ui-messages>div {
+    padding: 0rem;
+    margin: 0rem;
+    border-radius: 4px;
+}
+
+body .ui-messages ul .ui-messages-info-detail, body .ui-messages ul .ui-messages-warn-detail, body .ui-messages ul .ui-messages-error-detail, body .ui-messages ul .ui-messages-fatal-detail {
+    display: block;
+    font-weight: normal;
+    line-height: 1.1;
+    margin-left: 0;
+}
+
+
+
+h4.ui-messages-error-title, h4.ui-messages-info-title, h4.ui-messages-warn-title {
+    padding-top: 15px;
+    margin-bottom: 5px;
+    line-height: 1.1;
+    margin-left: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+}
+
+body .ui-messages ul .ui-messages-info-summary, body .ui-messages ul .ui-messages-warn-summary, body .ui-messages ul .ui-messages-error-summary, body .ui-messages ul .ui-messages-fatal-summary {
+    margin: 0 0.5rem 0 0;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+body .ui-messages ul .ui-messages-info-summary p, body .ui-messages ul .ui-messages-warn-summary p, body .ui-messages ul .ui-messages-error-summary p, body .ui-messages ul .ui-messages-fatal-summary p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#dialog-confirm{
+    width:300px !important;
+    margin: 0 auto !important;
+}

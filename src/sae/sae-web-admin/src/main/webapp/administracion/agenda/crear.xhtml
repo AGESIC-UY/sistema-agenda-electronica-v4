@@ -1,7 +1,7 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
@@ -18,57 +18,57 @@
                         </legend>
                         <p:outputPanel styleClass="form-horizontal">
                             <p:outputPanel styleClass="form-group">
-                                <h:outputLabel value="#{sessionMBean.textos['nombre']}" for="nombreAgenda" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                <p:outputLabel value="#{sessionMBean.textos['nombre']}" for="nombreAgenda" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputText id="nombreAgenda" value="#{agendaMBean.agendaNueva.nombre}" maxlength="100" styleClass="form-control" />
                                     <p:message for="nombreAgenda" />
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group">
-                                <h:outputLabel value="#{sessionMBean.textos['descripcion']}" for="descripcionAgenda" styleClass="col-sm-3 control-label label" />
+                                <p:outputLabel value="#{sessionMBean.textos['descripcion']}" for="descripcionAgenda" styleClass="col-sm-3 control-label label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:inputTextarea id="descripcionAgenda" value="#{agendaMBean.agendaNueva.descripcion}" maxlength="1000" styleClass="form-control textoLargo" />
                                     <p:message for="descripcionAgenda"></p:message>
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group">
-                                <h:outputText value="#{sessionMBean.textos['requiere_cda']}" styleClass="col-sm-3 control-label label" />
+                                <p:outputLabel value="#{sessionMBean.textos['requiere_cda']}" styleClass="col-sm-3 control-label label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:selectBooleanCheckbox id="requiereCDA" value="#{agendaMBean.agendaNueva.conCda}" />
                                     <p:outputLabel value="#{sessionMBean.textos['requerido']}" for="requiereCDA" />
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group" rendered="false">
-                                <h:outputText value="#{sessionMBean.textos['requiere_iduruguay']}" styleClass="col-sm-3 control-label label" />
+                                <p:outputLabel value="#{sessionMBean.textos['requiere_iduruguay']}" styleClass="col-sm-3 control-label label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:selectBooleanCheckbox id="requiereIDURUGUAY" value="#{agendaMBean.agendaNueva.conIdUruguay}" />
                                     <p:outputLabel value="#{sessionMBean.textos['requerido']}" for="requiereIDURUGUAY" />
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group">
-                                <h:outputText value="#{sessionMBean.textos['seguimiento']}" styleClass="col-sm-3 control-label label" />
+                                <p:outputLabel value="#{sessionMBean.textos['seguimiento']}" styleClass="col-sm-3 control-label label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:selectBooleanCheckbox id="trazar" value="#{agendaMBean.agendaNueva.conTrazabilidad}" />
                                     <p:outputLabel value="#{sessionMBean.textos['con_trazabilidad']}" for="trazar" />
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group">
-                                <h:outputText value="#{sessionMBean.textos['novedades']}" styleClass="col-sm-3 control-label label" />
+                                <p:outputLabel value="#{sessionMBean.textos['novedades']}" styleClass="col-sm-3 control-label label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:selectBooleanCheckbox id="publicarNovedades" value="#{agendaMBean.agendaNueva.publicarNovedades}" />
                                     <p:outputLabel value="#{sessionMBean.textos['publicar_novedades']}" for="publicarNovedades" />
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group"> 
-                                <h:outputLabel value="#{sessionMBean.textos['zona_horaria']}" for="timezoneAgenda" styleClass="col-sm-3 control-label label" />
+                                <p:outputLabel value="#{sessionMBean.textos['zona_horaria']}" for="timezoneAgenda" styleClass="col-sm-3 control-label label" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                    <h:selectOneMenu id="timezoneAgenda" value="#{agendaMBean.agendaNueva.timezone}" styleClass="form-control">
+                                    <h:selectOneMenu id="timezoneAgenda" value="#{agendaMBean.agendaNueva.timezone}">
                                         <f:selectItems value="#{agendaMBean.timezones}" />
                                     </h:selectOneMenu>
                                 </p:outputPanel>
                             </p:outputPanel>
                             <p:outputPanel styleClass="form-group">
-                                <h:outputText value="#{sessionMBean.textos['idiomas_soportados']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                <p:outputLabel value="#{sessionMBean.textos['idiomas_soportados']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:selectManyCheckbox id="idiomasAgenda" value="#{agendaMBean.idiomasParaNuevaAgenda}" layout="responsive" columns="4">
                                         <f:selectItems value="#{agendaMBean.idiomasDisponibles}" />
@@ -91,7 +91,7 @@
                                         <p:outputPanel styleClass="form-group">
                                             <h:outputLabel value="#{sessionMBean.textos['tramite']}" for="tramite" styleClass="col-sm-2 control-label label" />
                                             <p:outputPanel styleClass="col-sm-10">
-                                                <h:selectOneMenu id="tramite" value="#{tramite.tramiteId}" valueChangeListener="#{agendaMBean.cambioTramite}" styleClass="form-control textoLargo">
+                                                <h:selectOneMenu id="tramite" value="#{tramite.tramiteId}" valueChangeListener="#{agendaMBean.cambioTramite}" styleClass="textoLargo">
                                                     <f:attribute name="tramiteAgenda" value="#{tramite}" />
                                                     <p:ajax update="tramites" process="@this" />
                                                     <f:selectItems value="#{agendaMBean.tramites}" />
@@ -135,7 +135,7 @@
                         <li class="action-buttons-second">
                             <ul>
                                 <li class="float-left">
-                                    <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" immediate="true" styleClass="btn-lg btn-link" />
+                                    <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" immediate="true" styleClass="btn-lg btn-primario" />
                                 </li>
                             </ul>
                         </li>

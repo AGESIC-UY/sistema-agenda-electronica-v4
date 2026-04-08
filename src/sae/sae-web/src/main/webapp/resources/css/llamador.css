@@ -164,3 +164,14 @@ table tr.ui-widget-content td, .listaReservas table tr th{
 .ui-widget-overlay{
 	opacity: 0.8;
 }
+
+
+.btn-lg-icon{
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.ui-button-icon-left.ui-icon{
+    font-size: 1.1em;
+    font-weight: bold;
+}

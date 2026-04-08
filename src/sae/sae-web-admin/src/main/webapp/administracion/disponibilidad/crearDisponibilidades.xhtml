@@ -1,13 +1,14 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cp="http://sae-web">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
         <f:view beforePhase="#{crearDisponibilidadMBean.beforePhaseCrearDisponibilidades}" >
-
+            <h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
             <p:outputPanel rendered="#{sessionMBean.agendaMarcada != null and sessionMBean.recursoMarcado != null}">
                 <h:form id="formCrearDisponibilidad">
                     <p:outputPanel id="panelCrearDisponibilidad">
@@ -22,18 +23,17 @@
                                 <p:outputPanel styleClass="form-group">
                                     <h:outputLabel value="#{sessionMBean.textos['fecha']}" for="fecha" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-sm-9">
-                                        <h:inputText id="fecha" value="#{crearDispSessionMBean.fechaCrear}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                       <cp:inputDate id="fecha"  value="#{crearDispSessionMBean.fechaCrear}" pattern="yyyy-MM-dd">
+                                           <f:converter converterId="dateConverter"/>
+                                       </cp:inputDate>
                                         <h:outputText styleClass="input-msg" value="#{crearDisponibilidadMBean.mensajePeriodoDisponibilidad}" />
                                         <p:message for="fecha"></p:message>
                                     </p:outputPanel>
                                 </p:outputPanel>
                                 <p:outputPanel styleClass="form-group">
                                     <p:outputPanel styleClass="col-sm-9 offset-sm-3">
-                                        <p:commandButton id="consultar" value="#{sessionMBean.textos['consultar_disponibilidades']}" styleClass="btn btn-secundario"
-                                                         actionListener="#{crearDisponibilidadMBean.consultarDisponibilidadesDelDia}" update="formCrearDisponibilidad:panelCrearDisponibilidad"  />
+                                        <p:commandButton id="consultar" value="#{sessionMBean.textos['consultar_disponibilidades']}" styleClass="btn-lg btn-primario"
+                                                         action="#{crearDisponibilidadMBean.consultarDisponibilidadesDelDia}" process="@form" update="@form"  />
                                     </p:outputPanel>
                                 </p:outputPanel>
                             </p:outputPanel>
@@ -121,48 +121,48 @@
                             <p:outputPanel id="campos" styleClass="form-horizontal">
 
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['hora_de_inicio']}" for="seleccionHoraD" styleClass="col-sm-3 control-label label formularioCampoRequerido"/>
-                                    <p:outputPanel styleClass="col-sm-9">
-                                        <h:selectOneMenu id="seleccionHoraD" styleClass="hora form-control" value="#{crearDispSessionMBean.horaD}">
+                                    <h:outputLabel value="#{sessionMBean.textos['hora_de_inicio']}" for="seleccionHoraD" styleClass="col-sm-3 label formularioCampoRequerido"/>
+                                    <p:outputPanel styleClass="">
+                                        <h:selectOneMenu id="seleccionHoraD" styleClass="horasselect" value="#{crearDispSessionMBean.horaD}">
                                             <f:selectItems value="#{crearDisponibilidadMBean.horas}" />
                                         </h:selectOneMenu>
                                         <h:outputText value=" : " />
                                         <h:outputLabel value="minutos" for="seleccionMinD" styleClass="ui-helper-hidden-accessible formularioCampoRequerido" />
-                                        <h:selectOneMenu id="seleccionMinD" styleClass="hora form-control" value="#{crearDispSessionMBean.minD}">
+                                        <h:selectOneMenu id="seleccionMinD" styleClass="horasselect" value="#{crearDispSessionMBean.minD}">
                                             <f:selectItems value="#{crearDisponibilidadMBean.minutos}" />
                                         </h:selectOneMenu>
-                                        <h:outputText styleClass="comentario" value="#{sessionMBean.textos['zona_horaria']}: #{sessionMBean.timeZone.ID}" />
+                                        <h:outputText styleClass="comentario ms-2" value="#{sessionMBean.textos['zona_horaria']}: #{sessionMBean.timeZone.ID}" />
                                         <p:message for="seleccionHoraD" />
                                     </p:outputPanel>
                                 </p:outputPanel>
 
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['hora_de_fin']}" for="seleccionHoraH" styleClass="col-sm-3 control-label label formularioCampoRequerido"/>
+                                    <h:outputLabel value="#{sessionMBean.textos['hora_de_fin']}" for="seleccionHoraH" styleClass="col-sm-3 label formularioCampoRequerido"/>
                                     <p:outputPanel styleClass="col-sm-9">
-                                        <h:selectOneMenu id="seleccionHoraH" styleClass="hora form-control" value="#{crearDispSessionMBean.horaH}">
+                                        <h:selectOneMenu id="seleccionHoraH" styleClass="horasselect" value="#{crearDispSessionMBean.horaH}">
                                             <f:selectItems value="#{crearDisponibilidadMBean.horas}" />
                                         </h:selectOneMenu>
                                         <h:outputText value=" : " />
                                         <h:outputLabel value="minutos" for="seleccionMinH" styleClass="ui-helper-hidden-accessible formularioCampoRequerido" />
-                                        <h:selectOneMenu id="seleccionMinH" styleClass="hora form-control" value="#{crearDispSessionMBean.minH}">
+                                        <h:selectOneMenu id="seleccionMinH" styleClass="horasselect" value="#{crearDispSessionMBean.minH}">
                                             <f:selectItems value="#{crearDisponibilidadMBean.minutos}" />
                                         </h:selectOneMenu>
-                                        <h:outputText styleClass="comentario" value="#{sessionMBean.textos['zona_horaria']}: #{sessionMBean.timeZone.ID}" />
+                                        <h:outputText styleClass="comentario ms-2" value="#{sessionMBean.textos['zona_horaria']}: #{sessionMBean.timeZone.ID}" />
                                         <p:message for="seleccionHoraH" />
                                     </p:outputPanel>
                                 </p:outputPanel>
 
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['frecuencia']}" for="frecuencia" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
-                                    <p:outputPanel styleClass="col-sm-9">
+                                    <h:outputLabel value="#{sessionMBean.textos['frecuencia']}" for="frecuencia" styleClass="col-sm-3 label formularioCampoRequerido" />
+                                    <p:outputPanel styleClass="col-sm-9 d-flex align-items-center">
                                         <h:inputText id="frecuencia" value="#{crearDispSessionMBean.frecuencia}" maxlength="5" styleClass="form-control textoCorto" converter="integerConverter" />
-                                        <h:outputText styleClass="comentario" value="(#{sessionMBean.textos['minutos']})" />
+                                        <h:outputText styleClass="comentario ms-2" value="(#{sessionMBean.textos['minutos']})" />
                                         <p:message for="frecuencia" />
                                     </p:outputPanel>
                                 </p:outputPanel>
 
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['cupo_por_periodo']}" for="cupos" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                    <h:outputLabel value="#{sessionMBean.textos['cupo_por_periodo']}" for="cupos" styleClass="col-sm-3 label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-sm-9">
                                         <h:inputText id="cupos" value="#{crearDispSessionMBean.cupo}" maxlength="5" styleClass="form-control textoCorto" converter="integerConverter" />
                                         <p:message for="cupos" />
@@ -175,7 +175,7 @@
                                 <ul>
                                     <li>
                                         <p:commandButton id="crear" value="#{sessionMBean.textos['crear_disponibilidades']}" actionListener="#{crearDisponibilidadMBean.crearDisponibilidades}"
-                                                         update="formCrearDisponibilidad:tablaMatutina :formCrearDisponibilidad:tablaVespertina formCrearDisponibilidad:campos formCrearDisponibilidad:fechaConsultar"
+                                                         update="formCrearDisponibilidad:tablaMatutina :formCrearDisponibilidad:tablaVespertina formCrearDisponibilidad:campos"
                                                          styleClass="btn-lg btn-primario" />
                                     </li>
                                 </ul>

@@ -163,9 +163,25 @@ input[type="radio"].form-control, input[type="checkbox"].form-control {
     opacity:0.2;  
 }
 fieldset legend {
+    float: none;
     width: auto;
     margin-bottom: 0;
 }
+input[type="date"]  .ui-inputfield .ui-inputtext .ui-widget .ui-state-default .ui-corner-all{
+      padding: 5px 10px;
+      line-height: 1.5;
+      border: 1px solid #bebebe;
+      width:295px;
+      max-width: 100%;
+      border-radius: 2px;
+      box-shadow: none;
+      background: #fff;
+      margin: 5px 0;
+      font-family: Arial,sans-serif;
+      font-size: 1em;
+}
+
+
 input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea,
 .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield,
 .form-control {
@@ -177,6 +193,9 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="date"], 
     border-radius: 2px;
     box-shadow: none;
     background: #fff;
+    margin: 5px 0;
+    font-family: Arial,sans-serif;
+    font-size: 16px;
 }
 input[type="text"].formularioCampoConError, 
 input[type="email"].formularioCampoConError, 
@@ -196,13 +215,13 @@ textarea.formularioCampoConError,
 .form-group-con-error textarea{
     border-color: #a94442;
 }
-input[type="text"].textoCorto, input[type="tel"].textoCorto, select.textoCorto, textarea.textoCorto, .ui-inputfield.textoCorto, .form-control.textoCorto{
+input[type="text"].textoCorto, input[type="tel"].textoCorto, select.textoCorto, textarea.textoCorto, .ui-inputfield.textoCorto, .textoCorto{
     width:70px;
 }
-input[type="text"].textoMedio, input[type="tel"].textoMedio, select.textoMedio, textarea.textoMedio, .ui-inputfield.textoMedio, .form-control.textoMedio{
+input[type="text"].textoMedio, input[type="tel"].textoMedio, select.textoMedio, textarea.textoMedio, .ui-inputfield.textoMedio, .textoMedio{
     width:155px;
 }
-input[type="text"].textoLargo, input[type="tel"].textoLargo, select.textoLargo, textarea.textoLargo, .ui-inputfield.textoLargo, .form-control.textoLargo{
+input[type="text"].textoLargo, input[type="tel"].textoLargo, select.textoLargo, textarea.textoLargo, .ui-inputfield.textoLargo, .textoLargo{
     width:500px;
 }
 input[type="text"].texto100, input[type="tel"].texto100, select.texto100, textarea.texto100, .ui-inputfield.texto100, .form-control.texto100{
@@ -232,8 +251,15 @@ input[type="text"].texto100, input[type="tel"].texto100, select.texto100, textar
 }
 
 .form-horizontal .control-label {
-    padding: 7px 0 0 15px;
+    padding: 12px 12px 0 15px;
     text-align: right;
+    color: #000000;
+    font-size: 1.4em;
+}
+
+.col-lg-8.input-dinamico{
+    display:flex;
+    align-items:center;
 }
 .variasColumnas.variasColumnas .form-group{
     margin:0;
@@ -257,15 +283,15 @@ input[type="text"].texto100, input[type="tel"].texto100, select.texto100, textar
     vertical-align: middle;
 }
 .ui-selectoneradio .ui-helper-hidden-accessible, .ui-chkbox .ui-helper-hidden-accessible, .ui-radiobutton .ui-helper-hidden-accessible{
-    position: relative;
+    /*position: relative;*/
     overflow: visible;
     height: auto;
     width: auto;
     margin: 0;
-}
+}/*
 .ui-radiobutton-box, .ui-chkbox .ui-chkbox-box {
     display: none !important;
-} 
+} */
 .ui-selectlistbox-item .ui-chkbox .ui-chkbox-box {
     display: block;
     margin: 3px 5px 3px;
@@ -302,7 +328,8 @@ input[type="text"].texto100, input[type="tel"].texto100, select.texto100, textar
 .form-group textarea, 
 .form-group .ui-inputfield, 
 .form-group .form-control{
-    display: inline-block;
+    /*display: inline-block;*/
+    font-size: 16px;
     vertical-align: middle;
 }
 .form-group .btn, .form-group .btn-lg{
@@ -342,7 +369,7 @@ input[type=submit]{
 .ui-selectoneradio.ui-grid label{
     text-align: left;
     font-weight: normal;
-    font-size: 13px;
+    font-size: 0.9rem;
     width: auto;
     vertical-align: middle;
     margin-top: 4px;
@@ -381,7 +408,7 @@ input[type=submit]{
     text-align: center;
 }
 .label {
-    padding: 0 15px;
+    padding: 10px 15px;
     font-size: 1em;
     font-weight: 400;
     line-height: 18px;
@@ -395,7 +422,7 @@ input.hasDatepicker.ui-inputfield, input.hasDatepicker, input.datepicker, input.
     background: #ffffff url("../images/calendar.png") no-repeat center right;
     padding-right: 25px;
 }
-.ui-datepicker{
+/*.ui-datepicker{
     font-size: 16px;
     padding: .2em .4em 0;
 }
@@ -434,10 +461,10 @@ input.hasDatepicker.ui-inputfield, input.hasDatepicker, input.datepicker, input.
 }
 .ui-datepicker td.fechaFutura, .ui-datepicker td.fechaHoy {
     opacity: 1;
-}
+}*/
 
-.ui-datepicker .ui-datepicker-calendar .ui-state-default { /*los dias seleccionables de cualquier calendar*/
-    background: transparent;
+/*.ui-datepicker .ui-datepicker-calendar .ui-state-default { /*los dias seleccionables de cualquier calendar*/
+  /*  background: transparent;
     color: #141414;
     padding: .4em .2em .3em;
     text-align: center;
@@ -446,15 +473,15 @@ input.hasDatepicker.ui-inputfield, input.hasDatepicker, input.datepicker, input.
     font-size: 1.2em;
 }
 .calendar-disponibilidad .ui-datepicker-calendar .ui-state-default { /*los dias disponibles para las reserva*/
-    background: #d5edc3;
+    /*background: #d5edc3;
     color: #006837;
-}
-.ui-datepicker .ui-datepicker-calendar .ui-state-hover {
+}*/
+/*.ui-datepicker .ui-datepicker-calendar .ui-state-hover {
     color: #ffffff;
     background: #006837;
 }
 .ui-datepicker td.ui-datepicker-unselectable .ui-state-default{ /*los dias NO disponibles*/
-    background: transparent;
+   /* background: transparent;
     font-weight: normal;
     color: #141414;
 }
@@ -462,18 +489,18 @@ input.hasDatepicker.ui-inputfield, input.hasDatepicker, input.datepicker, input.
     border: none;
 }
 .ui-datepicker td.ui-datepicker-current-day .ui-state-default{/*dia seleccionado*/
-    color: #ffffff;
+   /* color: #ffffff;
     background: #006837;
     text-shadow: none;
 }
 
 .ui-datepicker td.ui-datepicker-today.ui-datepicker-unselectable .ui-state-default{/*hoy no seleccionable*/
-    color: #141414 !important;
+   /* color: #141414 !important;
     background: url(../images/hoy.png) no-repeat center;
     font-weight: bold;
 }
 .ui-datepicker td.ui-datepicker-today a.ui-state-default{/*hoy seleccionable*/
-    background-image:  url(../images/hoy.png);
+   /* background-image:  url(../images/hoy.png);
     background-position: center;
     background-repeat: no-repeat;
     font-weight: bold;
@@ -562,13 +589,22 @@ fieldset fieldset legend {
 .ui-messages-error {
     background-color: #ffeded;
     border-color: #e3c4c4;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #BF2026;
 }
 .ui-messages-info{
     border-color: #c1e0b4;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #279e3f;
     background: #ecf6e8;
 }
 .ui-messages-warn{
     border-color: #e7e2c5;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #d4a017;
     background: #fbf8ea;
 }
 .ui-messages-error:after, .ui-message-error:after,
@@ -588,17 +624,18 @@ fieldset fieldset legend {
     padding: 15px 30px 15px 35px;
 }
 .ui-messages-error-icon {
-    background: url("../images/icn-circle-error-lg.png") center no-repeat;
+    background: url("../images/alert-danger.svg") center no-repeat !important;
+    background-size: 46px 46px !important;
 }
 .ui-messages-info-icon{
-    background: url("../images/icn-circle-success-lg.png") center no-repeat;
+    background: url("../images/icn-circle-success-lg.png") center no-repeat !important;
 }
-.ui-messages-warn-icon, .icn-warning-lg{
-    background: url("../images/icn-warning-lg.png") center no-repeat;
+.ui-messages-warn-icon{
+    background: url("../images/alert-warning.svg") center no-repeat !important;
+    background-size: 46px 46px !important;
 }
 .ui-messages-error-title, .ui-messages-info-title, .ui-messages-warn-title{
     padding-top: 20px;
-    font-size: 1.25em;
     margin-bottom: 10px;
     line-height: 1.1;
     margin-left: 0;
@@ -618,6 +655,24 @@ fieldset fieldset legend {
 .mensajeError{
     display: block;
     padding: 6px 0;
+}
+
+/* Fix for captcha error message display - force continuous block rendering */
+#captcha .mensajeError,
+#captcha .ui-message,
+#captcha .ui-message > div,
+#captcha .ui-message span {
+    display: block !important;
+    width: 100%;
+    clear: both;
+    float: none !important;
+    position: static !important;
+}
+
+#captcha .captcha-error-container {
+    clear: both;
+    width: 100%;
+    margin-bottom: 10px;
 }
 .ui-messages-error-summary,.ui-messages-info-summary,.ui-messages-warn-summary, .ui-messages-fatal-summary {
     display: block;
@@ -656,6 +711,9 @@ label:after, .control-label:after{
     font-weigth: bold;
     */
 }
+.ui-selectonemenu label:after {
+    content: "";
+}
 .formularioCampoRequerido:after{
     content: "*:";
     display: inline-block;
@@ -668,7 +726,11 @@ label:after, .control-label:after{
 }
 .form-group .recargarCaptcha{
     display: block;
-    margin: 5px 0 0;
+}
+
+/* Estilos para captcha - verificación de seguridad */
+.captcha-pregunta {
+    white-space: normal;
 }
 .verde{
     color: #006837;
@@ -1029,19 +1091,36 @@ input[type="text"].diaSeleccionado{
 }
 .datosReserva, .datosReservaConfirmada, .datosReservaCancelar{
     padding: 20px 20px 20px 117px;
-    background-image: url("../images/calendario.png");
-    background-position: 46px center;
+    background-image: url("../images/alert-success.svg");
+    background-position: 48px 16px;
     background-repeat: no-repeat;
     border: 1px solid #d9d8d8;
     font-size: 1.3em;
 }
+
+/* Selector específico para Paso2 con calendario.png */
+.datosReserva.datoReservaPaso2{
+    padding: 20px 20px 20px 117px;
+    background-image: url("../images/calendario.png") !important;
+    background-position: 48px 16px;
+    background-repeat: no-repeat;
+    font-size: 1.3em;
+}
+
 .datosReservaConfirmada{
-    border: 1px solid #006837;
-    background-color: #f1fff0;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #279e3f;
+    background-color: #ecf6e8;
 }
 .datosReservaCancelar{
     border: 1px solid #e7e2c5;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #d4a017;
     background-color: #fbf8ea;
+    background-image: url("../images/alert-warning.svg");
+    background-size: 48px 48px;
 }
 .datosReservaCancelar .row > div{
     display: inline-block;
@@ -1063,7 +1142,7 @@ input[type="text"].diaSeleccionado{
     margin-bottom: 5px;
 }
 .fechaHoraReserva .resaltado{
-    font-size: 1.3em;
+    font-size: 1em;
 }
 .seguridad{
     font-size: .75em;
@@ -1269,9 +1348,7 @@ input[type="text"].diaSeleccionado{
     label, span.label, fieldset label, fieldset span.label {
         text-align: left;
     }
-    .ui-datepicker{
-        margin: 10px auto;
-    }
+
     fieldset label, fieldset span.label, .label {
         font-weight: normal;
         font-size: 1.3em;
@@ -1438,4 +1515,520 @@ pre {
 }
 .form-group{
     display: flex;
+}
+.nombre-organismo{
+    color: #141414;
+    font-weight: normal;
+    font-size: 18px;
+}
+.organismo{
+    text-align: right;
+    padding: 15px 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
+body .ui-commandlink, body .ui-link {
+    color: ##003DA5;
+    text-decoration: none;
+}
+
+
+body .ui-button.ui-button-text-icon-left .ui-button-text {
+    padding: 0.5rem 1rem 0.5rem 2rem;
+}
+
+
+.pi-external-link:before {
+    color: blue;
+}
+
+body .ui-chkbox .ui-chkbox-box {
+    border: 1px solid #ced4da;
+    border-width: 2px;
+    background: #fff;
+    width: 1rem;
+    height: 1rem;
+    text-align: center;
+    position: relative;
+    border-radius: 4px;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    border-color: #2196f3;
+    background: #2196f3;
+    color: #fff
+}
+
+body .ui-chkbox .ui-chkbox-box .ui-chkbox-icon {
+    overflow: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.3rem;
+    margin-top: -0.4rem
+}
+
+body .ui-chkbox {
+    display: inline-block;
+    vertical-align: middle;
+    padding: .4rem;
+    margin: 0;
+    width: 1.5rem;
+    height: 1.5rem
+}
+
+body .ui-tabs.ui-tabs-top>.ui-tabs-nav li.ui-tabs-header {
+    top: 0;
+    border: 1px solid #CCC;
+    margin-right: 0.7rem;
+    background: #F5F5F5;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+body .ui-tabs.ui-tabs-top>.ui-tabs-nav li.ui-tabs-header.ui-state-hover {
+    top: 0;
+    border: 1px solid #CCC;
+    margin-right: 0.7rem;
+    background: #F5F5F5;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+body .ui-tabs.ui-tabs-top>.ui-tabs-nav li.ui-tabs-header.ui-state-active {
+    top: 0;
+    border: 1px solid #CCC;
+    margin-right: 0.7rem;
+    background: #F5F5F5;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+body .ui-tabs .ui-tabs-nav li.ui-tabs-header a {
+    color: #6c757d;
+    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    font-weight: 400;
+    display: block;
+    line-height: 1;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s
+}
+
+body .ui-tabs .ui-tabs-nav li.ui-tabs-header.ui-state-active a {
+    color: #6c757d;
+    background: transparent;
+    border: none;
+}
+
+.ui-tabs.ui-tabs-top > .ui-tabs-nav {
+    border-bottom: 0px;
+    margin-bottom: 15px;
+    background: none;
+    padding: 0 0 0 1.4em;
+}
+
+body .ui-tabs.ui-tabs-top>.ui-tabs-nav li.ui-tabs-header.ui-state-active {
+    top: 0;
+    border: 1px solid #CCC;
+    margin-right: 0.7rem;
+    background: transparent;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+body .ui-tabs .ui-tabs-nav li.ui-tabs-header.ui-tabs-outline {
+    top: 0;
+    border: 1px solid #CCC;
+    margin-right: 0.7rem;
+    background: transparent;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 0 #CCC
+}
+
+body .ui-datatable .ui-datatable-data>tr>td  {
+    top: 0;
+    border: 1px solid #CCC;
+    margin-right: 0.7rem;
+    background: transparent;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 0 #CCC
+}
+
+#form\:tablaVespertina tr{
+ background: transparent !important;
+}
+
+#form\:tablaMatutina tr{
+ background: transparent !important;
+}
+#form\:tablaMatutina td{
+ border: none !important;
+}
+
+#form\:tablaVespertina td{
+ border: none !important;
+}
+
+.ui-panel-title{
+    margin-left: 45px !important;
+}
+
+
+
+body .ui-datatable .ui-datatable-data .ui-datatable-odd{
+  background: #F4F7FA;
+}
+body .ui-datatable .ui-datatable-data .ui-datatable-even{
+  background: #FFF;
+}
+
+body .ui-commandlink, body .ui-link {
+    color: #003DA5;
+    text-decoration: none;
+}
+
+body .ui-commandlink:hover, body .ui-link:hover{
+    color: #003DA5;
+    text-decoration: none;
+}
+
+
+body .ui-button.ui-button-text-icon-left .ui-button-text {
+    padding: 0.5rem 1rem 0.5rem 2rem;
+}
+
+
+.pi-external-link:before {
+    color: blue;
+}
+
+body .ui-chkbox .ui-chkbox-box {
+    border: 1px solid #ced4da;
+    border-width: 2px;
+    background: #fff;
+    width: 1rem;
+    height: 1rem;
+    text-align: center;
+    position: relative;
+    border-radius: 4px;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+}
+
+body .ui-chkbox .ui-chkbox-box.ui-state-active {
+    border-color: #2196f3;
+    background: #2196f3;
+    color: #fff
+}
+
+body .ui-chkbox .ui-chkbox-box .ui-chkbox-icon {
+    overflow: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -0.3rem;
+    margin-top: -0.4rem
+}
+
+body .ui-chkbox {
+    display: inline-block;
+    vertical-align: middle;
+    padding: .4rem;
+    margin: 0;
+    width: 1.5rem;
+    height: 1.5rem
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar {
+    border: none;
+    background: #f8f9fa;
+    color: #495057;
+    padding: 1rem;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button {
+    margin-right: .5rem
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon {
+    font-family: "primeicons" !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-choose .ui-icon:before {
+    content: ""
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-upload .ui-icon {
+    font-family: "primeicons" !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-upload .ui-icon:before {
+    content: ""
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-cancel .ui-icon {
+    font-family: "primeicons" !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-fileupload-cancel .ui-icon:before {
+    content: ""
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button.ui-state-disabled:not(.ui-fileupload-choose) {
+    display: none
+}
+
+body .ui-fileupload .ui-fileupload-content {
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: #495057;
+    padding: 1rem;
+    border-top: 0 none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px
+}
+
+body .ui-fileupload .ui-fileupload-content .ui-fileupload-cancel .ui-icon {
+    font-family: "primeicons" !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none
+}
+
+body .ui-fileupload .ui-fileupload-content .ui-fileupload-cancel .ui-icon:before {
+    content: ""
+}
+
+body .ui-fileupload .ui-fileupload-content .ui-fileupload-files .ui-fileupload-row>div {
+    padding: 1rem
+}
+
+body .ui-fileupload-simple .ui-icon-plusthick {
+    font-family: "primeicons" !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none
+}
+
+body .ui-fileupload-simple .ui-icon-plusthick:before {
+    content: ""
+}
+
+.listaEspera_item{
+    width: 150px !important;
+}
+
+
+input[type=date] {
+  width: 150px;
+}
+
+::-webkit-datetime-edit {  box-shadow: none;
+    background: #fff;
+    margin: 5px 0;
+    font-family: Arial,sans-serif;
+    font-size: 16px;
+}
+
+/*Media queries para cancelacion de reserva*/
+@media (max-width: 768px) {
+  .col-sm-6.d-flex.justify-content-end {
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-sm-6.d-flex.justify-content-start {
+    justify-content: center !important;
+  }
+}
+
+#dialog-confirm{
+  width: 300px !important;
+  height: auto;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  }
+
+/* Estilos para Paso1Reserva - calendario y botones de turnos (Mobile First) */
+/* Mobile primero - 100% width */
+.calendario-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+.calendario-box .ui-datepicker-inline {
+    width: 100% !important;
+}
+
+.calendario-box .panelFechaDatePicker {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: auto !important;
+    box-sizing: border-box !important;
+}
+
+#primeros-turnos {
+    width: 100%;
+    max-width: 100%;
+}
+
+#primeros-turnos .btn-turno {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.ver-calendario {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Sobrescribir el estilo de reservascalendar.css específicamente para Paso1Reserva */
+#calendarioRow .panelFechaDatePicker {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: auto !important;
+}
+
+/* Estilos para selección de recursos con HTML */
+/* Contenedor de cada opción: radio a la izq, texto a la der */
+body .radio-rich .ui-grid .ui-grid-col-12,
+body .radio-rich .ui-selectoneradio-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: .625rem !important;
+    margin: .25rem 0 .75rem !important;
+}
+
+/* Ajuste fino del "puntito" para centrar con primera línea */
+body .radio-rich .ui-radiobutton {
+    margin-top: 0.2rem !important;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+    width: auto !important;
+    height: auto !important;
+    vertical-align: top;
+}
+
+/* El label no necesita margen extra */
+body .radio-rich label {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.4;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+/* Ya venís usando estas utilidades de Bootstrap en el HTML del label;
+   por si tu tema no las tiene, las reforzamos: */
+.radio-rich .fw-semibold {
+    font-weight: 600;
+}
+
+.radio-rich .text-muted {
+    color: #6c757d;  /* si ya tenés Bootstrap, sobra */
+}
+
+.radio-rich .small {
+    font-size: .875rem;
+}
+
+/* Opcional: reducir el tamaño del bullet si tu tema lo muestra grande */
+.radio-rich .ui-radiobutton-box {
+    width: 1rem;
+    height: 1rem;
+}
+
+.radio-rich .radio-sub {
+    display: block;
+    margin-top: 5px;     /* Espacio entre recurso y direccion */
+}
+
+.radio-rich .d-block {
+    display: block;
+}
+
+/* Icono de link externo */
+.link-externo::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    background-image: url('#{resource["images:outerLink.svg"]}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+/* Para tablets y desktop: limitar a 27rem */
+@media (min-width: 768px) {
+    .calendario-box {
+        max-width: 27rem;
+    }
+
+    .calendario-box .ui-datepicker-inline {
+        width: 27rem !important;
+    }
+
+    .calendario-box .panelFechaDatePicker {
+        width: 27rem !important;
+        max-width: 27rem !important;
+        min-width: 27rem !important;
+    }
+
+    #primeros-turnos {
+        max-width: 27rem;
+    }
+
+    #primeros-turnos .btn-turno {
+        width: 27rem !important;
+        max-width: 27rem !important;
+    }
+
+    .ver-calendario {
+        max-width: 27rem;
+    }
+
+    #calendarioRow .panelFechaDatePicker {
+        width: 27rem !important;
+        max-width: 27rem !important;
+        min-width: 27rem !important;
+    }
 }

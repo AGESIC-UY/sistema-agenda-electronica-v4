@@ -562,13 +562,22 @@ fieldset fieldset legend {
 .ui-messages-error {
     background-color: #ffeded;
     border-color: #e3c4c4;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #BF2026;
 }
 .ui-messages-info{
     border-color: #c1e0b4;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #279e3f;
     background: #ecf6e8;
 }
 .ui-messages-warn{
     border-color: #e7e2c5;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: #d4a017;
     background: #fbf8ea;
 }
 .ui-messages-error:after, .ui-message-error:after,
@@ -588,13 +597,14 @@ fieldset fieldset legend {
     padding: 15px 30px 15px 35px;
 }
 .ui-messages-error-icon {
-    background: url("../images/icn-circle-error-lg.png") center no-repeat;
+    background: url("../images/icn-circle-error-lg.png") center no-repeat !important;
 }
 .ui-messages-info-icon{
-    background: url("../images/icn-circle-success-lg.png") center no-repeat;
+    background: url("../images/icn-circle-success-lg.png") center no-repeat !important;
 }
-.ui-messages-warn-icon, .icn-warning-lg{
-    background: url("../images/icn-warning-lg.png") center no-repeat;
+.ui-messages-warn-icon{
+    background: url("../images/alert-warning.svg") center no-repeat !important;
+    background-size: 46px 46px !important;
 }
 .ui-messages-error-title, .ui-messages-info-title, .ui-messages-warn-title{
     padding-top: 20px;
@@ -669,6 +679,11 @@ label:after, .control-label:after{
 .form-group .recargarCaptcha{
     display: block;
     margin: 5px 0 0;
+}
+
+/* Estilos para captcha - verificación de seguridad */
+.captcha-pregunta {
+    white-space: normal;
 }
 .verde{
     color: #006837;

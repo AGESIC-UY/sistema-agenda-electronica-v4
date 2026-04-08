@@ -1070,7 +1070,7 @@ public class IDUruguaySAMLHttpHandler implements HttpHandler {
     private String getParameter(HttpServerExchange exchange, String paramName) throws IOException { 
         try {   
                 InputStream input = exchange.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
                 String line = new String();
                 while ((line = reader.readLine()) != null) {
                     if(line.startsWith(paramName)){

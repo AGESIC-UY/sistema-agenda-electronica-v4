@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -99,17 +99,17 @@
                         <f:facet name="header">
                             <h:outputText value="#{sessionMBean.textos['acciones']}" />
                         </f:facet>
-                        <p:commandButton id="modificarRecLink" value="#{sessionMBean.textos['modificar']}" action="#{recursoMBean.modificar(row.data.id)}" icon="ui-icon-pencil"
+                        <p:commandButton id="modificarRecLink" value="#{sessionMBean.textos['modificar']}" action="#{recursoMBean.modificar(row.data.id)}" icon="fa-solid fa-pencil"
                                          title="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only">
                         </p:commandButton>
                         <p:commandButton id="copiarRecLink" value="#{sessionMBean.textos['copiar']}" action="#{recursoMBean.copiar(row.data.id)}"
-                                         update="formRecModCon:tablaRecursos" icon="ui-icon-copy" title="#{sessionMBean.textos['copiar']}" styleClass="ui-button-icon-only">
+                                         update="formRecModCon:tablaRecursos" icon="fa-solid fa-copy" title="#{sessionMBean.textos['copiar']}" styleClass="ui-button-icon-only">
                         </p:commandButton>
                         <p:commandButton id="elimRecLink" value="#{sessionMBean.textos['eliminar']}" oncomplete="PF('eliminarRecurso').show();" styleClass="ui-button-icon-only"
-                                         action="#{recursoMBean.selecRecursoEliminar(row.data.id)}" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}">
+                                         action="#{recursoMBean.selecRecursoEliminar(row.data.id)}" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}">
                         </p:commandButton>
                         <p:commandButton id="expRecLink" value="#{sessionMBean.textos['exportar']}" actionListener="#{recursoMBean.selecRecursoExportar(row.data.id)}" 
-                                         styleClass="ui-button-icon-only" icon="ui-icon-arrowthickstop-1-s" title="#{sessionMBean.textos['exportar']}" ajax="false">
+                                         styleClass="ui-button-icon-only" icon="fa-solid fa-download" title="#{sessionMBean.textos['exportar']}" ajax="false">
                         </p:commandButton>
                     </p:column>
 

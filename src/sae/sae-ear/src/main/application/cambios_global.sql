@@ -227,3 +227,8 @@ INSERT INTO global.ae_textos(codigo, texto) VALUES ('reporte_errores_actualizaci
 -- Versión 4.4.2 (2021-12-27)
 INSERT INTO global.ae_textos(codigo, texto) VALUES ('descargar', 'Descargar');
 INSERT INTO global.ae_textos(codigo, texto) VALUES ('mensaje_reporte_disponible', 'Reporte disponible, use el botón Descargar.');
+
+-- Versión 4.4.3 (2024-01-04)
+INSERT INTO global.ae_textos (codigo, texto) VALUES ('volver_paso_anterior', 'Volver al Paso Anterior');
+ALTER TABLE global.ae_usuarios ALTER COLUMN ultimo_login TYPE TIMESTAMP WITH TIME ZONE USING ultimo_login AT TIME ZONE 'UTC';
+INSERT INTO global.ae_textos (codigo, texto) VALUES ('ultimo_login', 'Último Login');

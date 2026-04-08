@@ -1,0 +1,175 @@
+body .ui-datepicker .ui-datepicker-calendar td.ui-datepicker-today>a.ui-state-default{
+    background: url(../images/today.png) no-repeat center !important;
+    font-weight: bold !important;
+    border: 0 none !important;
+    font-size: 1.2em !important;
+    background-color: #transparent  !important;
+    text-shadow: none  !important;
+}
+
+body .ui-datepicker .ui-datepicker-calendar td .ui-state-default:hover{
+    font-weight: bold !important;
+    border: 0 none;
+    font-size: 1.2em !important;
+    color: #ffffff  !important;
+    background-color: #006837  !important;
+    text-shadow: none  !important;
+}
+
+
+body .ui-datepicker .ui-datepicker-calendar td.ui-datepicker-today>.ui-state-default{
+    background: url(../images/today.png) no-repeat center !important;
+    border: 0 none;
+    font-size: 1.2em !important;
+    color: #141414  !important;
+    text-shadow: none  !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+    border-radius: 0px 0px 0px 0px;
+}
+
+
+
+body .ui-datepicker .ui-datepicker-calendar td .ui-state-default{
+     background: transparent !important;
+     padding:.0em !important;
+     margin-top: 0px !important;
+     margin-bottom: 0px !important;
+     margin-right: 0px !important;
+     margin-left: 0px !important;
+     border-radius: 0px 0px 0px 0px;
+}
+
+body .ui-datepicker .ui-datepicker-calendar td>span {
+    color: #141414 !important;
+    text-align: center !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 1.2em !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+    padding: 0px !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    line-height: 1.5rem !important;
+    display: inline-block;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s !important;
+    border-radius: none !important;
+    text-align: center !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 1rem; !important;
+}
+
+body .ui-datepicker .ui-datepicker-calendar td .ui-state-disabled{
+     background: #FFF !important;
+     color: #000 !important;
+     opacity: 1;
+     display: inline-block;
+     border-radius: none !important;
+     margin-top: 0px !important;
+     margin-bottom: 0px !important;
+     margin-right: 0px !important;
+     margin-left: 0px !important;
+}
+
+
+body .ui-datepicker .ui-datepicker-calendar tr{
+     background: #FFF !important;
+     font-size: 1rem !important;
+     padding: .1rem !important;
+}
+
+body .ui-datepicker .ui-datepicker-calendar td {
+    padding: .2rem .inherit;
+    text-align: center;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.panelFechaDatePicker {
+         width: 27rem !important;
+         text-align: center!important;
+         font-weight: bold !important;
+         border: 0 none;
+         font-size: 1.2em !important;
+         color: #ffffff  !important;
+         background-color: #006837  !important;
+         text-shadow: none  !important;
+         padding: 1.5rem !important;
+}
+
+body .ui-panel .ui-panel-titlebar {
+    border: black;
+    background: transparent;
+    color: #495057;
+    padding: 1rem;
+    font-weight: 700;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px
+}
+
+
+body .ui-panel .ui-panel-titlebar+.ui-panel-content {
+    border-top: 0 none;
+    border-bottom: 0 none;
+    border-left: 0 none;
+    border-right: 0 none;
+}
+
+body .ui-datatable .ui-datatable-data>tr.ui-state-hover {
+    background: transparent;
+    color: #495057
+}
+
+body .ui-datatable .ui-datatable-data>tr.ui-state-highlight {
+    background: transparent;
+    color: #495057
+}
+
+body .ui-datatable .ui-datatable-data>tr>td {
+    padding: 0.5rem .5rem;
+    border: 1px solid rgba(0,0,0,.08);
+    border-width: 0 0 0 0
+}
+
+.comentario{
+    font-size: 0.85em;
+    color: #555;
+}
+
+.horaSeleccion{
+       font-weight: bold !important;
+}
+
+.horasselect{
+    width:65px;
+}
+
+.timezoneText{
+padding-left: 5px;
+}
+
+.container_tiempo{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tiempo_item{
+    width:65px !important;
+}
+
+.elemento_reservas{
+    display:flex;
+    align-items: end;
+}
+
+.mover_reservas_enviar{
+    padding-top: 20px;
+}

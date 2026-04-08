@@ -1,80 +1,142 @@
 <ui:composition template="/modificarReserva/Paso.template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:p="http://primefaces.org/ui/sofis"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html">
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 	<ui:param name="parametroBean" value="#{modificarPasoFinalMBean}" />
 	<ui:param name="agenda_nombre" value="#{modificarPasoFinalMBean.agendaNombre}" />
-  <ui:param name="hay_error" value="#{modificarPasoFinalMBean.errorInit}" />
+	<ui:param name="hay_error" value="#{modificarPasoFinalMBean.errorInit}" />
 	<ui:param name="paso_numero" value="4" />
 	<ui:param name="paso_texto" value="#{sesionMBean.textos['reserva_confirmada']}" />
-  <ui:param name="recursoSinDisponibilidad" value="false" />
+	<ui:param name="yaExisteReservaCamposClave" value="false" />
+	<ui:param name="recursoSinDisponibilidad" value="false" />
 
 	<ui:param name="clase_columna_izq" value="columnaIzquierda col-sm-12" />
 	<ui:param name="clase_columna_der" value="columnaDerecha col-sm-12" />
 
 	<ui:define name="descripcion">
-     <p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
-			<div class="botonesConfirmacion" >
-				<h:commandLink value="#{sesionMBean.textos['guardar_ticket']}" action="#{modificarPasoFinalMBean.generarTicket(false)}" styleClass="#{sesionMBean.urlTramite!=null?'btn btn-secundario':'btn btn-primario'}" />
-				<h:commandLink value="#{sesionMBean.textos['imprimir_ticket']}" target="_blank" action="#{modificarPasoFinalMBean.generarTicket(true)}" styleClass="btn btn-secundario" />
-				 <h:outputLink value="#{modificarPasoFinalMBean.urlTramite}" target="_blank" rendered="#{sesionMBean.urlTramite != null}" styleClass="#{sesionMBean.urlTramite!=null?'btn btn-primario':'btn btn-secundario'}">
-					 <h:outputText value="#{sesionMBean.textos['continuar_tramite']}"/>
-				 </h:outputLink>
-				<h:outputLink value="#{modificarPasoFinalMBean.urlCancelacion}" target="_blank" styleClass="btn btn-link">
-					 <h:outputText value="#{sesionMBean.textos['cancelar_reserva']}" />
-				 </h:outputLink>
+		<p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
+			<div class="botonesConfirmacion">
+				<div class="row justify-content-center">
+					<!-- Guardar ticket -->
+					<div class="col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-2 mb-md-0">
+						<h:commandLink value="#{sesionMBean.textos['guardar_ticket']}"
+						               action="#{modificarPasoFinalMBean.generarTicket(false)}"
+						               styleClass="#{sesionMBean.urlTramite!=null?'btn btn-secundario':'btn btn-primario'} w-100" />
+					</div>
+					<!-- Imprimir ticket -->
+					<div class="col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-2 mb-md-0">
+						<h:commandLink value="#{sesionMBean.textos['imprimir_ticket']}"
+						               target="_blank"
+						               action="#{modificarPasoFinalMBean.generarTicket(true)}"
+						               styleClass="btn btn-secundario w-100" />
+					</div>
+					<!-- Continuar trámite -->
+					<div class="col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-2 mb-md-0" rendered="#{sesionMBean.urlTramite != null}">
+						<h:outputLink value="#{modificarPasoFinalMBean.urlTramite}"
+						              target="_blank"
+						              styleClass="#{sesionMBean.urlTramite!=null?'btn btn-primario':'btn btn-secundario'} w-100">
+							<h:outputText value="#{sesionMBean.textos['continuar_tramite']}"/>
+						</h:outputLink>
+					</div>
+				</div>
 			</div>
 		</p:outputPanel>
 	</ui:define>
 
 	<ui:define name="mensaje">
-     <p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
+		<p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
 			<div class="box box-grey datosReservaConfirmada">
 				<div class="fechaHoraReserva">
-					<h:outputText value="#{sesionMBean.textos['reserva_confirmada']}" />
+					<h3 style="font-weight: normal;">
+						<h:outputText value="#{sesionMBean.textos['reserva_confirmada']}" styleClass="resaltado"/>
+					</h3>
 				</div>
+
+				<!-- Fecha -->
 				<div class="fechaHoraReserva">
-					<h:outputText value="#{modificarPasoFinalMBean.diaSeleccionado}" styleClass="resaltado">
-						<f:convertDateTime type="date" pattern="dd 'de' MMMM 'de' yyyy" timeZone="#{sesionMBean.timeZone}" locale="#{sesionMBean.locale}" />
-					</h:outputText>
-					<h:outputText value=" #{sesionMBean.textos['a_las']} " />
-					<h:outputText value="#{modificarPasoFinalMBean.horaSeleccionada}" styleClass="resaltado"> 
-						<f:convertDateTime type="time" pattern="#{sesionMBean.formatoHora}" timeZone="#{sesionMBean.timeZone}" />
-					</h:outputText>
-					<h:outputText value=", " />
-					<h:outputText value="#{modificarPasoFinalMBean.reservaNumero}" styleClass="resaltado" />
+					Fecha:
+                <strong><h:outputText value="#{modificarPasoFinalMBean.diaSeleccionado}" styleClass="resaltado">
+						<f:convertDateTime type="date" pattern="dd 'de' MMMM 'de' yyyy" timeZone="#{sesionMBean.timeZone}" locale="#{sesionMBean.locale}"/>
+					</h:outputText> </strong>
 				</div>
-				<div>
-					<h:outputText value="#{modificarPasoFinalMBean.recursoDescripcion}" />
+
+				<!-- Hora y Número de reserva -->
+				<div class="fechaHoraReserva">
+					Hora:
+                <strong><h:outputText value="#{modificarPasoFinalMBean.horaSeleccionada}" styleClass="resaltado">
+						<f:convertDateTime type="time" pattern="#{sesionMBean.formatoHora}" timeZone="#{sesionMBean.timeZone}"/>
+					</h:outputText></strong>
 				</div>
-				<p:outputPanel rendered="#{sesionMBean.agenda.conTrazabilidad}">
+
+				<!-- Lugar -->
+				<div class="fechaHoraReserva">
+					Lugar:
+                <strong> <h:outputText value="#{modificarPasoFinalMBean.recursoDescripcion}" styleClass="resaltado"/> </strong>
+				</div>
+
+				<!-- Códigos de trazabilidad -->
+				<h:panelGroup layout="block" rendered="#{sesionMBean.agenda.getConTrazabilidad()}">
 					<div class="seguridad">
-						<h:outputText value="#{sesionMBean.textos['codigo_de_trazabilidad']}: " />
-						<h:outputText value="#{sesionMBean.reservaConfirmada.trazabilidadGuid}" styleClass="negrita" />
+						<h:outputText value="#{sesionMBean.textos['codigo_de_trazabilidad']}: "/>
+						<h:outputText value="#{sesionMBean.reservaConfirmada.trazabilidadGuid}" styleClass="negrita"/>
 					</div>
-				</p:outputPanel>
-        <div class="seguridad">
-          <h:outputText value="#{sesionMBean.textos['codigo_de_seguridad']}:" />
-          <h:outputText value="#{sesionMBean.reservaConfirmada.codigoSeguridad}" styleClass="negrita" />
-        </div>
+				</h:panelGroup>
+				<div class="seguridad">
+					<h:outputText value="#{sesionMBean.textos['codigo_de_cancelacion']}: "/>
+					<h:outputText value="#{sesionMBean.reservaConfirmada.codigoSeguridad}" styleClass="negrita"/>
+				</div>
+
+				<!-- Botones de acción -->
+				<div class="acciones-reserva" style="margin-top: 20px;">
+					<div class="row">
+						<!-- Ver ubicación en Google Maps -->
+						<div class="col-auto mb-2 mb-lg-0" rendered="#{modificarPasoFinalMBean.urlGoogleMaps != null}">
+							<h:outputLink value="#{modificarPasoFinalMBean.urlGoogleMaps}" target="_blank" styleClass="btn btn-link link-externo">
+								<h:outputText value="#{sesionMBean.textos['ver_ubicacion_en_maps']}"/>
+							</h:outputLink>
+						</div>
+						<!-- Imprimir -->
+						<div class="col-auto mb-2 mb-lg-0">
+							<h:commandLink value="#{sesionMBean.textos['imprimir']}"
+							               target="_blank"
+							               action="#{modificarPasoFinalMBean.generarTicket(true)}"
+							               styleClass="btn btn-link"/>
+						</div>
+						<!-- Modificar reserva -->
+						<div class="col-auto mb-2 mb-lg-0" rendered="#{modificarPasoFinalMBean.urlModificacion != null}">
+							<h:outputLink value="#{modificarPasoFinalMBean.urlModificacion}" target="_blank" styleClass="btn btn-link">
+								<h:outputText value="Modificar reserva" />
+							</h:outputLink>
+						</div>
+						<!-- Cancelar reserva -->
+						<div class="col-auto mb-2 mb-lg-0" rendered="#{modificarPasoFinalMBean.urlCancelacion != null}">
+							<h:outputLink value="#{modificarPasoFinalMBean.urlCancelacion}" target="_blank" styleClass="btn btn-link">
+								<h:outputText value="#{sesionMBean.textos['cancelar_reserva']}" />
+							</h:outputLink>
+						</div>
+					</div>
+				</div>
 			</div>
-     </p:outputPanel>			
+		</p:outputPanel>
 	</ui:define>
 
 	<ui:define name="contenido">
-     <p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit and not empty modificarPasoFinalMBean.descripcion}">
+		<p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
 			<div class="infoAdicional box-grey">
-				<h:outputFormat value="#{modificarPasoFinalMBean.descripcion}" />
+				<h:outputText value="#{sesionMBean.textos['no_se_pudo_enviar_notificacion_de_confirmacion_tome_nota_de_los_datos_de_la_reserva']} " rendered="#{!sesionMBean.envioCorreoReserva}" />
+				<br/>
+				<h:outputFormat value="#{modificarPasoFinalMBean.descripcion}" rendered="#{not empty modificarPasoFinalMBean.descripcion}" />
 			</div>
 		</p:outputPanel>
 	</ui:define>
 
 	<ui:define name="botones">
-    <p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
-      <h:commandButton styleClass="" value="Dummy" style="display:none" />
-    </p:outputPanel>
+		<p:outputPanel rendered="#{!modificarPasoFinalMBean.errorInit}">
+			<h:commandButton styleClass="" value="Dummy" style="display:none" />
+		</p:outputPanel>
 	</ui:define>
 
 </ui:composition>

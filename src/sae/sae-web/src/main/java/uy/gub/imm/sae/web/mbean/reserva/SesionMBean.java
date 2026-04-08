@@ -51,7 +51,7 @@ import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -178,9 +178,7 @@ public class SesionMBean extends BaseMBean {
         return "HH:mm";
     }
 
-    public String getLocale() {
-        return idiomaActual;
-    }
+    public String getLocale() { return idiomaActual; }
 
     /*
 	 * En el DatePicker el formato usa lo siguiente:
@@ -516,7 +514,18 @@ public class SesionMBean extends BaseMBean {
     public StreamedContent getEmpresaActualLogo() {
         //No se puede cachear porque un stream y la segunda vez que el cliente lo pide está cerrado
         if (empresaActual != null && empresaActual.getLogo() != null) {
-            return new DefaultStreamedContent(new ByteArrayInputStream(empresaActual.getLogo()));
+            return DefaultStreamedContent.builder()
+                    .contentType("image/png")
+                    .stream(() -> {
+                        try {
+                            return new ByteArrayInputStream(empresaActual.getLogo());
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    })
+                    .build();
         }
         return null;
     }
@@ -673,7 +682,7 @@ public class SesionMBean extends BaseMBean {
             idiomaActual = idiomaSeleccionado;
             //Este javascript es para cambiar el atributo lang del elemento <html> en la página actual
             //(sin esto ese atributo no cambia en la página actual y UNIT lo marca como un error)
-            RequestContext.getCurrentInstance().execute("document.documentElement.lang='" + idiomaActual + "'");
+            PrimeFaces.current().executeScript("document.documentElement.lang='" + idiomaActual + "'");
             cargarTextos();
         } catch (Exception ex) {
             LOGGER.error("No se pudo cambiar el idioma", ex);

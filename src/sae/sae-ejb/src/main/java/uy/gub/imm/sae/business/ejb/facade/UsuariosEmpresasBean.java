@@ -41,6 +41,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.internal.SessionImpl;
 import org.picketbox.commons.cipher.Base64;
 
@@ -132,8 +133,8 @@ public class UsuariosEmpresasBean implements UsuariosEmpresasLocal {
             return null;
         }
         try {
-            Usuario usuario = (Usuario) globalEntityManager.createQuery("SELECT u from Usuario u WHERE u.codigo = :codigo")
-                    .setParameter("codigo", codigo)
+            Usuario usuario = (Usuario) globalEntityManager.createQuery("SELECT u from Usuario u WHERE TRIM(u.codigo) = :codigo")
+                    .setParameter("codigo", StringUtils.strip(codigo))
                     .getSingleResult();
             return usuario;
         } catch (NoResultException nrEx) {
@@ -475,6 +476,20 @@ public class UsuariosEmpresasBean implements UsuariosEmpresasLocal {
                 query.setParameter(3, rol);
                 query.executeUpdate();
             }
+        } catch (Exception e) {
+            throw new ApplicationException(e);
+        }
+    }
+
+    @Override
+    public void actualizarUltimoLogin(Integer usuarioId, Date ultimoLogin) throws ApplicationException {
+
+        try  {
+            String sql = "UPDATE global.ae_usuarios SET ultimo_login = ? WHERE id = ?";
+            Query query = globalEntityManager.createNativeQuery(sql);
+            query.setParameter(1, ultimoLogin);
+            query.setParameter(2, usuarioId);
+            query.executeUpdate();
         } catch (Exception e) {
             throw new ApplicationException(e);
         }

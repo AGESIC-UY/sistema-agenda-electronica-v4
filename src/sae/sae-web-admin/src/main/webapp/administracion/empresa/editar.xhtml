@@ -1,7 +1,7 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
@@ -44,8 +44,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['unidad_ejecutora']}" for="unidadEjecutora" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-3">
-                                <h:selectOneMenu id="unidadEjecutora" value="#{empresaMBean.empresaEditar.unidadEjecutoraId}" valueChangeListener="#{empresaMBean.cambioUnidadEjecutora}"
-                                                 styleClass="form-control">
+                                <h:selectOneMenu id="unidadEjecutora" value="#{empresaMBean.empresaEditar.unidadEjecutoraId}" valueChangeListener="#{empresaMBean.cambioUnidadEjecutora}">
                                     <p:ajax update="@form" process="@this" />
                                     <f:selectItems value="#{empresaSessionMBean.unidadesEjecutoras}" />
                                 </h:selectOneMenu>
@@ -87,11 +86,12 @@
                         </p:outputPanel>
 
                         <p:outputPanel id="pnlLogo" styleClass="form-group">
-                            <h:outputLabel value="#{sessionMBean.textos['logo']}" for="logoImg_input" styleClass="col-sm-2 control-label label" />
+                            <p:outputLabel value="#{sessionMBean.textos['logo']}" for="logoImg" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-10">
-                                <p:fileUpload mode="advanced" id="logoImg" fileUploadListener="#{empresaMBean.cambioLogo}" auto="true" process="@this" update="form:pnlLogo"
+                                <p:fileUpload mode="simple" id="logoImg" listener="#{empresaMBean.cambioLogo}" auto="true" process="@this" update="form:pnlLogo"
                                               label="#{sessionMBean.textos['seleccionar']}" cancelLabel="#{sessionMBean.textos['cancelar']}" uploadLabel="#{sessionMBean.textos['subir']}"
-                                              dragDropSupport="false" sizeLimit="1000000" invalidSizeMessage="#{sessionMBean.textos['el_tamano_maximo_admitido_para_el_logo_es_de_1mb']}"	/>
+                                              dragDropSupport="false" sizeLimit="1000000" invalidSizeMessage="#{sessionMBean.textos['el_tamano_maximo_admitido_para_el_logo_es_de_1mb']}"/>
+
                                 <p:graphicImage id="logo" value="#{empresaSessionMBean.empresaLogo}" styleClass="logoEmpresa" alt="#{empresaSessionMBean.empresaEditar.logoTexto}" 
                                                 rendered="#{empresaSessionMBean.empresaLogo != null and empresaSessionMBean.empresaEditar.logo != null}"  cache="false"/>
                                 <p:commandLink actionListener="#{empresaMBean.quitarLogo}" update="form:pnlLogo" rendered="#{empresaSessionMBean.empresaLogo != null and empresaSessionMBean.empresaEditar.logo != null}">
@@ -102,7 +102,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel styleClass="form-group">
-                            <p:outputLabel value="#{sessionMBean.textos['logo_texto_alternativo']}" for="textoLogoEmpresa" styleClass="col-sm-2 control-label label formularioCampoRequerido" />
+                            <p:outputLabel value="#{sessionMBean.textos['logo_texto_alternativo']}" for="textoLogoEmpresa" styleClass="col-sm-2 label formularioCampoRequerido" />
                             <p:outputPanel styleClass="col-sm-10">
                                 <h:inputText id="textoLogoEmpresa" value="#{empresaMBean.empresaEditar.logoTexto}" maxlength="100" styleClass="form-control" />
                                 <p:message for="textoLogoEmpresa" />
@@ -112,7 +112,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['zona_horaria']}" for="timezoneEmpresa" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-10">
-                                <h:selectOneMenu id="timezoneEmpresa" value="#{empresaMBean.empresaEditar.timezone}" styleClass="form-control">
+                                <h:selectOneMenu id="timezoneEmpresa" value="#{empresaMBean.empresaEditar.timezone}">
                                     <f:selectItems value="#{empresaSessionMBean.timezones}" />
                                 </h:selectOneMenu>
                             </p:outputPanel>
@@ -121,7 +121,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['formato_de_fecha']}" for="formatoFechaEmpresa" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-10">
-                                <h:selectOneMenu id="formatoFechaEmpresa" value="#{empresaMBean.empresaEditar.formatoFecha}" styleClass="form-control">
+                                <h:selectOneMenu id="formatoFechaEmpresa" value="#{empresaMBean.empresaEditar.formatoFecha}">
                                     <f:selectItems value="#{empresaSessionMBean.formatosFecha}" />
                                 </h:selectOneMenu>
                             </p:outputPanel>
@@ -130,7 +130,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['formato_de_hora']}" for="formatoHoraEmpresa" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-10">
-                                <h:selectOneMenu id="formatoHoraEmpresa" value="#{empresaMBean.empresaEditar.formatoHora}" styleClass="form-control">
+                                <h:selectOneMenu id="formatoHoraEmpresa" value="#{empresaMBean.empresaEditar.formatoHora}">
                                     <f:selectItems value="#{empresaSessionMBean.formatosHora}" />
                                 </h:selectOneMenu>
                             </p:outputPanel>
@@ -170,7 +170,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel styleClass="form-group">
-                            <p:outputLabel value="#{sessionMBean.textos['direccion']}" for="ccDireccion" styleClass="col-sm-2 control-label label formularioCampoRequerido" />
+                            <p:outputLabel value="#{sessionMBean.textos['direccion']}" for="ccDireccion" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-10">
                                 <h:inputText id="ccDireccion" value="#{empresaMBean.empresaEditar.ccDireccion}" maxlength="100" styleClass="form-control" />
                                 <p:message for="ccDireccion" />
@@ -185,7 +185,7 @@
                     </legend>
                     <p:outputPanel styleClass="form-horizontal">
                         <p:outputPanel styleClass="form-group">
-                            <h:outputLabel value="#{sessionMBean.textos['pie_de_pagina_publico']}" for="piePublico" styleClass="col-sm-2 control-label label" />
+                            <p:outputLabel value="#{sessionMBean.textos['pie_de_pagina_publico']}" for="piePublico" styleClass="col-sm-2 control-label label" />
                             <p:outputPanel styleClass="col-sm-10">
                                 <p:inputTextarea id="piePublico" rows="10" maxlength="1000" style="width:100%" value="#{empresaMBean.empresaEditar.piePublico}" />
                             </p:outputPanel>
@@ -204,7 +204,7 @@
                     <li class="action-buttons-second">
                         <ul>
                             <li class="float-left">
-                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" immediate="true" styleClass="btn-lg btn-link" />
+                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" immediate="true" styleClass="btn-lg btn-primario" />
                             </li>
                         </ul>
                     </li>

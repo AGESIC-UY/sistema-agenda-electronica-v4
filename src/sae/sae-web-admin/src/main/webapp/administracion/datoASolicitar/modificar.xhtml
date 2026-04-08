@@ -1,11 +1,13 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cp="http://sae-web">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
+        <h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
         <f:view beforePhase="#{datoASolicitarMBean.beforePhaseModificar}" >
             <p:dialog closable="false" widgetVar="eliminarValor" modal="true" focus="elimValor:btn_eliminar">
                 <f:facet name="header">
@@ -67,7 +69,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['agrupacion']}" for="agrupacion" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                             <p:outputPanel styleClass="col-sm-9">
-                                <h:selectOneListbox size="1" id="agrupacion" value="#{datoASSessionMBean.agrupacionDatoId}" styleClass="form-control">
+                                <h:selectOneListbox size="1" id="agrupacion" value="#{datoASSessionMBean.agrupacionDatoId}">
                                     <f:selectItems value="#{datoASolicitarMBean.listaAgrupaciones}" />
                                 </h:selectOneListbox>
                                 <p:message for="agrupacion" />
@@ -100,7 +102,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['tipo_de_dato']}" for="tipo" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                             <p:outputPanel styleClass="col-sm-9">
-                                <h:selectOneMenu id="tipo" value="#{datoASSessionMBean.datoSeleccionado.tipo}" styleClass="form-control textoMedio">
+                                <h:selectOneMenu id="tipo" value="#{datoASSessionMBean.datoSeleccionado.tipo}" styleClass="textoMedio">
                                     <p:ajax update=":form:largoMax :valoresPosibles" listener="#{datoASolicitarMBean.selectOneTipoDatoSeleccionado}"/>
                                     <f:selectItems value="#{datoASolicitarMBean.listaTipos}" />
                                 </h:selectOneMenu>
@@ -112,7 +114,7 @@
                             <p:outputPanel rendered="#{datoASolicitarMBean.visualizarLargoMax}" styleClass="form-group">
                                 <p:outputLabel value="#{sessionMBean.textos['largo_maximo']}" for="vLargoDS" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                    <h:inputText value="#{datoASSessionMBean.datoSeleccionado.largo}" id="vLargoDS" maxlength="5" styleClass="form-control textoCorto" 
+                                    <h:inputText value="#{datoASSessionMBean.datoSeleccionado.largo}" id="vLargoDS" maxlength="5" styleClass="form-control textoCorto"
                                                  converter="integerConverter" />
                                     <p:message for="vLargoDS" />
                                 </p:outputPanel>
@@ -144,7 +146,7 @@
                         <p:outputPanel styleClass="form-group">
                             <p:outputLabel value="#{sessionMBean.textos['fila']}" for="vFilaDS"	styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                             <p:outputPanel styleClass="col-sm-9">
-                                <h:inputText value="#{datoASSessionMBean.datoSeleccionado.fila}" id="vFilaDS" maxlength="5" styleClass="form-control textoCorto" 
+                                <h:inputText value="#{datoASSessionMBean.datoSeleccionado.fila}" id="vFilaDS" maxlength="5" styleClass="form-control textoCorto"
                                              converter="integerConverter" />
                                 <p:message for="vFilaDS" />
                             </p:outputPanel>
@@ -182,7 +184,7 @@
                     <li class="action-buttons-primary">
                         <ul>
                             <li>
-                                <p:commandButton value="#{sessionMBean.textos['guardar']}" actionListener="#{datoASolicitarMBean.modificarDato}" 
+                                <p:commandButton value="#{sessionMBean.textos['guardar']}" actionListener="#{datoASolicitarMBean.modificarDato}"
                                                  update=":form" styleClass="btn-lg btn-primario" />
                             </li>
                         </ul>
@@ -210,13 +212,13 @@
 
                         <p:dataTable id="tablaValores" value="#{datoASSessionMBean.valoresDelDato}" var="row" rowIndexVar="rowIndex"
                                      caption="#{sessionMBean.textos['valores_posibles_para_el_dato']}" emptyMessage="#{sessionMBean.textos['no_hay_datos_para_mostrar']}"
-                                     paginator="true" rows="#{sessionMBean.tablasFilasPorPagina}" 
-                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
+                                     paginator="true" rows="#{sessionMBean.tablasFilasPorPagina}"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                                      paginatorFirstPageLabel="#{sessionMBean.simboloAnterior}#{sessionMBean.simboloAnterior} #{sessionMBean.textos['pagina_primera_']}"
                                      paginatorPrevPageLabel="#{sessionMBean.textos['pagina_anterior']}"
                                      paginatorNextPageLabel="#{sessionMBean.textos['pagina_siguiente']}"
                                      paginatorLastPageLabel="#{sessionMBean.textos['pagina_ultima']}"
-                                     >
+                        >
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="#{sessionMBean.textos['etiqueta']}" />
@@ -261,12 +263,12 @@
                                 <f:facet name="header">
                                     <h:outputText value="#{sessionMBean.textos['acciones']}"></h:outputText>
                                 </f:facet>
-                                <p:commandButton id="modificarValorLink" styleClass="ui-button-icon-only" 
+                                <p:commandButton id="modificarValorLink" styleClass="ui-button-icon-only"
                                                  actionListener="#{datoASolicitarValoresMBean.seleccionarValor(rowIndex)}"
-                                                 update=":formModif2" icon="ui-icon-pencil" value="#{sessionMBean.textos['modificar']}" title="#{sessionMBean.textos['modificar']}">
+                                                 update=":formModif2" icon="fa-solid fa-pencil" value="#{sessionMBean.textos['modificar']}" title="#{sessionMBean.textos['modificar']}">
                                 </p:commandButton>
                                 <p:commandButton id="eliminarValorLink" styleClass="ui-button-icon-only" oncomplete="PF('eliminarValor').show();" value="#{sessionMBean.textos['eliminar']}"
-                                                 actionListener="#{datoASolicitarValoresMBean.seleccionarValorParaEliminar(rowIndex)}" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}">
+                                                 actionListener="#{datoASolicitarValoresMBean.seleccionarValorParaEliminar(rowIndex)}" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}">
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
@@ -294,7 +296,7 @@
                                                 <p:message for="modValor" />
                                             </p:outputPanel>
                                         </p:outputPanel>
-                                        
+
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputLabel value="#{sessionMBean.textos['valor_en_traza']}" styleClass="col-sm-3 control-label label" for="modValorEnTraza" />
                                             <p:outputPanel styleClass="col-sm-9">
@@ -314,9 +316,9 @@
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputLabel value="#{sessionMBean.textos['vigencia_desde']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" for="fechaDesde" />
                                             <p:outputPanel styleClass="col-sm-9">
-                                                <h:inputText value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaDesde}" styleClass="datepicker" id="fechaDesde"> 
-                                                    <f:convertDateTime pattern="#{sessionMBean.formatoFecha}" timeZone="#{sessionMBean.timeZone}" />
-                                                </h:inputText>
+                                                <cp:inputDate id="fechaDesde"  value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaDesde}"  pattern="yyyy-MM-dd">
+                                                    <f:converter converterId="dateConverter"/>
+                                                </cp:inputDate>
                                                 <p:message for="fechaDesde" />
                                             </p:outputPanel>
                                         </p:outputPanel>
@@ -324,9 +326,9 @@
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputLabel value="#{sessionMBean.textos['vigencia_hasta']}" styleClass="col-sm-3 control-label label" for="fechaHasta" />
                                             <p:outputPanel styleClass="col-sm-9">
-                                                <h:inputText value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaHasta}" styleClass="datepicker" id="fechaHasta">
-                                                    <f:convertDateTime pattern="#{sessionMBean.formatoFecha}" timeZone="#{sessionMBean.timeZone}" />
-                                                </h:inputText>
+                                                <cp:inputDate id="fechaHasta"  value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaHasta}"  pattern="yyyy-MM-dd">
+                                                    <f:converter converterId="dateConverter"/>
+                                                </cp:inputDate>
                                                 <p:message for="fechaHasta" />
                                             </p:outputPanel>
                                         </p:outputPanel>
@@ -341,7 +343,6 @@
                                 </fieldset>
                             </p:outputPanel>
                         </p:outputPanel>
-
                         <p:outputPanel id="ap_agregarValor">
                             <p:outputPanel rendered="#{datoASSessionMBean.mostrarAgregarValor}" id="agregarValor">
 
@@ -367,7 +368,7 @@
                                             </p:outputPanel>
                                         </p:outputPanel>
 
-										<p:outputPanel styleClass="form-group">
+                                        <p:outputPanel styleClass="form-group">
                                             <p:outputLabel value="#{sessionMBean.textos['valor_en_traza']}" styleClass="col-sm-3 control-label label" for="crearValorTraza" />
                                             <p:outputPanel styleClass="col-sm-9">
                                                 <h:inputText id="crearValorTraza" value="#{datoASSessionMBean.valorDelDatoSeleccionado.valorEnTraza}" maxlength="100" styleClass="form-control" />
@@ -386,9 +387,9 @@
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputLabel value="#{sessionMBean.textos['vigencia_desde']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" for="CfechaDesde" />
                                             <p:outputPanel styleClass="col-sm-9">
-                                                <h:inputText value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaDesde}" styleClass="datepicker" id="CfechaDesde">
-                                                    <f:convertDateTime pattern="#{sessionMBean.formatoFecha}" timeZone="#{sessionMBean.timeZone}" />
-                                                </h:inputText>
+                                                <cp:inputDate id="CfechaDesde"  value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaDesde}"  pattern="yyyy-MM-dd">
+                                                    <f:converter converterId="dateConverter"/>
+                                                </cp:inputDate>
                                                 <p:message for="CfechaDesde" />
                                             </p:outputPanel>
                                         </p:outputPanel>
@@ -396,9 +397,9 @@
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputLabel value="#{sessionMBean.textos['vigencia_hasta']}" styleClass="col-sm-3 control-label label" for="CfechaHasta" />
                                             <p:outputPanel styleClass="col-sm-9">
-                                                <h:inputText value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaHasta}" styleClass="datepicker" id="CfechaHasta">
-                                                    <f:convertDateTime pattern="#{sessionMBean.formatoFecha}" timeZone="#{sessionMBean.timeZone}" />
-                                                </h:inputText>
+                                                <cp:inputDate id="CfechaHasta"  value="#{datoASSessionMBean.valorDelDatoSeleccionado.fechaHasta}"  pattern="yyyy-MM-dd">
+                                                    <f:converter converterId="dateConverter"/>
+                                                </cp:inputDate>
                                                 <p:message for="CfechaHasta" />
                                             </p:outputPanel>
                                         </p:outputPanel>
@@ -406,7 +407,7 @@
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputPanel styleClass="col-sm-9 offset-sm-3">
                                                 <p:commandButton value="#{sessionMBean.textos['guardar']}" actionListener="#{datoASolicitarValoresMBean.crearValor}" update=":formModif2" styleClass="btn btn-secundario" />
-                                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" immediate="true" actionListener="#{datoASolicitarValoresMBean.cancelarCrearValor}" update=":formModif2" styleClass="btn btn-link" />
+                                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" immediate="true" actionListener="#{datoASolicitarValoresMBean.cancelarCrearValor}" update=":formModif2" styleClass="btn btn-secundario" />
                                             </p:outputPanel>
                                         </p:outputPanel>
                                     </p:outputPanel>

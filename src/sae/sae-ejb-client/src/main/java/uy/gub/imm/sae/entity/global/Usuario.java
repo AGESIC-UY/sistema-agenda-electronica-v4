@@ -1,6 +1,7 @@
 package uy.gub.imm.sae.entity.global;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -35,6 +38,7 @@ public class Usuario implements Serializable {
     private Date fechaBaja;
     private String password;
     private List<Organismo> organismos;
+    private Timestamp ultimoLogin;
 
     public Usuario() {
     }
@@ -60,7 +64,7 @@ public class Usuario implements Serializable {
     }
 
     public void setCodigo(String codigo) {
-        this.codigo = codigo;
+        this.codigo = StringUtils.strip(codigo);
     }
 
     public String getCorreoe() {
@@ -110,7 +114,14 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    
+    @Column(name = "ultimo_login")
+    public Timestamp getUltimoLogin() {
+        return ultimoLogin;
+    }
+
+    public void setUltimoLogin(Timestamp ultimoLogin) {
+        this.ultimoLogin = ultimoLogin;
+    }
     @ManyToMany()
     @JoinTable(name = "ae_rel_usuarios_organismos", joinColumns = {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")}, inverseJoinColumns = {

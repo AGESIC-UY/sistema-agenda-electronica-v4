@@ -83,9 +83,7 @@ public class FormularioDinReservaClient {
             if (valor != null && !valor.toString().equals("") && !valor.toString().equals("NoSeleccion")) {
                 DatoReserva dato = new DatoReserva();
                 dato.setDatoASolicitar(datosASolicitar.get(nombre));
-                //Esto es un workaround para un problema en la codificación de los strings que tienen tildes
-                String sValor = Utiles.convertirISO88591aUTF8(valor.toString());
-                dato.setValor(sValor);
+                dato.setValor(valor.toString());
                 datos.add(dato);
             }
         }

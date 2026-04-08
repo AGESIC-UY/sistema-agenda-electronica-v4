@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -27,7 +27,7 @@
                                     <p:outputPanel styleClass="form-group">
                                         <h:outputLabel value="#{sessionMBean.textos['tramite']}" for="tramite" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                         <p:outputPanel styleClass="col-sm-9">
-                                            <h:selectOneMenu id="tramite" value="#{atencionPresencialMBean.tramiteCodigo}" styleClass="form-control textoLargo">
+                                            <h:selectOneMenu id="tramite" value="#{atencionPresencialMBean.tramiteCodigo}" styleClass="textoLargo">
                                                 <f:selectItems value="#{atencionPresencialMBean.tramites}" />
                                             </h:selectOneMenu>
                                             <p:message for="tramite" styleClass="mensajeError" />

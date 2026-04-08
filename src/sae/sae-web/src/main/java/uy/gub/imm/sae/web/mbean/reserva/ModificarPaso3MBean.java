@@ -1,65 +1,40 @@
 package uy.gub.imm.sae.web.mbean.reserva;
 
-/*
- * SAE - Sistema de Agenda Electronica
- * Copyright (C) 2009  IMM - Intendencia Municipal de Montevideo
- *
- * This file is part of SAE.
-
- * SAE is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-import java.util.Date;
-import java.util.Map;
-import java.util.Random;
+import org.apache.log4j.Logger;
+import uy.gub.imm.sae.business.dto.InformacionRequestDTO;
+import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
+import uy.gub.imm.sae.business.ejb.facade.ComunicacionesLocal;
+import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
+import uy.gub.imm.sae.common.Utiles;
+import uy.gub.imm.sae.common.enumerados.ModoAutocompletado;
+import uy.gub.imm.sae.common.enumerados.Tipo;
+import uy.gub.imm.sae.entity.*;
+import uy.gub.imm.sae.entity.global.Empresa;
+import uy.gub.imm.sae.exception.*;
+import uy.gub.imm.sae.web.common.FormularioDinamicoReserva;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import org.apache.log4j.Logger;
-
-import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
-import uy.gub.imm.sae.business.ejb.facade.ComunicacionesLocal;
-import uy.gub.imm.sae.entity.Agenda;
-import uy.gub.imm.sae.entity.Recurso;
-import uy.gub.imm.sae.entity.Reserva;
-import uy.gub.imm.sae.entity.TextoAgenda;
-import uy.gub.imm.sae.entity.TextoRecurso;
-import uy.gub.imm.sae.entity.global.Empresa;
-import uy.gub.imm.sae.exception.UserException;
-import uy.gub.imm.sae.web.common.FormularioDinamicoReserva;
-
-/**
- * Maneja la lógica de generación dinámica de los componentes gráficos que constituyen los datos a solicitarse para realizar la reserva.
- *
- * @author im2716295
- *
- *
- */
 @ManagedBean
 @ViewScoped
 public class ModificarPaso3MBean extends BaseMBean {
 
-    static Logger logger = Logger.getLogger(ModificarPaso3MBean.class);
-    
+    private static final Logger LOGGER = Logger.getLogger(ModificarPaso3MBean.class);
+
     public static final String FORMULARIO_ID = "datosReserva";
     public static final String DATOS_RESERVA_MBEAN = "datosReservaMBean";
 
@@ -67,36 +42,75 @@ public class ModificarPaso3MBean extends BaseMBean {
     private AgendarReservasLocal agendarReservasEJB;
 
     @EJB
+    private RecursosLocal recursosEJB;
+
+    @EJB
     private ComunicacionesLocal comunicacionesEJB;
 
     @ManagedProperty(value = "#{sesionMBean}")
     private SesionMBean sesionMBean;
 
-    private String tramiteNombre;
+    @ManagedProperty(value = "#{datosReservaMBean}")
+    private Map<String, Object> datosReservaMBean;
+
+    private UIComponent campos;
+    private FormularioDinamicoReserva formularioDin;
+
+    private Map<String, TramiteAgenda> tramitesAgenda;
+    private List<SelectItem> tramites;
+    private String tramiteCodigo;
     private String aceptaCondiciones;
 
-    private boolean errorInit;
+    private boolean yaExisteReservaCamposClave = false;
+    private boolean errorInit = false;
+
+    public void beforePhase(PhaseEvent event) {
+        disableBrowserCache(event);
+        if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+            if (sesionMBean.getReserva() == null) {
+                // Se ha apretado el boton de back o algun acceso directo
+                FacesContext ctx = FacesContext.getCurrentInstance();
+                ctx.getApplication().getNavigationHandler().handleNavigation(ctx, "", "pasoAnterior");
+            }
+        }
+    }
 
     @PostConstruct
     public void init() {
         errorInit = false;
         if (sesionMBean.getAgenda() == null || sesionMBean.getRecurso() == null) {
-            addErrorMessage(sesionMBean.getTextos().get("la_combinacion_de_parametros_especificada_no_es_valida"));
+            addErrorMessage(sesionMBean.getTextos().get("debe_haber_una_agenda_seleccionada"));
             errorInit = true;
             return;
         }
         try {
-            Reserva reserva = sesionMBean.getReservaModificar1();
-            tramiteNombre = reserva.getTramiteNombre();
+            this.tramiteCodigo = null;
+            tramitesAgenda = new HashMap<>();
+            tramites = new ArrayList<>();
+            Reserva reserva = sesionMBean.getReserva();
+            if (reserva == null || reserva.getDisponibilidades() == null || reserva.getDisponibilidades().isEmpty()) {
+                addErrorMessage(sesionMBean.getTextos().get("debe_seleccionar_un_horario"));
+                errorInit = true;
+                return;
+            }
+            Agenda agenda = reserva.getDisponibilidades().get(0).getRecurso().getAgenda();
+            List<TramiteAgenda> tramites0 = agendarReservasEJB.consultarTramites(agenda);
+            if (tramites0.size() == 1) {
+                TramiteAgenda tramite = tramites0.get(0);
+                tramiteCodigo = tramite.getTramiteCodigo();
+                tramitesAgenda.put(tramiteCodigo, tramite);
+            } else if (tramites0.size() > 1) {
+                tramites.add(new SelectItem("", "Sin especificar"));
+                for (TramiteAgenda tramite : tramites0) {
+                    tramitesAgenda.put(tramite.getTramiteCodigo(), tramite);
+                    tramites.add(new SelectItem(tramite.getTramiteCodigo(), tramite.getTramiteNombre()));
+                }
+            }
         } catch (Exception ex) {
-            ex.printStackTrace();
-            addErrorMessage(sesionMBean.getTextos().get("la_combinacion_de_parametros_especificada_no_es_valida"));
+            LOGGER.error("Error al inicializar ModificarPaso3MBean", ex);
+            addErrorMessage(sesionMBean.getTextos().get("ha_ocurrido_un_error"));
             errorInit = true;
         }
-    }
-
-    public void beforePhase(PhaseEvent event) {
-        disableBrowserCache(event);
     }
 
     public SesionMBean getSesionMBean() {
@@ -105,6 +119,10 @@ public class ModificarPaso3MBean extends BaseMBean {
 
     public void setSesionMBean(SesionMBean sesionMBean) {
         this.sesionMBean = sesionMBean;
+    }
+
+    public boolean getErrorInit() {
+        return errorInit;
     }
 
     public String getAgendaNombre() {
@@ -116,10 +134,11 @@ public class ModificarPaso3MBean extends BaseMBean {
     }
 
     public String getRecursoDescripcion() {
-        if (sesionMBean.getRecurso() != null) {
-            String descripcion = sesionMBean.getRecurso().getNombre();
-            if (descripcion != null && !descripcion.equals(sesionMBean.getRecurso().getDireccion())) {
-                descripcion = descripcion + " - " + sesionMBean.getRecurso().getDireccion();
+        Recurso recurso = sesionMBean.getRecurso();
+        if (recurso != null) {
+            String descripcion = recurso.getNombre();
+            if (descripcion != null && !descripcion.equals(recurso.getDireccion())) {
+                descripcion = descripcion + " - " + recurso.getDireccion();
             }
             return descripcion;
         } else {
@@ -130,12 +149,7 @@ public class ModificarPaso3MBean extends BaseMBean {
     public String getDescripcion() {
         TextoAgenda textoAgenda = getTextoAgenda(sesionMBean.getAgenda(), sesionMBean.getIdiomaActual());
         if (textoAgenda != null) {
-            String str = textoAgenda.getTextoPaso3();
-            if (str == null) {
-                return "";
-            } else {
-                return str;
-            }
+            return textoAgenda.getTextoPaso3();
         } else {
             return null;
         }
@@ -150,16 +164,10 @@ public class ModificarPaso3MBean extends BaseMBean {
         }
     }
 
-    public String getEtiquetaDelRecurso() {
-        TextoAgenda textoAgenda = getTextoAgenda(sesionMBean.getAgenda(), sesionMBean.getIdiomaActual());
-        if (textoAgenda != null) {
-            return textoAgenda.getTextoSelecRecurso();
-        } else {
-            return null;
+    public Date getDiaSeleccionado() {
+        if (sesionMBean.getDisponibilidad() != null) {
+            return sesionMBean.getDisponibilidad().getFecha();
         }
-    }
-
-    public Date getFechaSeleccionada() {
         return sesionMBean.getDiaSeleccionado();
     }
 
@@ -180,82 +188,349 @@ public class ModificarPaso3MBean extends BaseMBean {
         return texto;
     }
 
+    public UIComponent getCampos() {
+        return campos;
+    }
+
+    public void setCampos(UIComponent campos) {
+        this.campos = campos;
+        try {
+            Recurso recurso = sesionMBean.getRecurso();
+            if (campos.getChildCount() == 0 && recurso != null) {
+                if (formularioDin == null) {
+                    List<AgrupacionDato> agrupaciones = recursosEJB.consultarDefinicionDeCampos(recurso, sesionMBean.getTimeZone());
+                    sesionMBean.setDatosASolicitar(obtenerCampos(agrupaciones));
+                    formularioDin = new FormularioDinamicoReserva(DATOS_RESERVA_MBEAN, FORMULARIO_ID, FormularioDinamicoReserva.TipoFormulario.EDICION,
+                            null, sesionMBean.getFormatoFecha(), new Locale(sesionMBean.getIdiomaActual()));
+                    HashMap<Integer, HashMap<Integer, ServicioPorRecurso>> serviciosAutocompletar = new HashMap<>();
+                    List<ServicioPorRecurso> lstServiciosPorRecurso = recursosEJB.consultarServicioAutocompletar(recurso);
+                    for (ServicioPorRecurso sRec : lstServiciosPorRecurso) {
+                        List<ServicioAutocompletarPorDato> lstDatos = sRec.getAutocompletadosPorDato();
+                        List<ParametrosAutocompletar> parametros = sRec.getAutocompletado().getParametrosAutocompletados();
+                        DatoASolicitar ultimo = null;
+                        for (ParametrosAutocompletar param : parametros) {
+                            if (ModoAutocompletado.SALIDA.equals(param.getModo())) {
+                                for (ServicioAutocompletarPorDato sDato : lstDatos) {
+                                    if (sDato.getNombreParametro().equals(param.getNombre())) {
+                                        if (ultimo == null) {
+                                            ultimo = sDato.getDatoASolicitar();
+                                        } else if (sDato.getDatoASolicitar().getAgrupacionDato().getOrden().intValue() > ultimo.getAgrupacionDato().getOrden().intValue()) {
+                                            HashMap<Integer, ServicioPorRecurso> auxServiciosRecurso = serviciosAutocompletar.get(ultimo.getId());
+                                            if (auxServiciosRecurso.size() > 1) {
+                                                auxServiciosRecurso.remove(sRec.getId());
+                                            } else {
+                                                serviciosAutocompletar.remove(ultimo.getId());
+                                            }
+                                            ultimo = sDato.getDatoASolicitar();
+                                        } else if (sDato.getDatoASolicitar().getAgrupacionDato().getOrden().intValue() == ultimo.getAgrupacionDato().getOrden().intValue()) {
+                                            if (sDato.getDatoASolicitar().getFila().intValue() > ultimo.getFila().intValue()) {
+                                                HashMap<Integer, ServicioPorRecurso> auxServiciosRecurso = serviciosAutocompletar.get(ultimo.getId());
+                                                if (auxServiciosRecurso.size() > 1) {
+                                                    auxServiciosRecurso.remove(sRec.getId());
+                                                } else {
+                                                    serviciosAutocompletar.remove(ultimo.getId());
+                                                }
+                                                ultimo = sDato.getDatoASolicitar();
+                                            } else if (sDato.getDatoASolicitar().getFila().intValue() == ultimo.getFila().intValue()) {
+                                                if (sDato.getDatoASolicitar().getColumna().intValue() > ultimo.getColumna().intValue()) {
+                                                    HashMap<Integer, ServicioPorRecurso> auxServiciosRecurso = serviciosAutocompletar.get(ultimo.getId());
+                                                    if (auxServiciosRecurso.size() > 1) {
+                                                        auxServiciosRecurso.remove(sRec.getId());
+                                                    } else {
+                                                        serviciosAutocompletar.remove(ultimo.getId());
+                                                    }
+                                                    ultimo = sDato.getDatoASolicitar();
+                                                }
+                                            }
+                                        }
+                                        if (serviciosAutocompletar.containsKey(ultimo.getId())) {
+                                            serviciosAutocompletar.get(ultimo.getId()).put(sRec.getId(), sRec);
+                                        } else {
+                                            HashMap<Integer, ServicioPorRecurso> auxServiciosRecurso = new HashMap<Integer, ServicioPorRecurso>();
+                                            auxServiciosRecurso.put(sRec.getId(), sRec);
+                                            serviciosAutocompletar.put(ultimo.getId(), auxServiciosRecurso);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    formularioDin.armarFormulario(agrupaciones, serviciosAutocompletar);
+                }
+                UIComponent formulario = formularioDin.getComponenteFormulario();
+                campos.getChildren().add(formulario);
+            }
+        } catch (Exception e) {
+            addErrorMessage(e, FORMULARIO_ID);
+        }
+    }
+
+    public Map<String, Object> getDatosReservaMBean() {
+        return datosReservaMBean;
+    }
+
+    public void setDatosReservaMBean(Map<String, Object> datosReservaMBean) {
+        this.datosReservaMBean = datosReservaMBean;
+    }
+
     public String confirmarReserva() {
         limpiarMensajesError();
+        yaExisteReservaCamposClave = false;
         sesionMBean.setReservaConfirmada(null);
+        sesionMBean.setEnvioCorreoReserva(Boolean.TRUE);
         try {
             boolean hayError = false;
-
-            HtmlPanelGroup clausulaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:clausula");
-            String clausulaStyleClass = clausulaGroup.getStyleClass();
+            if ((tramites != null && !tramites.isEmpty()) && (this.tramiteCodigo == null || this.tramiteCodigo.isEmpty())) {
+                hayError = true;
+                addErrorMessage(sesionMBean.getTextos().get("debe_seleccionar_el_tramite"), FORM_ID + ":tramite");
+            }
+            HtmlPanelGroup clausulaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:formDin:clausula");
+            String clausulaStyleClass = clausulaGroup != null ? clausulaGroup.getStyleClass() : "";
             if (this.aceptaCondiciones == null || !this.aceptaCondiciones.equals("SI")) {
                 hayError = true;
-                addErrorMessage(sesionMBean.getTextos().get("debe_aceptar_los_terminos_de_la_clausula_de_consentimiento_informado"), FORM_ID, FORM_ID + ":condiciones");
-                if (!clausulaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                addErrorMessage(sesionMBean.getTextos().get("debe_aceptar_los_terminos_de_la_clausula_de_consentimiento_informado"), FORM_ID + ":condiciones");
+                if (clausulaGroup != null && !clausulaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
                     clausulaStyleClass = clausulaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
                     clausulaGroup.setStyleClass(clausulaStyleClass);
                 }
-            } else if (clausulaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+            } else if (clausulaGroup != null && clausulaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
                 clausulaStyleClass = clausulaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
                 clausulaGroup.setStyleClass(clausulaStyleClass);
             }
-
-            HtmlPanelGroup captchaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:captcha");
-            String captchaStyleClass = captchaGroup.getStyleClass();
-            if (textoCaptchaUsuario == null || textoCaptchaUsuario.trim().isEmpty()) {
-                hayError = true;
-                addErrorMessage(sesionMBean.getTextos().get("debe_responder_la_pregunta_de_seguridad"), FORM_ID, FORM_ID + ":secureText");
-                if (!captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
-                    captchaStyleClass = captchaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
-                    captchaGroup.setStyleClass(captchaStyleClass);
+            List<String> idComponentes = new ArrayList<>();
+            Set<DatoReserva> datos = new HashSet<>();
+            for (String nombre : datosReservaMBean.keySet()) {
+                Object valor = datosReservaMBean.get(nombre);
+                idComponentes.add(nombre);
+                if (valor != null && !valor.toString().trim().equals("")) {
+                    DatoReserva dato = new DatoReserva();
+                    dato.setDatoASolicitar(sesionMBean.getDatosASolicitar().get(nombre));
+                    dato.setValor(valor.toString().trim());
+                    datos.add(dato);
                 }
-            } else if (!textoCaptchaUsuario.equalsIgnoreCase(sesionMBean.getPaso3Captcha())) {
-                hayError = true;
-                addErrorMessage(sesionMBean.getTextos().get("la_respuesta_a_la_pregunta_de_seguridad_no_es_correcta"), FORM_ID, FORM_ID + ":secureText");
-                if (!captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
-                    captchaStyleClass = captchaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
-                    captchaGroup.setStyleClass(captchaStyleClass);
-                }
-            } else if (captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
-                captchaStyleClass = captchaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
-                captchaGroup.setStyleClass(captchaStyleClass);
             }
-
+            FormularioDinamicoReserva.desmarcarCampos(idComponentes, campos);
+            Reserva reserva = sesionMBean.getReserva();
+            reserva.setDatosReserva(datos);
+            reserva.setOrigen("W");
+            agendarReservasEJB.validarDatosReserva(sesionMBean.getEmpresaActual(), reserva);
             if (hayError) {
                 return null;
             }
-
-            Reserva rConfirmada = agendarReservasEJB.modificarReserva(sesionMBean.getEmpresaActual().getId(), sesionMBean.getAgenda().getId(),
-                    sesionMBean.getRecurso().getId(), sesionMBean.getReservaModificar1().getId(), sesionMBean.getReservaModificar2().getId(), sesionMBean.getIdiomaActual());
-
-            try {
-                //Enviar el mail de cancelación de la reserva original
-                comunicacionesEJB.enviarComunicacionesCancelacion(sesionMBean.getEmpresaActual(), sesionMBean.getReservaModificar1(), sesionMBean.getIdiomaActual(),
-                        sesionMBean.getFormatoFecha(), sesionMBean.getFormatoHora());
-                //Enviar el mail de confirmacion de la reserva nueva
-                HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                Recurso recurso = rConfirmada.getDisponibilidades().get(0).getRecurso();
-                Agenda agenda = recurso.getAgenda();
-                String linkBase = request.getScheme() + "://" + request.getServerName();
-                if ("http".equals(request.getScheme()) && request.getServerPort() != 80 || "https".equals(request.getScheme()) && request.getServerPort() != 443) {
-                    linkBase = linkBase + ":" + request.getServerPort();
-                }
-                String linkCancelacion = linkBase + "/sae/cancelarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&ri=" + rConfirmada.getId();
-                String linkModificacion = linkBase + "/sae/modificarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&r=" + recurso.getId() + "&ri=" + rConfirmada.getId();
-                comunicacionesEJB.enviarComunicacionesConfirmacion(sesionMBean.getEmpresaActual(), linkCancelacion, linkModificacion, rConfirmada, sesionMBean.getIdiomaActual(),
-                        sesionMBean.getFormatoFecha(), sesionMBean.getFormatoHora());
-            } catch (UserException ex) {
-                addAdvertenciaMessage(sesionMBean.getTextos().get(ex.getCodigoError()));
+            if (this.tramiteCodigo != null && !this.tramiteCodigo.isEmpty()) {
+                reserva.setTramiteCodigo(this.tramiteCodigo);
+                reserva.setTramiteNombre(tramitesAgenda.get(this.tramiteCodigo).getTramiteNombre());
             }
-            //La reserva se confirmo, por lo tanto muevo la reseva a confirmada en la sesion para evitar problemas de reload de pagina.
-            sesionMBean.setReservaConfirmada(rConfirmada);
+            boolean confirmada = false;
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            while (!confirmada) {
+                try {
+                    Reserva rConfirmada = agendarReservasEJB.confirmarReserva(sesionMBean.getEmpresaActual(), reserva, null, null, true, new InformacionRequestDTO(request.getScheme(), request.getServerName(), request.getContextPath(), request.getServerPort()));
+                    reserva.setSerie(rConfirmada.getSerie());
+                    reserva.setNumero(rConfirmada.getNumero());
+                    reserva.setCodigoSeguridad(rConfirmada.getCodigoSeguridad());
+                    reserva.setTrazabilidadGuid(rConfirmada.getTrazabilidadGuid());
+                    confirmada = true;
+                } catch (AccesoMultipleException e) {
+                    // Reintento hasta tener exito
+                }
+            }
+
+            sesionMBean.setReservaConfirmada(reserva);
             sesionMBean.setReserva(null);
+
+            // Enviar el mail de confirmacion
+            String linkBase = request.getScheme() + "://" + request.getServerName();
+            if ("http".equals(request.getScheme()) && request.getServerPort() != 80 || "https".equals(request.getScheme()) && request.getServerPort() != 443) {
+                linkBase = linkBase + ":" + request.getServerPort();
+            }
+            Integer recursoId = reserva.getDisponibilidades().get(0).getRecurso().getId();
+            Integer agendaId = reserva.getDisponibilidades().get(0).getRecurso().getAgenda().getId();
+            String linkCancelacion = linkBase + "/sae/cancelarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agendaId + "&ri=" + reserva.getId();
+            String linkModificacion = linkBase + "/sae/modificarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agendaId + "&r=" + recursoId + "&ri=" + reserva.getId();
+            comunicacionesEJB.enviarComunicacionesConfirmacion(sesionMBean.getEmpresaActual(), linkCancelacion, linkModificacion, reserva, sesionMBean.getIdiomaActual(),
+                    sesionMBean.getFormatoFecha(), sesionMBean.getFormatoHora());
+        } catch (ValidacionPorCampoException e) {
+            List<String> idComponentesError = new ArrayList<>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                if (e.getMensaje(i) != null) {
+                    DatoASolicitar dato = sesionMBean.getDatosASolicitar().get(e.getNombreCampo(i));
+                    String mensaje = sesionMBean.getTextos().get(e.getMensaje(i));
+                    if (mensaje == null) {
+                        mensaje = sesionMBean.getTextos().get("el_valor_ingresado_no_es_aceptable");
+                    }
+                    mensaje = mensaje.replace("{campo}", dato.getEtiqueta());
+                    addErrorMessage(mensaje, "form:" + dato.getNombre());
+                    idComponentesError.add(e.getNombreCampo(i));
+                }
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ErrorValidacionException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            String mensaje = e.getMensaje(0);
+            for (int i = 1; i < e.getCantMensajes(); i++) {
+                mensaje += "  |  " + e.getMensaje(i);
+            }
+            addErrorMessage(mensaje);
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ErrorValidacionCommitException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            String mensaje = e.getMensaje(0);
+            for (int i = 1; i < e.getCantMensajes(); i++) {
+                mensaje += "  |  " + e.getMensaje(i);
+            }
+            addErrorMessage(mensaje);
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ValidacionClaveUnicaException vcuEx) {
+            yaExisteReservaCamposClave = true;
+            String mensajeReservaPrevia = "ya_tiene_una_reserva_para_el_dia_seleccionado";
+            Recurso recurso = sesionMBean.getRecurso();
+            if (recurso.getPeriodoValidacion() != null && recurso.getPeriodoValidacion() > 0) {
+                Reserva reserva = sesionMBean.getReserva();
+                Date fecha = reserva.getDisponibilidades().get(0).getFecha();
+                Date fechaDesde = fecha;
+                Date fechaHasta = fecha;
+                Integer periodoValidacion = recurso.getPeriodoValidacion();
+                if (periodoValidacion == null) {
+                    periodoValidacion = 0;
+                }
+                Calendar cal = new GregorianCalendar();
+                cal.setTime(fecha);
+                cal.add(Calendar.DATE, -1 * periodoValidacion);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                fechaDesde = cal.getTime();
+                cal.setTime(fecha);
+                cal.add(Calendar.DATE, 1 * periodoValidacion);
+                cal.set(Calendar.HOUR_OF_DAY, 23);
+                cal.set(Calendar.MINUTE, 59);
+                cal.set(Calendar.SECOND, 59);
+                cal.set(Calendar.MILLISECOND, 999);
+                fechaHasta = cal.getTime();
+                DateFormat df = new SimpleDateFormat(sesionMBean.getFormatoFecha());
+                String periodo = df.format(fechaDesde) + " - " + df.format(fechaHasta);
+                mensajeReservaPrevia = sesionMBean.getTextos().get("ya_tiene_una_reserva_para_el_periodo").replace("{periodo}", periodo);;
+            }
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < vcuEx.getCantCampos(); i++) {
+                idComponentesError.add(vcuEx.getNombreCampo(i));
+                addErrorMessage(mensajeReservaPrevia, "form:" + vcuEx.getNombreCampo(i));
+            }
+            if (tramites != null && tramites.size() > 1) {
+                idComponentesError.add("tramite");
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ValidacionException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                DatoASolicitar dato = sesionMBean.getDatosASolicitar().get(e.getNombreCampo(i));
+                String mensaje = sesionMBean.getTextos().get("debe_completar_el_campo_campo").replace("{campo}", dato.getEtiqueta());
+                addErrorMessage(mensaje, "form", "form:" + dato.getNombre());
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (BusinessException bEx) {
+            addErrorMessage(bEx.getMessage());
+            bEx.printStackTrace();
+            return null;
+        } catch (UserException uEx) {
+            sesionMBean.setEnvioCorreoReserva(Boolean.FALSE);
+            datosReservaMBean.clear();
+            return "reservaConfirmada";
         } catch (Exception ex) {
             addErrorMessage(sesionMBean.getTextos().get("sistema_en_mantenimiento"));
             ex.printStackTrace();
             return null;
+        } finally {
+            if (sesionMBean.getReservaConfirmada() == null) {
+                for (String nombre : datosReservaMBean.keySet()) {
+                    Object valor = datosReservaMBean.get(nombre);
+                    DatoASolicitar datoSol = sesionMBean.getDatosASolicitar().get(nombre);
+                }
+            }
         }
+        datosReservaMBean.clear();
         return "reservaConfirmada";
+    }
+
+    private Map<String, DatoASolicitar> obtenerCampos(List<AgrupacionDato> agrupaciones) {
+        Map<String, DatoASolicitar> camposXnombre = new HashMap<String, DatoASolicitar>();
+        for (AgrupacionDato agrupacion : agrupaciones) {
+            for (DatoASolicitar dato : agrupacion.getDatosASolicitar()) {
+                camposXnombre.put(dato.getNombre(), dato);
+            }
+        }
+        return camposXnombre;
+    }
+
+    public String autocompletarCampo() {
+        Map<String, String> requestParameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String claves = (String) requestParameterMap.get("paramIdsServicio");
+        try {
+            List<String> idComponentes = new ArrayList<String>();
+            for (String nombre : datosReservaMBean.keySet()) {
+                idComponentes.add(nombre);
+            }
+            FormularioDinamicoReserva.desmarcarCampos(idComponentes, campos);
+            String[] arrParamIdServicio = claves.split("\\|");
+            for (String paramIdServicio : arrParamIdServicio) {
+                ServicioPorRecurso sRec = new ServicioPorRecurso();
+                sRec.setId(Integer.parseInt(paramIdServicio));
+                Map<String, Object> valoresAutocompletar = this.agendarReservasEJB.autocompletarCampo(sRec, datosReservaMBean);
+                for (String nombre : valoresAutocompletar.keySet()) {
+                    datosReservaMBean.put(nombre, valoresAutocompletar.get(nombre).toString());
+                }
+            }
+        } catch (ErrorAutocompletarException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            String mensaje = e.getMensaje(0);
+            for (int i = 1; i < e.getCantMensajes(); i++) {
+                mensaje += "  |  " + e.getMensaje(i);
+            }
+            addErrorMessage(mensaje, FORMULARIO_ID);
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (WarningAutocompletarException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            String mensaje = e.getMensaje(0);
+            for (int i = 1; i < e.getCantMensajes(); i++) {
+                mensaje += "  |  " + e.getMensaje(i);
+            }
+            addInfoMessage(mensaje, FORMULARIO_ID);
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (AutocompletarException e) {
+            addErrorMessage(e.getMessage(), FORMULARIO_ID);
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (Exception e) {
+            addErrorMessage(e, FORMULARIO_ID);
+            return null;
+        }
+        return null;
     }
 
     public String getAceptaCondiciones() {
@@ -264,6 +539,22 @@ public class ModificarPaso3MBean extends BaseMBean {
 
     public void setAceptaCondiciones(String aceptaCondiciones) {
         this.aceptaCondiciones = aceptaCondiciones;
+    }
+
+    public String getTramiteCodigo() {
+        return tramiteCodigo;
+    }
+
+    public void setTramiteCodigo(String tramiteCodigo) {
+        this.tramiteCodigo = tramiteCodigo;
+    }
+
+    public List<SelectItem> getTramites() {
+        return tramites;
+    }
+
+    public boolean isYaExisteReservaCamposClave() {
+        return yaExisteReservaCamposClave;
     }
 
     // =========================================================
@@ -299,60 +590,292 @@ public class ModificarPaso3MBean extends BaseMBean {
 
     public void recargarCaptcha() {
         sesionMBean.setPaso3Captcha(null);
-        HtmlPanelGroup captchaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("form:captcha");
-        String captchaStyleClass = captchaGroup.getStyleClass();
-        if (captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
-            captchaStyleClass = captchaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
-            captchaGroup.setStyleClass(captchaStyleClass);
+        HtmlPanelGroup captchaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("formDin:captcha");
+        if (captchaGroup != null) {
+            String captchaStyleClass = captchaGroup.getStyleClass();
+            if (captchaStyleClass != null && captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                captchaStyleClass = captchaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
+                captchaGroup.setStyleClass(captchaStyleClass);
+            }
         }
     }
 
-    public boolean isErrorInit() {
-        return errorInit;
+    /**
+     * Método para volver a Paso1 preservando los parámetros URL
+     */
+    public String pasoAnterior() {
+        return "pasoAnterior";
     }
 
-    public String getTramiteNombre() {
-        return tramiteNombre;
-    }
+    /**
+     * Método para confirmar la modificación de la reserva
+     * Cancela la reserva anterior y crea una nueva con los datos modificados
+     */
+    public String confirmarModificacion() {
+        LOGGER.debug("=== INICIO confirmarModificacion ===");
+        limpiarMensajesError();
+        yaExisteReservaCamposClave = false;
+        sesionMBean.setReservaConfirmada(null);
+        sesionMBean.setEnvioCorreoReserva(Boolean.TRUE);
 
-    @PreDestroy
-    public void preDestroy() {
+        Reserva reservaAnterior = sesionMBean.getReservaDatos(); // La reserva original que se va a modificar
+
         try {
-            logger.debug("Destruyendo una instancia de " + this.getClass().getName() + ", liberando objetos...");
-            this.agendarReservasEJB = null;
-            this.sesionMBean = null;
-            logger.debug("Destruyendo una instancia de " + this.getClass().getName() + ", objetos liberados.");
+            boolean hayError = false;
+
+            // Validar tramite
+            if ((tramites != null && !tramites.isEmpty()) && (this.tramiteCodigo == null || this.tramiteCodigo.isEmpty())) {
+                hayError = true;
+                addErrorMessage(sesionMBean.getTextos().get("debe_seleccionar_el_tramite"), FORM_ID + ":tramite");
+            }
+
+            // Validar clausula de consentimiento
+            HtmlPanelGroup clausulaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("formDin:clausula");
+            String clausulaStyleClass = clausulaGroup != null ? clausulaGroup.getStyleClass() : "";
+            if (this.aceptaCondiciones == null || !this.aceptaCondiciones.equals("SI")) {
+                hayError = true;
+                addErrorMessage(sesionMBean.getTextos().get("debe_aceptar_los_terminos_de_la_clausula_de_consentimiento_informado"), FORMULARIO_ID + ":condiciones");
+                if (clausulaGroup != null && !clausulaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                    clausulaStyleClass = clausulaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
+                    clausulaGroup.setStyleClass(clausulaStyleClass);
+                }
+            } else if (clausulaGroup != null && clausulaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                clausulaStyleClass = clausulaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
+                clausulaGroup.setStyleClass(clausulaStyleClass);
+            }
+
+            // Validar captcha
+            HtmlPanelGroup captchaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("formDin:captcha");
+            String captchaStyleClass = captchaGroup != null ? captchaGroup.getStyleClass() : "";
+            if (textoCaptchaUsuario == null || textoCaptchaUsuario.trim().isEmpty()) {
+                hayError = true;
+                addErrorMessage(sesionMBean.getTextos().get("debe_responder_la_pregunta_de_seguridad"), FORMULARIO_ID + ":secureText");
+                if (captchaGroup != null && !captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                    captchaStyleClass = captchaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
+                    captchaGroup.setStyleClass(captchaStyleClass);
+                }
+            } else if (!textoCaptchaUsuario.equalsIgnoreCase(sesionMBean.getPaso3Captcha())) {
+                hayError = true;
+                addErrorMessage(sesionMBean.getTextos().get("la_respuesta_a_la_pregunta_de_seguridad_no_es_correcta"), FORMULARIO_ID + ":secureText");
+                if (captchaGroup != null && !captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                    captchaStyleClass = captchaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
+                    captchaGroup.setStyleClass(captchaStyleClass);
+                }
+            } else if (captchaGroup != null && captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                captchaStyleClass = captchaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
+                captchaGroup.setStyleClass(captchaStyleClass);
+            }
+
+            // Recolectar datos del formulario
+            List<String> idComponentes = new ArrayList<>();
+            Set<DatoReserva> datos = new HashSet<>();
+            for (String nombre : datosReservaMBean.keySet()) {
+                Object valor = datosReservaMBean.get(nombre);
+                idComponentes.add(nombre);
+                if (valor != null && !valor.toString().trim().equals("")) {
+                    DatoReserva dato = new DatoReserva();
+                    dato.setDatoASolicitar(sesionMBean.getDatosASolicitar().get(nombre));
+                    dato.setValor(valor.toString().trim());
+                    datos.add(dato);
+                }
+            }
+
+            FormularioDinamicoReserva.desmarcarCampos(idComponentes, campos);
+
+            // Preparar la nueva reserva con los datos modificados
+            Reserva reservaNueva = sesionMBean.getReserva();
+            reservaNueva.setDatosReserva(datos);
+            reservaNueva.setOrigen("W");
+
+            // Validar datos de la nueva reserva
+            agendarReservasEJB.validarDatosReserva(sesionMBean.getEmpresaActual(), reservaNueva);
+
+            if (hayError) {
+                return null;
+            }
+
+            // Asignar tramite si existe
+            if (this.tramiteCodigo != null && !this.tramiteCodigo.isEmpty()) {
+                reservaNueva.setTramiteCodigo(this.tramiteCodigo);
+                reservaNueva.setTramiteNombre(tramitesAgenda.get(this.tramiteCodigo).getTramiteNombre());
+            }
+
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+            // Paso 1: Cancelar la reserva anterior
+            LOGGER.debug("Cancelando reserva anterior ID: " + reservaAnterior.getId());
+            try {
+                Recurso recursoAnterior = reservaAnterior.getDisponibilidades().get(0).getRecurso();
+                agendarReservasEJB.cancelarReserva(sesionMBean.getEmpresaActual(), recursoAnterior, reservaAnterior);
+                LOGGER.debug("Reserva anterior cancelada exitosamente");
+            } catch (Exception e) {
+                LOGGER.error("Error al cancelar la reserva anterior", e);
+                addErrorMessage(sesionMBean.getTextos().get("error_al_modificar_la_reserva"));
+                return null;
+            }
+
+            // Paso 2: Confirmar la nueva reserva
+            boolean confirmada = false;
+            while (!confirmada) {
+                try {
+                    Reserva rConfirmada = agendarReservasEJB.confirmarReserva(
+                        sesionMBean.getEmpresaActual(),
+                        reservaNueva,
+                        null,
+                        null,
+                        true,
+                        new InformacionRequestDTO(request.getScheme(), request.getServerName(), request.getContextPath(), request.getServerPort())
+                    );
+                    reservaNueva.setSerie(rConfirmada.getSerie());
+                    reservaNueva.setNumero(rConfirmada.getNumero());
+                    reservaNueva.setCodigoSeguridad(rConfirmada.getCodigoSeguridad());
+                    reservaNueva.setTrazabilidadGuid(rConfirmada.getTrazabilidadGuid());
+                    confirmada = true;
+                } catch (AccesoMultipleException e) {
+                    // Reintento hasta tener exito
+                }
+            }
+
+            sesionMBean.setReservaConfirmada(reservaNueva);
+            sesionMBean.setReserva(null);
+            sesionMBean.setReservaDatos(null); // Limpiar la reserva anterior
+            LOGGER.debug("=== Nueva reserva confirmada ID: " + reservaNueva.getId() + " ===");
+
+            // Enviar el mail de confirmación de modificación
+            String linkBase = request.getScheme() + "://" + request.getServerName();
+            if ("http".equals(request.getScheme()) && request.getServerPort() != 80 || "https".equals(request.getScheme()) && request.getServerPort() != 443) {
+                linkBase = linkBase + ":" + request.getServerPort();
+            }
+            Recurso recurso = reservaNueva.getDisponibilidades().get(0).getRecurso();
+            Agenda agenda = recurso.getAgenda();
+            String linkCancelacion = linkBase + "/sae/cancelarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&ri=" + reservaNueva.getId();
+            String linkModificacion = linkBase + "/sae/modificarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&r=" + recurso.getId() + "&ri=" + reservaNueva.getId();
+            comunicacionesEJB.enviarComunicacionesConfirmacion(
+                sesionMBean.getEmpresaActual(),
+                linkCancelacion,
+                linkModificacion,
+                reservaNueva,
+                sesionMBean.getIdiomaActual(),
+                sesionMBean.getFormatoFecha(),
+                sesionMBean.getFormatoHora()
+            );
+
+        } catch (ValidacionPorCampoException e) {
+            List<String> idComponentesError = new ArrayList<>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                if (e.getMensaje(i) != null) {
+                    DatoASolicitar dato = sesionMBean.getDatosASolicitar().get(e.getNombreCampo(i));
+                    String mensaje = sesionMBean.getTextos().get(e.getMensaje(i));
+                    if (mensaje == null) {
+                        mensaje = sesionMBean.getTextos().get("el_valor_ingresado_no_es_aceptable");
+                    }
+                    mensaje = mensaje.replace("{campo}", dato.getEtiqueta());
+                    addErrorMessage(mensaje, "form:" + dato.getNombre());
+                    idComponentesError.add(e.getNombreCampo(i));
+                }
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ErrorValidacionException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            String mensaje = e.getMensaje(0);
+            for (int i = 1; i < e.getCantMensajes(); i++) {
+                mensaje += "  |  " + e.getMensaje(i);
+            }
+            addErrorMessage(mensaje);
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ErrorValidacionCommitException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            String mensaje = e.getMensaje(0);
+            for (int i = 1; i < e.getCantMensajes(); i++) {
+                mensaje += "  |  " + e.getMensaje(i);
+            }
+            addErrorMessage(mensaje);
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ValidacionClaveUnicaException vcuEx) {
+            yaExisteReservaCamposClave = true;
+            String mensajeReservaPrevia = "ya_tiene_una_reserva_para_el_dia_seleccionado";
+            Recurso recurso = sesionMBean.getRecurso();
+            if (recurso.getPeriodoValidacion() != null && recurso.getPeriodoValidacion() > 0) {
+                Reserva reserva = sesionMBean.getReserva();
+                Date fecha = reserva.getDisponibilidades().get(0).getFecha();
+                Date fechaDesde = fecha;
+                Date fechaHasta = fecha;
+                Integer periodoValidacion = recurso.getPeriodoValidacion();
+                if (periodoValidacion == null) {
+                    periodoValidacion = 0;
+                }
+                Calendar cal = new GregorianCalendar();
+                cal.setTime(fecha);
+                cal.add(Calendar.DATE, -1 * periodoValidacion);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                fechaDesde = cal.getTime();
+                cal.setTime(fecha);
+                cal.add(Calendar.DATE, 1 * periodoValidacion);
+                cal.set(Calendar.HOUR_OF_DAY, 23);
+                cal.set(Calendar.MINUTE, 59);
+                cal.set(Calendar.SECOND, 59);
+                cal.set(Calendar.MILLISECOND, 999);
+                fechaHasta = cal.getTime();
+                DateFormat df = new SimpleDateFormat(sesionMBean.getFormatoFecha());
+                String periodo = df.format(fechaDesde) + " - " + df.format(fechaHasta);
+                mensajeReservaPrevia = sesionMBean.getTextos().get("ya_tiene_una_reserva_para_el_periodo").replace("{periodo}", periodo);;
+            }
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < vcuEx.getCantCampos(); i++) {
+                idComponentesError.add(vcuEx.getNombreCampo(i));
+                addErrorMessage(mensajeReservaPrevia, "form:" + vcuEx.getNombreCampo(i));
+            }
+            if (tramites != null && tramites.size() > 1) {
+                idComponentesError.add("tramite");
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (ValidacionException e) {
+            List<String> idComponentesError = new ArrayList<String>();
+            for (int i = 0; i < e.getCantCampos(); i++) {
+                DatoASolicitar dato = sesionMBean.getDatosASolicitar().get(e.getNombreCampo(i));
+                String mensaje = sesionMBean.getTextos().get("debe_completar_el_campo_campo").replace("{campo}", dato.getEtiqueta());
+                addErrorMessage(mensaje, "form", "form:" + dato.getNombre());
+                idComponentesError.add(e.getNombreCampo(i));
+            }
+            FormularioDinamicoReserva.marcarCamposError(idComponentesError, campos);
+            return null;
+        } catch (BusinessException bEx) {
+            addErrorMessage(bEx.getMessage());
+            bEx.printStackTrace();
+            return null;
+        } catch (UserException uEx) {
+            sesionMBean.setEnvioCorreoReserva(Boolean.FALSE);
+            datosReservaMBean.clear();
+            return "reservaConfirmada";
         } catch (Exception ex) {
-            logger.debug("Destruyendo una instancia de " + this.getClass().getName() + ", error.", ex);
-        }
-    }
-
-    public Date getFechaOriginal() {
-        if (sesionMBean.getReservaModificar1() == null) {
+            addErrorMessage(sesionMBean.getTextos().get("sistema_en_mantenimiento"));
+            ex.printStackTrace();
             return null;
+        } finally {
+            if (sesionMBean.getReservaConfirmada() == null) {
+                for (String nombre : datosReservaMBean.keySet()) {
+                    Object valor = datosReservaMBean.get(nombre);
+                    DatoASolicitar datoSol = sesionMBean.getDatosASolicitar().get(nombre);
+                }
+            }
         }
-        return sesionMBean.getReservaModificar1().getDisponibilidades().get(0).getFecha();
-    }
 
-    public Date getHoraOriginal() {
-        if (sesionMBean.getReservaModificar1() == null) {
-            return null;
-        }
-        return sesionMBean.getReservaModificar1().getDisponibilidades().get(0).getHoraInicio();
-    }
-
-    public Date getFechaNueva() {
-        if (sesionMBean.getReservaModificar2() == null) {
-            return null;
-        }
-        return sesionMBean.getReservaModificar2().getDisponibilidades().get(0).getFecha();
-    }
-
-    public Date getHoraNueva() {
-        if (sesionMBean.getReservaModificar2() == null) {
-            return null;
-        }
-        return sesionMBean.getReservaModificar2().getDisponibilidades().get(0).getHoraInicio();
+        datosReservaMBean.clear();
+        LOGGER.debug("=== FIN confirmarModificacion - retornando reservaConfirmada ===");
+        return "reservaConfirmada";
     }
 
 }

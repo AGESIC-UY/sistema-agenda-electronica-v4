@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -107,11 +107,11 @@ public class SofisPieGrafico extends SofisGrafico {
             opciones += " height: " + alto + ",";
         }
         opciones += "};";
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute(x);
-        context.execute(opciones);
-        context.execute("var chart = new google.visualization.PieChart(document.getElementById('" + getNombreDiv() + "')) ");
-        context.execute("chart.draw(data, options)");
+        PrimeFaces context = PrimeFaces.current();
+        context.executeScript(x);
+        context.executeScript(opciones);
+        context.executeScript("var chart = new google.visualization.PieChart(document.getElementById('" + getNombreDiv() + "')) ");
+        context.executeScript("chart.draw(data, options)");
     }
 
 }

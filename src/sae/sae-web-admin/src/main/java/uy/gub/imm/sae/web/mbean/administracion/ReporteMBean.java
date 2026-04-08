@@ -232,7 +232,7 @@ public class ReporteMBean extends BaseMBean {
         printer.print();
     }
 
-    public void reporteAsistenciaFecha(ActionEvent e) {
+    public void reporteAsistenciaFecha() {
         limpiarMensajesError();
         boolean hayErrores = false;
         Agenda agendaMarcada = sessionMBean.getAgendaMarcada();
@@ -729,7 +729,7 @@ public class ReporteMBean extends BaseMBean {
                 }
             }
         }
-        String[] aux = new String[cabezales.length + 8];
+        String[] aux = new String[cabezales.length + 11];
         int i = 0;
         for (i = 0; i < cabezales.length; i++) {
             aux[i] = cabezales[i];
@@ -742,7 +742,10 @@ public class ReporteMBean extends BaseMBean {
         aux[i + 4] = sessionMBean.getTextos().get("fecha_de_cancelacion");
         aux[i + 5] = sessionMBean.getTextos().get("tipo_de_cancelacion");
         aux[i + 6] = sessionMBean.getTextos().get("usuario_de_cancelacion");
-        aux[i + 7] = sessionMBean.getTextos().get("observaciones");
+        aux[i + 7] = sessionMBean.getTextos().get("usuario_creacion");
+        aux[i + 8] = sessionMBean.getTextos().get("fecha_de_creacion");
+        aux[i + 9] = sessionMBean.getTextos().get("ip_origen");
+        aux[i + 10] = sessionMBean.getTextos().get("observaciones");
         cabezales = aux;
         return cabezales;
     }
@@ -826,6 +829,24 @@ public class ReporteMBean extends BaseMBean {
                 filaDatos.add(new TableCellValue(""));
             } else {
                 filaDatos.add(new TableCellValue(reserva.getUcancela()));
+            }
+            if (reserva.getUcrea() == null) {
+                filaDatos.add(new TableCellValue(""));
+            } else {
+                filaDatos.add(new TableCellValue(reserva.getUcrea().trim()));
+            }
+
+            if (reserva.getFcrea() == null) {
+                filaDatos.add(new TableCellValue(""));
+            } else {
+                filaDatos.add(new TableCellValue(formatoFechaHora.format(reserva.getFcrea())));
+            }
+
+
+            if (reserva.getIpOrigen() == null) {
+                filaDatos.add(new TableCellValue(""));
+            } else {
+                filaDatos.add(new TableCellValue(reserva.getIpOrigen().trim()));
             }
             if (reserva.getObservaciones() == null) {
                 filaDatos.add(new TableCellValue(""));

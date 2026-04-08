@@ -1,11 +1,12 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
+        <h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
         <f:view beforePhase="#{eliminarDispMBean.beforePhaseEliminarSemana}" >
 
             <p:dialog closable="false" widgetVar="eliminarDisp" modal="true" focus="elimRec:btn_eliminar">
@@ -21,7 +22,7 @@
                             </p:commandButton>
                         </p:outputPanel>
                         <p:outputPanel styleClass="col-sm-5">
-                            <p:commandButton onclick="PF('eliminarDisp').hide();" value="#{sessionMBean.textos['no']}" styleClass="btn-link btn-100 btn" update="form:panelForm" 
+                            <p:commandButton onclick="PF('eliminarDisp').hide();" value="#{sessionMBean.textos['no']}" styleClass="btn-lg btn-primario" update="form:panelForm"
                                              actionListener="#{eliminarDispMBean.consultarSemana}" />
                         </p:outputPanel>
                     </p:outputPanel>
@@ -41,10 +42,7 @@
                                 <p:outputPanel id="selecFecha" styleClass="form-group">
                                     <h:outputLabel value="#{sessionMBean.textos['semana']}" for="semana" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-sm-9">
-                                        <h:inputText id="semana" value="#{eliminarDispMBean.semana}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                        <p:datePicker id="semana" value="#{eliminarDispMBean.semana}" styleClass="datepicker" converter="dateConverter" pattern="#{sessionMBean.formatoFecha}" locale="es" />
                                         <p:commandButton value="#{sessionMBean.textos['consultar_disponibilidades']}" actionListener="#{eliminarDispMBean.consultarSemana}"
                                                          update="form:horarioSemanal selecFecha" styleClass="btn btn-secundario" />
                                         <p:message for="semana" />

@@ -23,7 +23,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +45,6 @@ import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.fieldset.Fieldset;
 import org.primefaces.component.message.Message;
@@ -57,6 +55,7 @@ import uy.gub.imm.sae.entity.AgrupacionDato;
 import uy.gub.imm.sae.entity.DatoASolicitar;
 import uy.gub.imm.sae.entity.ServicioPorRecurso;
 import uy.gub.imm.sae.entity.ValorPosible;
+import uy.gub.imm.sae.web.component.InputDate;
 
 /**
  * Clase utilitaria, tiene la logica para generar componentes jsf y richfaces en
@@ -78,7 +77,7 @@ public class FormularioDinamicoReserva {
     public static final String STYLE_CLASS_CAMPO_SIN_ERROR = "formularioCampoSinError";
 
     private static final String STYLE_CLASS_FORMULARIO = "form-horizontal";
-    private static final String STYLE_CLASS_TEXTO_ETIQUETA = "col-sm-3 control-label label";
+    private static final String STYLE_CLASS_TEXTO_ETIQUETA = "col-lg-4 flex-label";
 
     private static final String STYLE_CLASS_CAMPO = "form-control";
     private static final String STYLE_CLASS_REQUERIDO = "formularioCampoRequerido";
@@ -229,12 +228,13 @@ public class FormularioDinamicoReserva {
             UIComponent campo[] = armarCampo(datoASolicitar);
             HtmlPanelGroup inputs = new HtmlPanelGroup();
             inputs.setLayout("block");
-            inputs.setStyleClass("form-group");
+            inputs.setStyleClass("row d-flex justify-content-center");
             grid.getChildren().add(inputs);   //agrupo las entradas para el caso de campos relacionados ej: dir, apto, bloque.
             inputs.getChildren().add(campo[0]); //Etiqueta
             HtmlPanelGroup inputValor = new HtmlPanelGroup();
             inputValor.setLayout("block");
-            inputValor.setStyleClass("col-sm-9");
+            inputValor.setStyleClass("col-lg-8 px-4");
+            inputValor.setStyle("display: flex; align-items: center;");
             inputValor.getChildren().add(campo[1]);
             inputs.getChildren().add(inputValor); //Input
             if (tipoFormulario == TipoFormulario.EDICION) {
@@ -304,10 +304,14 @@ public class FormularioDinamicoReserva {
         }
         input.setId(dato.getNombre());
         //Para el caso de las fechas, el componente arma un span que tiene el id dado, y deja el input dentro con el mismo id seguido de "_input"
-        if (soloLectura || !dato.getTipo().equals(Tipo.DATE)) {
-            etiqueta.setFor(input.getId());
+        if (dato.getTipo().equals(Tipo.DATE) && !soloLectura) {
+            // Asegura que el componente InputDate tenga ID fijo y el input HTML final tenga ese ID
+            input.setId(dato.getNombre()); // ID simple
+            input.getAttributes().put("id", dato.getNombre()); // fuerza el atributo en el render final
+            etiqueta.setFor(input.getClientId(FacesContext.getCurrentInstance()));
         } else {
-            etiqueta.setFor(input.getId() + "_input");
+            input.setId(dato.getNombre());
+            etiqueta.setFor(input.getId());
         }
         HtmlOutputFormat imgAyuda = new HtmlOutputFormat();
         imgAyuda.setValue("<img alt='" + dato.getTextoAyuda() + "' src='"+FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()+"/resources/images/info.png' title='" + dato.getTextoAyuda() + "' style='padding-left: 5px;'/>");
@@ -373,30 +377,21 @@ public class FormularioDinamicoReserva {
             input.setStyleClass(STYLE_CLASS_CAMPO + " datepicker-dis");
             input.setReadonly(true);
             input.setDisabled(true);
+            input.setId(dato.getNombre() + "_input");
             campo = input;
         } else {
-            Calendar calendario = (Calendar) app.createComponent(Calendar.COMPONENT_TYPE);
-            calendario.setAutocomplete("off");
-            calendario.setStyleClass(STYLE_CLASS_CAMPO_SIN_ERROR);
-            calendario.setLocale(locale);
-            calendario.setLang(locale.getLanguage());
-            calendario.setNavigator(true);
-            calendario.setYearRange("1900:c+10");
-            calendario.getAttributes().put("pattern", formatoFecha);
-            calendario.getAttributes().put("onError", "zero");
-            calendario.setConverter(new DateConverter());
-            //Le configuro el managed bean donde debe almacenar el valor que ingrese el usuario.
-            ValueExpression ve = armarExpresion(dato.getNombre(), Date.class);
-            calendario.setValueExpression("value", ve);
-            calendario.setPattern(formatoFecha);
-            //Si el campo es de solo lectura y hay un valor para él, entonces se hace readonly
-            if (dato.getSoloLectura() != null && dato.getSoloLectura().booleanValue()) {
-                if (this.valores != null && this.valores.get(dato.getNombre()) != null) {
-                    calendario.setReadonly(true);
-                    calendario.setDisabled(true);
-                }
-            }
-            campo = calendario;
+            InputDate input = new InputDate();
+            input.getAttributes().put("pattern","yyyy-MM-dd");
+            ValueExpression ve = armarExpresion(dato.getNombre(), String.class);
+            input.setValueExpression("value", ve);
+            input.setStyleClass(STYLE_CLASS_CAMPO);
+            input.setConverter(new DateConverter());
+            // Establecer el ID base del componente
+            input.setId(dato.getNombre());
+
+            // Forzar el ID del input HTML interno
+            input.getAttributes().put("inputId", dato.getNombre() + "_input");
+            campo = input;
         }
         return campo;
     }
@@ -430,7 +425,7 @@ public class FormularioDinamicoReserva {
             campo = input;
         } else {
             HtmlSelectOneMenu lista = (HtmlSelectOneMenu) app.createComponent(HtmlSelectOneMenu.COMPONENT_TYPE);
-            lista.setStyleClass(STYLE_CLASS_CAMPO + " " + STYLE_CLASS_CAMPO_SIN_ERROR);
+            lista.setStyleClass(STYLE_CLASS_CAMPO_SIN_ERROR);
 
             List<UISelectItem> items = armarListaDeValores(dato);
             for (UISelectItem item : items) {
@@ -457,6 +452,16 @@ public class FormularioDinamicoReserva {
      */
     private List<UISelectItem> armarListaDeValores(DatoASolicitar dato) {
         List<UISelectItem> items = new ArrayList<UISelectItem>();
+        // En formularios de consulta se agrega una opción vacía al inicio para que
+        // el campo no quede pre-seleccionado con el primer valor. Si el usuario no
+        // selecciona nada, el valor "NoSeleccion" es ignorado por obtenerDatosReserva
+        // y el campo no se incluye como condición en la búsqueda.
+        if (tipoFormulario == TipoFormulario.CONSULTA) {
+            UISelectItem itemVacio = new UISelectItem();
+            itemVacio.setItemLabel("-- Seleccione --");
+            itemVacio.setItemValue("NoSeleccion");
+            items.add(itemVacio);
+        }
         // Agrego el resto de las opciones
         for (ValorPosible valor : dato.getValoresPosibles()) {
             UISelectItem item = new UISelectItem();
@@ -481,6 +486,27 @@ public class FormularioDinamicoReserva {
             }
             input.setDisabled(true);
             campo = input;
+        } else if (tipoFormulario == TipoFormulario.CONSULTA) {
+            // En formularios de consulta se usa un select de 3 opciones para que
+            // el campo no quede pre-seleccionado con true/false implícito.
+            // "NoSeleccion" es ignorado por obtenerDatosReserva y no genera condición en la query.
+            HtmlSelectOneMenu lista = (HtmlSelectOneMenu) app.createComponent(HtmlSelectOneMenu.COMPONENT_TYPE);
+            lista.setStyleClass(STYLE_CLASS_CAMPO_SIN_ERROR);
+            UISelectItem itemVacio = new UISelectItem();
+            itemVacio.setItemLabel("-- Seleccione --");
+            itemVacio.setItemValue("NoSeleccion");
+            lista.getChildren().add(itemVacio);
+            UISelectItem itemSi = new UISelectItem();
+            itemSi.setItemLabel("Sí");
+            itemSi.setItemValue("true");
+            lista.getChildren().add(itemSi);
+            UISelectItem itemNo = new UISelectItem();
+            itemNo.setItemLabel("No");
+            itemNo.setItemValue("false");
+            lista.getChildren().add(itemNo);
+            ValueExpression ve = armarExpresion(dato.getNombre(), String.class);
+            lista.setValueExpression("value", ve);
+            campo = lista;
         } else {
             HtmlSelectBooleanCheckbox checkbox = (HtmlSelectBooleanCheckbox) app.createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE);
             //Le configuro le managed bean donde debe almacenar el valor que ingrese el usuario.

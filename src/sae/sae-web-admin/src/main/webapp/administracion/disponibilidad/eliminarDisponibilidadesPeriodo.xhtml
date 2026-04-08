@@ -1,11 +1,13 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cp="http://sae-web">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
+        <h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
         <f:view beforePhase="#{eliminarDispMBean.beforePhaseEliminarPeriodo}" >
 
             <p:dialog closable="false" widgetVar="eliminarDisp" modal="true" focus="elimRec:btn_eliminar">
@@ -21,7 +23,7 @@
                             </p:commandButton>
                         </p:outputPanel>
                         <p:outputPanel styleClass="col-sm-5">
-                            <p:commandButton onclick="PF('eliminarDisp').hide();" value="#{sessionMBean.textos['no']}" styleClass="btn-link btn-100 btn" />
+                            <p:commandButton onclick="PF('eliminarDisp').hide();" value="#{sessionMBean.textos['no']}" styleClass="btn-primario btn-100 btn" />
                         </p:outputPanel>
                     </p:outputPanel>
                 </h:form>
@@ -40,31 +42,29 @@
                             <p:outputPanel styleClass="form-horizontal">
 
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['desde']}" for="Fdesde" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                    <h:outputLabel value="#{sessionMBean.textos['desde']}" for="Fdesde" styleClass="col-sm-3 label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-sm-9">
-                                        <h:inputText id="Fdesde" value="#{eliminarDispMBean.fechaDesde}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                        <cp:inputDate id="Fdesde"  value="#{eliminarDispMBean.fechaDesde}" pattern="yyyy-MM-dd">
+                                            <f:converter converterId="dateConverter"/>
+                                        </cp:inputDate>
                                         <p:message for="Fdesde" />
                                     </p:outputPanel>
                                 </p:outputPanel>
 
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['hasta']}" for="Fhasta" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                    <h:outputLabel value="#{sessionMBean.textos['hasta']}" for="Fhasta" styleClass="col-sm-3 label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-sm-9">
-                                        <h:inputText id="Fhasta" value="#{eliminarDispMBean.fechaHasta}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                        <cp:inputDate id="Fhasta"  value="#{eliminarDispMBean.fechaHasta}" pattern="yyyy-MM-dd">
+                                            <f:converter converterId="dateConverter"/>
+                                        </cp:inputDate>
                                         <p:message for="Fhasta" />
                                     </p:outputPanel>
                                 </p:outputPanel>
 
                                 <p:outputPanel styleClass="form-group">
                                     <p:outputPanel styleClass="col-sm-9 offset-sm-3">
-                                        <p:commandButton value="#{sessionMBean.textos['consultar']}" actionListener="#{eliminarDispMBean.obtenerCuposPeriodo}" 
-                                                         update="form:panelForm" styleClass="btn btn-secundario" />
+                                        <p:commandButton value="#{sessionMBean.textos['consultar']}" action="#{eliminarDispMBean.obtenerCuposPeriodo}"
+                                                         update="form:panelDisponibilidad" process="form:Fdesde,form:Fhasta,@this" styleClass="btn-lg btn-primario" />
                                     </p:outputPanel>
                                 </p:outputPanel>
                             </p:outputPanel>

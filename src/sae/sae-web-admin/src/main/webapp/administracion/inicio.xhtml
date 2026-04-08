@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -27,7 +27,7 @@
                     <p:outputPanel styleClass="form-group">
                         <p:outputLabel value="#{sessionMBean.textos['organismo']}" for="organismo" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                         <div class="col-sm-7">
-                            <h:selectOneMenu id="organismo" value="#{sessionMBean.organismoIdSelec}" valueChangeListener="#{sessionMBean.cambioOrganismo}" styleClass="form-control">
+                            <h:selectOneMenu id="organismo" value="#{sessionMBean.organismoIdSelec}" valueChangeListener="#{sessionMBean.cambioOrganismo}">
                                     <f:selectItems value="#{sessionMBean.organismosUsuario}" />
                                     <p:ajax update="btnOk" process="@this" />
                             </h:selectOneMenu>

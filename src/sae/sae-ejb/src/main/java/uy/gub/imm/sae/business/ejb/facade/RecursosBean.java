@@ -338,6 +338,7 @@ public class RecursosBean implements RecursosLocal {
 		// creo valor cédula
 		ValorPosible vp1 = new ValorPosible();
 		vp1.setDato(d1);
+		vp1.setValorEnTraza("ci");
 		vp1.setEtiqueta("Cédula de Identidad");
 		vp1.setFechaDesde(r.getFechaInicio());
 		vp1.setFechaHasta(r.getFechaFin());
@@ -349,6 +350,7 @@ public class RecursosBean implements RecursosLocal {
 		// creo valor pasaporte
 		ValorPosible vp2 = new ValorPosible();
 		vp2.setDato(d1);
+		vp2.setValorEnTraza("psp");
 		vp2.setEtiqueta("Pasaporte");
 		vp2.setFechaDesde(r.getFechaInicio());
 		vp2.setFechaHasta(r.getFechaFin());
@@ -360,6 +362,7 @@ public class RecursosBean implements RecursosLocal {
 		// creo valor pasaporte
 		ValorPosible vp3 = new ValorPosible();
 		vp3.setDato(d1);
+		vp3.setValorEnTraza("ci");
 		vp3.setEtiqueta("Otro");
 		vp3.setFechaDesde(r.getFechaInicio());
 		vp3.setFechaHasta(r.getFechaFin());
@@ -411,6 +414,8 @@ public class RecursosBean implements RecursosLocal {
 		d3.setBorrarFlag(false);
 		// persisto dato a solicitar
 		agregarDatoASolicitar(r, agrupDato, d3);
+
+
 
 		// Si el recurso tiene una accion, debo guardarla (crearla)
 		if (r.getAccionMiPerfil() != null) {
@@ -1844,7 +1849,8 @@ public class RecursosBean implements RecursosLocal {
 		// Obtener los datos a solicitar de la agrupación
 		List<DatoASolicitar> datos = entityManager
 				.createQuery("FROM DatoASolicitar dato " + "WHERE dato.agrupacionDato = :agrupacion "
-						+ "  AND dato.fechaBaja IS NULL " + "ORDER BY dato.fila, dato.columna ")
+						+ "  AND dato.fechaBaja IS NULL "
+						+ "ORDER BY dato.fila, dato.columna ")
 				.setParameter("agrupacion", agrupacion).getResultList();
 		// Para cada dato, si es de tipo lista obtener los valores posibles
 		for (DatoASolicitar datoASolicitar : datos) {
@@ -1881,13 +1887,16 @@ public class RecursosBean implements RecursosLocal {
 		Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.MILLISECOND, timezone.getOffset(cal.getTimeInMillis()));
 		Date hoy = cal.getTime();
-		ValorPosible valorPosible = (ValorPosible) entityManager
+		List<ValorPosible> resultList = entityManager
 				.createQuery("FROM ValorPosible valor " + "WHERE valor.valor = :valor "
 						+ "  AND dato.id = :idDatoSolicitar " + "  AND :hoy >= valor.fechaDesde "
 						+ "  AND (valor.fechaHasta IS NULL OR :hoy <= valor.fechaHasta) " + "ORDER BY valor.orden ")
 				.setParameter("valor", valor).setParameter("idDatoSolicitar", idDatoSolicitar)
-				.setParameter("hoy", hoy, TemporalType.DATE).getSingleResult();
-		return new ValorPosible(valorPosible);
+				.setParameter("hoy", hoy, TemporalType.DATE).getResultList();
+		if (resultList.isEmpty()) {
+			return null;
+		}
+		return new ValorPosible(resultList.get(0));
 	}
 
 	/**

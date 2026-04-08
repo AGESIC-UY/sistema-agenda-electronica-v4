@@ -1,4 +1,4 @@
-# SAE - VERSION 4.6
+# SAE - VERSION 4.6.6
 
 ## OBJETO
 Proyecto SAE 
@@ -6,8 +6,6 @@ Proyecto SAE
 ### Instalar dependencias locales
 
 Entrar en `saev4\src\sae-modulos\libs` y ejecutar el siguiente comando:
-
-`mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=primefaces.sofis-6.2.jar`
 
 `mvn install:install-file -Dfile=immOpenCSVExt.jar -DgroupId=uy.gub.imm -DartifactId=opencsv.ext -Dversion=1.0 -Dpackaging=jar`
 
@@ -27,5 +25,11 @@ Se requiere configurar un host local para utilizar la aplicación, abrir el arch
 Agregar lo siguiente:
 
 `127.0.0.1 testing.sae.pge.red.uy`
+
+## Compilación para ID Uruguay (activa por defecto)
+mvn clean install -P auth-iduruguay
+
+## Compilación para local
+mvn clean install -P auth-local
 
 

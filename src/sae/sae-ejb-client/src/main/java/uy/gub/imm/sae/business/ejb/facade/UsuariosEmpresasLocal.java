@@ -19,6 +19,7 @@
  */
 package uy.gub.imm.sae.business.ejb.facade;
 
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import javax.ejb.Local;
@@ -62,6 +63,8 @@ public interface UsuariosEmpresasLocal {
     public List<String> obtenerRolesUsuarioEmpresa(Integer usuarioId, Integer empresaId) throws ApplicationException;
 
     public void guardarRolesUsuarioEmpresa(UsuarioEmpresaRoles roles) throws ApplicationException;
+
+    public void  actualizarUltimoLogin(Integer usuarioId, Date ultimoLogin) throws ApplicationException;
 
     /**
      * Devuelve la lista de organismos. Si el parámetro actualizar es false devuelve lo que tiene en la base de datos, si es true vacía la base de datos,

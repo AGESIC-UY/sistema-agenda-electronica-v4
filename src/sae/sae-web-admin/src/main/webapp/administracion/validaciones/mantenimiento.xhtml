@@ -1,12 +1,38 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
         <f:view beforePhase="#{validacionMantenimientoMBean.beforePhase}">
+            <p:dialog closable="false" widgetVar="agregarParametro" modal="true" >
+                <f:facet name="header">
+                    <h:outputText value="#{sessionMBean.textos['agregar_parametro']}" />
+                </f:facet>
+                <h:form id="agregarParametroForm">
+                    <p:outputPanel styleClass="form-group">
+                        <p:outputPanel styleClass="col-sm-12">
+                            <h:outputText value="#{sessionMBean.textos['nombre']}" />
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="col-sm-12">
+                            <h:inputText id="parametroNombre" value="#{validacionMantenimientoMBean.nombreParametro}" maxlength="50" title="#{sessionMBean.textos['nombre']}"/>
+                            <p:message for="parametroNombre" />
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <p:outputPanel styleClass="row panelBotonesPopUp">
+                        <p:outputPanel styleClass="col-sm-6">
+                            <p:commandButton id="btn_agregar" update="form:panelValidacion,agregarParametroForm" actionListener="#{validacionMantenimientoMBean.crearParametro}"
+                                             value="#{sessionMBean.textos['confirmar']}"  styleClass="btn-lg btn-primario">
+                            </p:commandButton>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="col-sm-6">
+                            <p:commandButton styleClass="btn-lg btn-primario" oncomplete="PF('agregarParametro').hide();" value="#{sessionMBean.textos['cancelar']}" />
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </h:form>
+            </p:dialog>
 
             <p:dialog closable="false" widgetVar="eliminarValidacion" modal="true" focus="elimRec:btn_eliminar">
                 <f:facet name="header">
@@ -65,9 +91,9 @@
                                 <h:outputText value="#{sessionMBean.textos['acciones']}" />
                             </f:facet>
                             <p:commandButton id="modificarValidacion" value="#{sessionMBean.textos['modificar']}" actionListener="#{validacionMantenimientoMBean.editarValidacion}"
-                                             icon="ui-icon-pencil" update="form:panelValidacion" styleClass="ui-button-icon-only" title="#{sessionMBean.textos['modificar']}" />
+                                             icon="fa-solid fa-pencil" update="form:panelValidacion" styleClass="ui-button-icon-only" title="#{sessionMBean.textos['modificar']}" />
                             <p:commandButton id="eliminarValidacion" value="#{sessionMBean.textos['eliminar']}" actionListener="#{validacionMantenimientoMBean.selecValidacionEliminar}" 
-                                             update="form:panelValidacion" styleClass="ui-button-icon-only" oncomplete="PF('eliminarValidacion').show();" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}" />
+                                             update="form:panelValidacion" styleClass="ui-button-icon-only" oncomplete="PF('eliminarValidacion').show();" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}" />
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
@@ -114,26 +140,22 @@
                                 </p:outputPanel>
 
                                 <p:outputPanel styleClass="botonesDerecha">
-                                    <p:commandButton id="agregarParametro" value="#{sessionMBean.textos['agregar_parametro']}" styleClass="btn btn-secundario"
-                                                     actionListener="#{validacionMantenimientoMBean.crearParametro}" update="form:parametrosValidacion" />
+                                    <p:commandButton id="agregarParametro" value="#{sessionMBean.textos['agregar_parametro']}" styleClass="btn-lg btn-primario"
+                                                     onclick="PF('agregarParametro').show();" update="form:parametrosValidacion" />
                                 </p:outputPanel>
+                                <br/>
 
                                 <p:dataTable id="parametrosValidacion" value="#{validacionMantenimientoMBean.validacion.parametrosValidacion}" var="row" rowIndexVar="num" 
                                              caption="#{sessionMBean.textos['parametros']}" emptyMessage="#{sessionMBean.textos['no_hay_datos_para_mostrar']}">
                                     <p:column headerText="#{sessionMBean.textos['nombre']}">
-                                        <p:outputPanel styleClass="form-group">
-                                            <p:outputPanel styleClass="col-sm-12">
-                                                <h:inputText id="parametroNombre" value="#{row.nombre}" maxlength="50" title="#{sessionMBean.textos['nombre']}" />
-                                                <p:message for="parametroNombre" />
-                                            </p:outputPanel>
-                                        </p:outputPanel>
+                                                <h:outputText id="parametroNombre" value="#{row.nombre}"  />
                                     </p:column>
                                     <p:column styleClass="alinCentro">
                                         <f:facet name="header">
                                             <h:outputText value="#{sessionMBean.textos['acciones']}" />
                                         </f:facet>
                                         <p:commandButton id="eliminarParametro" value="#{sessionMBean.textos['eliminar']}" action="#{validacionMantenimientoMBean.eliminarParametro(num)}"
-                                                         icon="ui-icon-trash" update="form:panelValidacion" title="#{sessionMBean.textos['eliminar']}" styleClass="ui-button-icon-only" />
+                                                         icon="fa-solid fa-trash" update="form:panelValidacion" title="#{sessionMBean.textos['eliminar']}" styleClass="ui-button-icon-only" />
                                     </p:column>
                                 </p:dataTable>
                             </p:outputPanel>
@@ -152,7 +174,7 @@
                                 <ul>
                                     <li class="float-left">
                                         <p:commandButton value="#{sessionMBean.textos['cancelar']}" actionListener="#{validacionMantenimientoMBean.cancelarValidacion}"
-                                                         styleClass="btn-lg btn-link" update="form:panelForm form:panelValidacion" />
+                                                         styleClass="btn-lg btn-primario" update="form:panelForm form:panelValidacion" />
                                     </li>
                                 </ul>
                             </li>

@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -52,14 +52,14 @@
                             <f:facet name="header">
                                 <h:outputText value="#{sessionMBean.textos['acciones']}" />
                             </f:facet>
-                            <p:commandButton id="modificarAgenda" value="#{sessionMBean.textos['modificar']}" action="#{agendaMBean.modificar(row.data.id)}" icon="ui-icon-pencil"
+                            <p:commandButton id="modificarAgenda" value="#{sessionMBean.textos['modificar']}" action="#{agendaMBean.modificar(row.data.id)}" icon="fa-solid fa-pencil"
                                              title="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only">
                             </p:commandButton>
                             <p:commandButton id="copiarAgeLink" value="#{sessionMBean.textos['copiar']}" action="#{agendaMBean.copiar(row.data.id)}"
-                                             update="form:panelForm" icon="ui-icon-copy" title="#{sessionMBean.textos['copiar']}" styleClass="ui-button-icon-only">
+                                             update="form:panelForm" icon="fa-solid fa-copy" title="#{sessionMBean.textos['copiar']}" styleClass="ui-button-icon-only">
                             </p:commandButton>
                             <p:commandButton id="eliminarAgenda" value="#{sessionMBean.textos['eliminar']}" action="#{agendaMBean.selecAgendaEliminar(row.data.id)}"
-                                             update="dlgEliminarAgenda" oncomplete="PF('eliminarAgenda').show();" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}" 
+                                             update="dlgEliminarAgenda" oncomplete="PF('eliminarAgenda').show();" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}"
                                              styleClass="ui-button-icon-only">
                             </p:commandButton>
                         </p:column>

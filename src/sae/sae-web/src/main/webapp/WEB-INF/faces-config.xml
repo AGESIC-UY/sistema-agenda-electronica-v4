@@ -15,6 +15,18 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
 
+    <component>
+        <component-type>uy.gub.imm.sae.web.component.messages.CustomMessages</component-type>
+        <component-class>uy.gub.imm.sae.web.component.messages.CustomMessages</component-class>
+    </component>
+    <render-kit>
+        <renderer>
+            <component-family>uy.gub.imm.sae.web.component</component-family>
+            <renderer-type>uy.gub.imm.sae.web.component.messages.CustomMessagesRenderer</renderer-type>
+            <renderer-class>uy.gub.imm.sae.web.component.messages.CustomMessagesRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+
     <navigation-rule>
         <from-view-id>/agendarReserva/Paso1.xhtml</from-view-id>
         <navigation-case>
@@ -23,29 +35,26 @@
             <redirect />
         </navigation-case>
     </navigation-rule>
-    
+
     <navigation-rule>
         <from-view-id>/agendarReserva/Paso2.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>siguientePaso</from-outcome>
-            <to-view-id>/agendarReserva/Paso3.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-    </navigation-rule>
-    
-    <navigation-rule>
-        <from-view-id>/agendarReserva/Paso3.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>reservaConfirmada</from-outcome>
             <to-view-id>/agendarReserva/PasoFinal.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
+            <from-outcome>siguientePaso</from-outcome>
+            <to-view-id>/agendarReserva/PasoFinal.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
             <from-outcome>pasoAnterior</from-outcome>
-            <to-view-id>/agendarReserva/Paso2.xhtml</to-view-id>
+            <to-view-id>/agendarReserva/Paso1.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
+
 
     <navigation-rule>
         <from-view-id>/agendarReserva/Paso.template.xhtml</from-view-id>
@@ -161,19 +170,18 @@
         </navigation-case>
     </navigation-rule>
 
+    <!-- Navegación ModificarReserva con calendario nuevo (3 pasos) -->
+    <!-- Paso1: Buscador por código de cancelación -->
     <navigation-rule>
         <from-view-id>/modificarReserva/Paso1.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>pasoAnterior</from-outcome>
-            <to-view-id>/modificarReserva/Paso1.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
         <navigation-case>
             <from-outcome>siguientePaso</from-outcome>
             <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
+
+    <!-- Paso2: Calendario (selección de nueva fecha/hora) -->
     <navigation-rule>
         <from-view-id>/modificarReserva/Paso2.xhtml</from-view-id>
         <navigation-case>
@@ -187,18 +195,29 @@
             <redirect />
         </navigation-case>
     </navigation-rule>
+
+    <!-- Paso3: Formulario de datos + captcha + confirmación -->
     <navigation-rule>
         <from-view-id>/modificarReserva/Paso3.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>pasoAnterior</from-outcome>
-            <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
         <navigation-case>
             <from-outcome>reservaConfirmada</from-outcome>
             <to-view-id>/modificarReserva/PasoFinal.xhtml</to-view-id>
             <redirect />
         </navigation-case>
+        <navigation-case>
+            <from-outcome>pasoAnterior</from-outcome>
+            <to-view-id>/modificarReserva/Paso2.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
     </navigation-rule>
-    
+
+    <navigation-rule>
+        <from-view-id>/modificarReserva/Paso.template.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inicio</from-outcome>
+            <to-view-id>/modificarReserva/Paso1.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
 </faces-config>

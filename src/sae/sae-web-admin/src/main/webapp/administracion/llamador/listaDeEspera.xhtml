@@ -1,5 +1,5 @@
 <ui:composition template="/templates/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:p="http://primefaces.org/ui/sofis" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
 
@@ -15,42 +15,47 @@
 
                 <h:form id="form1">
                     <p:outputPanel id="todo">
-                        <div class="form-inline">
-                            <div class="form-group margen_inf">
-                                <p:outputLabel value="#{sessionMBean.textos['atencion_presencial']}"
-                                    for="atencionPresencial" rendered="#{!listaDeEsperaMBean.mostrarDatosSiguiente}"
-                                    styleClass="label control-label" />
-                                <p:selectBooleanCheckbox id="atencionPresencial"
-                                    value="#{listaDeEsperaMBean.atencionPresencial}"
-                                    rendered="#{!listaDeEsperaMBean.mostrarDatosSiguiente}">
-                                    <p:ajax update="form1:todo"
-                                        listener="#{listaDeEsperaMBean.cambioAtencionPresencial}" />
-                                </p:selectBooleanCheckbox>
-                                <h:outputLabel value="#{sessionMBean.textos['numero_de_puesto']}"
-                                    styleClass="control-label label formularioCampoRequerido" for="puesto" />
-                                <h:inputText size="3" maxlength="3" id="puesto" value="#{listaDeEsperaMBean.puesto}"
-                                    styleClass="form-control" />
-                                <p:commandButton value="#{sessionMBean.textos['llamar_al_siguiente']}"
-                                    actionListener="#{listaDeEsperaMBean.siguiente}" update="form1:todo"
-                                    rendered="#{listaDeEsperaSessionMBean.estadosSeleccionado=='[R]' and !listaDeEsperaMBean.mostrarDatosSiguiente}"
-                                    styleClass="btn-lg btn-primario" />
+                        <div class="row">
+                            <div class="col-sm-8" >
+                                <div class="form-inline">
+                                    <div class="form-group margen_inf">
+                                        <p:outputLabel value="#{sessionMBean.textos['atencion_presencial']}"
+                                                       for="atencionPresencial" rendered="#{!listaDeEsperaMBean.mostrarDatosSiguiente}"
+                                                       styleClass="label control-label" />
+                                        <p:selectBooleanCheckbox id="atencionPresencial"
+                                                                 value="#{listaDeEsperaMBean.atencionPresencial}"
+                                                                 rendered="#{!listaDeEsperaMBean.mostrarDatosSiguiente}">
+                                            <p:ajax update="form1:todo"
+                                                    listener="#{listaDeEsperaMBean.cambioAtencionPresencial}" />
+                                        </p:selectBooleanCheckbox>
+                                        <h:outputLabel value="#{sessionMBean.textos['numero_de_puesto']}"
+                                                       styleClass="control-label label formularioCampoRequerido" for="puesto" />
+                                        <h:inputText size="3" maxlength="3" id="puesto" value="#{listaDeEsperaMBean.puesto}"
+                                                     styleClass="form-control listaEspera_item" />
+                                        <p:commandButton value="#{sessionMBean.textos['llamar_al_siguiente']}"
+                                                         actionListener="#{listaDeEsperaMBean.siguiente}" update="form1:todo"
+                                                         rendered="#{listaDeEsperaSessionMBean.estadosSeleccionado=='[R]' and !listaDeEsperaMBean.mostrarDatosSiguiente}"
+                                                         styleClass="btn-lg btn-primario" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" >
+                                <p:outputPanel rendered="#{!listaDeEsperaMBean.mostrarDatosSiguiente}"
+                                               styleClass="form-inline alinDer margen_inf">
+                                    <div class="form-group">
+                                        <h:outputLabel value="#{sessionMBean.textos['mostrar']}"
+                                                       styleClass="label control-label" for="mostrar" />
+                                        <h:selectOneMenu id="mostrar" value="#{listaDeEsperaSessionMBean.estadosSeleccionado}"
+                                                         styleClass="control-label listaEspera_item"
+                                                         valueChangeListener="#{listaDeEsperaMBean.cambiaSeleccionEstados}">
+                                            <p:ajax update="@all" process="@this" />
+                                            <f:selectItems value="#{listaDeEsperaMBean.itemsEstado}" />
+                                            <f:converter converterId="estadosConverter" />
+                                        </h:selectOneMenu>
+                                    </div>
+                                </p:outputPanel>
                             </div>
                         </div>
-
-                        <p:outputPanel rendered="#{!listaDeEsperaMBean.mostrarDatosSiguiente}"
-                            styleClass="form-inline alinDer margen_inf">
-                            <div class="form-group">
-                                <h:outputLabel value="#{sessionMBean.textos['mostrar']}"
-                                    styleClass="label control-label" for="mostrar" />
-                                <h:selectOneMenu id="mostrar" value="#{listaDeEsperaSessionMBean.estadosSeleccionado}"
-                                    styleClass="control-label"
-                                    valueChangeListener="#{listaDeEsperaMBean.cambiaSeleccionEstados}">
-                                    <p:ajax update="@all" process="@this" />
-                                    <f:selectItems value="#{listaDeEsperaMBean.itemsEstado}" />
-                                    <f:converter converterId="estadosConverter" />
-                                </h:selectOneMenu>
-                            </div>
-                        </p:outputPanel>
 
                         <p:outputPanel rendered="#{listaDeEsperaMBean.mostrarDatosSiguiente}">
 
@@ -96,12 +101,21 @@
                                         <h:outputLabel value="#{sessionMBean.textos['observaciones']}" for="observaciones"/>
                                         <h:inputTextarea id="observaciones" value="#{listaDeEsperaSessionMBean.siguienteReserva.observaciones}" styleClass="form-control" binding="#{observaciones}" />
                                     </p:outputPanel>
-                                    <p:outputPanel styleClass="col-sm-4">
-                                        <p:commandButton value="#{sessionMBean.textos['falto']}" actionListener="#{listaDeEsperaMBean.falto(observaciones.value)}" update="form1:todo" styleClass="btn-lg btn-secundario"
-                                                         icon="ui-icon-closethick">
-                                        </p:commandButton>
-                                        <p:commandButton value="#{sessionMBean.textos['asistio']}" actionListener="#{listaDeEsperaMBean.asistio(observaciones.value)}" update="form1:todo" styleClass="btn-lg btn-primario"
-                                                         icon="ui-icon-check" />
+                                    <p:outputPanel styleClass="col-sm-4 col-md-6 col-lg-4">
+                                       <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-auto">
+                                                    <p:commandButton value="#{sessionMBean.textos['falto']}" actionListener="#{listaDeEsperaMBean.falto(observaciones.value)}" update="form1:todo" styleClass="btn-lg-icon btn-secundario"
+                                                                     icon="fa-solid fa-xmark" >
+                                                    </p:commandButton>
+                                                </div>
+                                                <div class="col-sm-auto">
+                                                    <p:commandButton value="#{sessionMBean.textos['asistio']}" actionListener="#{listaDeEsperaMBean.asistio(observaciones.value)}" update="form1:todo" styleClass="btn-lg-icon btn-primario"
+                                                                     icon="fa-solid fa-check"  >
+                                                    </p:commandButton>
+                                                </div>
+                                            </div>
+                                       </div>
                                     </p:outputPanel>
                                 </p:outputPanel>
                             </p:outputPanel>

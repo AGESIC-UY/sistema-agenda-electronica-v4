@@ -55,7 +55,8 @@ public class DatoASolicitar implements Serializable{
         public static final String TIPO_DOCUMENTO = "TipoDocumento";
         public static final String NUMERO_DOCUMENTO = "NroDocumento";
         public static final String CORREO_ELECTRONICO = "Mail";
-	
+
+	    public static final String VALOR_EN_TRAZA = "ValorEnTraza";
 	private Integer id;
 	private String nombre;
 	private String etiqueta;

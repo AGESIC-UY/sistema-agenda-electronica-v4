@@ -294,7 +294,7 @@ public class ConsultasBean implements ConsultasLocal {
             for (DatoReserva datoR : datos) {
                 if ((datoR.getValor() != null) && (!datoR.getValor().equalsIgnoreCase("NoSeleccion"))) {
                     if ((primerRegistro)) {
-                        whereStr = whereStr + " AND (upper(datoReserva.valor) = '"
+                        whereStr = whereStr + " AND ((upper(datoReserva.valor) = '"
                                 + datoR.getValor().toUpperCase() + "' AND datoSolicitar.id = "
                                 + datoR.getDatoASolicitar().getId() + ") ";
                         primerRegistro = false;
@@ -308,7 +308,7 @@ public class ConsultasBean implements ConsultasLocal {
                 }
                 i++;
             }
-            String consulta = selectStr + fromStr + whereStr + " ORDER BY reserva.fechaCreacion DESC ";
+            String consulta = selectStr + fromStr + whereStr + ") ORDER BY reserva.fechaCreacion DESC ";
 
             reservas = (List<Reserva>) entityManager.createQuery(consulta)
                     .setParameter("recurso", recurso)
@@ -568,7 +568,7 @@ public class ConsultasBean implements ConsultasLocal {
         }
         String queryString
                 = "SELECT r.id, r.numero, r.estado, d.id, d.fecha, d.horaInicio, das.id, das.nombre, das.tipo, dr.valor, ll.puesto, r.tramiteCodigo, "
-                + "r.tramiteNombre, d.presencial, r.fcancela, r.ucancela, r.tcancela, r.codigoSeguridad, r.observaciones "
+                + "r.tramiteNombre, d.presencial, r.fcancela, r.ucancela, r.tcancela, r.codigoSeguridad, r.observaciones, r.ipOrigen, r.ucrea, r.fechaCreacion "
                 + "FROM Reserva r "
                 + "JOIN r.disponibilidades d "
                 + "LEFT JOIN r.datosReserva dr "
@@ -618,6 +618,9 @@ public class ConsultasBean implements ConsultasLocal {
             TipoCancelacion tcancela = (TipoCancelacion) rowReserva[16];
             String codigoSeguridad = (String) rowReserva[17];
             String observaciones = (String) rowReserva[18];
+            String ipOrigen = (String) rowReserva[19];
+            String usuarioCreacion = (String) rowReserva[20];
+            Date fcreacion = (Date) rowReserva[21];
             if (idReservaActual == null || !idReservaActual.equals(reservaId)) {
                 idReservaActual = reservaId;
                 
@@ -656,6 +659,9 @@ public class ConsultasBean implements ConsultasLocal {
                 reservaDTO.setTcancela(tcancela == null ? null : tcancela.toString());
                 reservaDTO.setCodigoSeguridad(codigoSeguridad);
                 reservaDTO.setObservaciones(observaciones);
+                reservaDTO.setIpOrigen(ipOrigen);
+                reservaDTO.setUcrea(usuarioCreacion);
+                reservaDTO.setFcrea(fcreacion);
             }
             if (nombreDatoReserva != null) {
                 if (valorDatoReserva == null) {
@@ -717,7 +723,7 @@ public class ConsultasBean implements ConsultasLocal {
         Map<Integer, Map<String, String>> valoresPosiblesPorEtiqueta = armoMapaCampoValorEtiqueta(recurso);
 
         String queryString
-                = "SELECT r.id, r.numero, r.estado, d.id, d.fecha, d.horaInicio, das.id, das.nombre, das.tipo, dr.valor, ll.puesto, r.tramiteCodigo, r.tramiteNombre, d.presencial, r.observaciones "
+                = "SELECT r.id, r.numero, r.estado, d.id, d.fecha, d.horaInicio, das.id, das.nombre, das.tipo, dr.valor, ll.puesto, r.tramiteCodigo, r.tramiteNombre, d.presencial, r.observaciones,  r.ipOrigen, r.ucrea "
                 + "FROM Reserva r "
                 + "JOIN r.disponibilidades d "
                 + "LEFT JOIN r.datosReserva dr "
@@ -757,6 +763,8 @@ public class ConsultasBean implements ConsultasLocal {
             String tramiteNombre = (String) rowReserva[12];
             Boolean presencial = (Boolean) rowReserva[13];
             String observaciones = (String) rowReserva[14];
+            String ipOrigen = (String) rowReserva[15];
+            String usuarioCreacion = (String) rowReserva[16];
             if (idReservaActual == null || !idReservaActual.equals(reservaId)) {
                 idReservaActual = reservaId;
                 
@@ -786,6 +794,8 @@ public class ConsultasBean implements ConsultasLocal {
                 reservaDTO.setHoraInicio(dispHoraInicio);
                 reservaDTO.setPresencial(presencial);
                 reservaDTO.setObservaciones(observaciones);
+                reservaDTO.setIpOrigen(ipOrigen);
+                reservaDTO.setUcrea(usuarioCreacion);
                 if (puesto != null) {
                     reservaDTO.setPuestoLlamada(puesto);
                 }

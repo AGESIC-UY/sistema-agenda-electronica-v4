@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -23,9 +23,9 @@
                             <f:facet name="header">
                                 <h:outputText value="Agendas"></h:outputText>
                             </f:facet>
-                            <p:ajax event="rowSelectRadio" listener="#{sessionMBean.seleccionarAgenda}"
-                                    update="mostrarAgendaRecurso :formSeleccionAgendaRecruso:mpTablas :formMenu:menuLateral" />
-                            <p:column selectionMode="single" selectRow="true" id="colSelAgenda" >
+                            <p:ajax event="rowSelect" listener="#{sessionMBean.seleccionarAgenda}" update="mostrarAgendaRecurso :formSeleccionAgendaRecruso:mpTablas :formMenu:menuLateral" />
+                            <p:ajax event="rowSelectRadio" listener="#{sessionMBean.seleccionarAgenda}" update="mostrarAgendaRecurso :formSeleccionAgendaRecruso:mpTablas :formMenu:menuLateral" />
+                           <p:column selectionMode="single" selectRow="true" id="colSelAgenda" >
                                 <p:outputLabel value="#{row.data.nombre}" for="colSelAgenda" styleClass="ui-helper-hidden-accessible" />
                             </p:column>
                             <p:column>
@@ -57,8 +57,8 @@
                                 <h:outputText value="Recursos"></h:outputText>
                             </f:facet>
 
-                            <p:ajax event="rowSelectRadio" listener="#{sessionMBean.desseleccionarRecurso}" 
-                                    update="mostrarAgendaRecurso :formSeleccionAgendaRecruso:tablaRecursos :formMenu:menuLateral" />
+                            <p:ajax event="rowSelect" listener="#{sessionMBean.desseleccionarRecurso}" update="mostrarAgendaRecurso :formSeleccionAgendaRecruso:tablaRecursos :formMenu:menuLateral" />
+                            <p:ajax event="rowSelectRadio" listener="#{sessionMBean.desseleccionarRecurso}" update="mostrarAgendaRecurso :formSeleccionAgendaRecruso:tablaRecursos :formMenu:menuLateral" />
 
                             <p:column selectionMode="single"  id="colSelRecurso">
                                 <p:outputLabel value="#{row.data.nombre}" for="colSelRecurso" styleClass="ui-helper-hidden-accessible" />

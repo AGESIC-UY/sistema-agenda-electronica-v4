@@ -309,11 +309,12 @@ public class AgendarReservasHelperBean implements AgendarReservasHelperLocal {
         //Recorro la ventana dia a dia y voy generando la lista completa de cupos x dia con -1, 0, >0 segun corresponda.
         while (!cont.getTime().after(v.getFechaFinal())) {
             Integer cantidadDeCupos = -1;
+            Date fechaContador = cont.getTime();
             //avanzo un lugar en la lista de cupos x dia si la fecha del cupo es igual a la fecha del contador.
             if (cupoAsignado != null) {
-                Date fechaDelCupoA = (Date) cupoAsignado[0];
-                if (fechaDelCupoA.equals(cont.getTime())) {
-                    //Nunca deberia ser mas grande que un Entero.	
+                Date fechaDelCupoA = Utiles.time2InicioDelDia((Date) cupoAsignado[0]);
+                if (fechaDelCupoA.equals(fechaContador)) {
+                    //Nunca deberia ser mas grande que un Entero.
                     cantidadDeCupos = ((Long) cupoAsignado[1]).intValue();
                     if (iterCuposAsignados.hasNext()) {
                         cupoAsignado = iterCuposAsignados.next();
@@ -321,9 +322,9 @@ public class AgendarReservasHelperBean implements AgendarReservasHelperLocal {
                         cupoAsignado = null;
                     }
                     if (cupoConsumido != null) {
-                        Date fechaDelCupoC = (Date) cupoConsumido[0];
-                        if (fechaDelCupoC.equals(cont.getTime())) {
-                            //Nunca deberia ser mas grande que un Entero.	
+                        Date fechaDelCupoC = Utiles.time2InicioDelDia((Date) cupoConsumido[0]);
+                        if (fechaDelCupoC.equals(fechaContador)) {
+                            //Nunca deberia ser mas grande que un Entero.
                             cantidadDeCupos -= ((Long) cupoConsumido[1]).intValue();
                             if (cantidadDeCupos < -1) {
                                 //Solo se da en el caso de que mas de uno hayan querido reservar a la vez cuando quedaba solo un cupo

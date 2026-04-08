@@ -4,11 +4,11 @@
     <parent>
         <artifactId>sae</artifactId>
         <groupId>uy.com.sofis</groupId>
-        <version>4.6.1-r5</version>
+        <version>4.7.0</version>
     </parent>
 
     <artifactId>sae-ejb-client</artifactId>
-    <version>4.6.1-r5</version>
+    <version>4.7.0</version>
     <packaging>ejb</packaging>
 
     <name>sae-ejb-client</name>
@@ -59,6 +59,10 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 

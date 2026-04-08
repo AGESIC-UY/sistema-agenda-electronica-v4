@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -54,11 +54,11 @@
                                 <h:outputText value="#{sessionMBean.textos['acciones']}" />
                             </f:facet>
                             <p:commandButton id="modificarValidacion" value="#{sessionMBean.textos['modificar']}" 
-                                             actionListener="#{validacionAsignacionMBean.editarValidacion(rowIndex)}" icon="ui-icon-pencil" 
+                                             actionListener="#{validacionAsignacionMBean.editarValidacion(rowIndex)}" icon="fa-solid fa-pencil"
                                              update="form:panelAsociaciones" title="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only" />
                             <p:commandButton id="eliminarValidacion" value="#{sessionMBean.textos['eliminar']}" 
                                              action="#{validacionAsignacionMBean.selecValidacionEliminar(rowIndex)}" update="form:panelAsociaciones" 
-                                             oncomplete="PF('eliminarValidacion').show();" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}" 
+                                             oncomplete="PF('eliminarValidacion').show();" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}"
                                              styleClass="ui-button-icon-only" />
                         </p:column>
                     </p:dataTable>
@@ -79,7 +79,7 @@
                                         <p:outputPanel styleClass="col-sm-9">
                                             <h:selectOneMenu id="validacionAsociacion" value="#{validacionAsignacionMBean.validacionDelRecurso.validacion.id}"
                                                              valueChangeListener="#{validacionAsignacionMBean.cambioValidacionDelRecurso}" 
-                                                             styleClass="form-control textoLargo">
+                                                             styleClass="textoLargo">
                                                 <p:ajax update="tablaValidacionesPorDato" process="@this" />
                                                 <f:selectItems value="#{validacionAsignacionMBean.validacionesItems}" />
                                             </h:selectOneMenu>
@@ -120,7 +120,7 @@
                                             </f:facet>
                                             <p:commandButton id="eliminarParametro" value="#{sessionMBean.textos['eliminar']}" 
                                                              action="#{validacionAsignacionMBean.eliminarValidacionPorDato(num)}"
-                                                             icon="ui-icon-trash" update="form:panelAsociaciones" title="#{sessionMBean.textos['eliminar']}" 
+                                                             icon="fa-solid fa-trash" update="form:panelAsociaciones" title="#{sessionMBean.textos['eliminar']}"
                                                              styleClass="ui-button-icon-only">
                                             </p:commandButton>
                                         </p:column>
@@ -140,7 +140,7 @@
                                     <ul>
                                         <li class="float-left">
                                             <p:commandButton value="#{sessionMBean.textos['cancelar']}" actionListener="#{validacionAsignacionMBean.cancelarAsociacion}"
-                                                             styleClass="btn-lg btn-link" update="form:panelForm form:panelAsociaciones" />
+                                                             styleClass="btn-lg btn-primario" update="form:panelForm form:panelAsociaciones" />
                                         </li>
                                     </ul>
                                 </li>

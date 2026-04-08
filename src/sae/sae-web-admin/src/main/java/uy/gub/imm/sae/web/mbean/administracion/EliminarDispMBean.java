@@ -307,7 +307,7 @@ public class EliminarDispMBean extends BaseMBean {
         this.cuposPorDia = cuposPorDia;
     }
 
-    public void obtenerCuposPeriodo(ActionEvent e) {
+    public void obtenerCuposPeriodo() {
         limpiarMensajesError();
         boolean hayErrores = false;
         if (fechaDesde == null) {

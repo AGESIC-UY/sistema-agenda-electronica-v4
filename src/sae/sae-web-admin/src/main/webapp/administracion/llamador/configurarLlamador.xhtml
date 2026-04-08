@@ -1,7 +1,7 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
@@ -17,7 +17,7 @@
                             <div class="form-group">
                                 <h:outputLabel value="#{sessionMBean.textos['tamano_de_la_pantalla']}" styleClass="col-sm-3 control-label label" for="monitor" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                    <h:selectOneMenu id="monitor" valueChangeListener="#{llamadorMBean.cambioTipoMonitor}" styleClass="form-control">
+                                    <h:selectOneMenu id="monitor" valueChangeListener="#{llamadorMBean.cambioTipoMonitor}">
                                         <f:selectItems value="#{llamadorMBean.tiposDeMonitores}" />
                                     </h:selectOneMenu>
                                 </p:outputPanel>

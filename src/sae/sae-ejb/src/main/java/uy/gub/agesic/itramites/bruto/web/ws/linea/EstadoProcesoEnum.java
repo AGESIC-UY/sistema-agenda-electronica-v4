@@ -30,7 +30,7 @@ public enum EstadoProcesoEnum {
     INICIO,
     EN_EJECUCION,
     FINALIZADO,
-    CERRADO,
+    CANCELADO,
     ARCHIVADO;
 
     public String value() {

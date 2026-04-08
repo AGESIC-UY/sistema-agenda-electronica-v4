@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
   xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:p="http://primefaces.org/ui/sofis"
+  xmlns:p="http://primefaces.org/ui"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html">
@@ -114,10 +114,10 @@
 								<h:outputText value="#{sessionMBean.textos['acciones']}"></h:outputText>
 							</f:facet>
 							<p:commandButton id="modificarLink" update="pantalla" value="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only"
-								actionListener="#{datoASolicitarMBean.seleccionarDato(rowIndex)}" action="modificar" icon="ui-icon-pencil" title="#{sessionMBean.textos['modificar']}">
+								actionListener="#{datoASolicitarMBean.seleccionarDato(rowIndex)}" action="modificar" icon="fa-solid fa-pencil" title="#{sessionMBean.textos['modificar']}">
 							</p:commandButton>
 							<p:commandButton id="eliminarLink" value="#{sessionMBean.textos['eliminar']}" oncomplete="PF('eliminarDato').show();" styleClass="ui-button-icon-only"
-								actionListener="#{datoASolicitarMBean.seleccionarDatoParaEliminar(rowIndex)}" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}">
+								actionListener="#{datoASolicitarMBean.seleccionarDatoParaEliminar(rowIndex)}" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}">
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>

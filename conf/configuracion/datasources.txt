@@ -22,3 +22,29 @@
     <share-prepared-statements>true</share-prepared-statements>
   </statement>
 </datasource>
+
+//Multitenant
+<datasource jndi-name="java:/postgres-sae-tenant-ds" pool-name="postgres-tenant-sae-ds" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:postgresql://{db-host}:{db-port}/sae_tenant</connection-url>
+                    <driver>postgres</driver>
+                    <pool>
+                        <min-pool-size>5</min-pool-size>
+                        <max-pool-size>200</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <security>
+                        <user-name>{db-user}</user-name>
+                        <password>{db-pass}</password>
+                    </security>
+                    <validation>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <validate-on-match>true</validate-on-match>
+                        <background-validation>false</background-validation>
+                        <background-validation-millis>2000</background-validation-millis>
+                    </validation>
+                    <statement>
+                        <track-statements>true</track-statements>
+                        <prepared-statement-cache-size>100</prepared-statement-cache-size>
+                        <share-prepared-statements>true</share-prepared-statements>
+                    </statement>
+                </datasource>

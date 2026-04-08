@@ -43,7 +43,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import javax.servlet.http.HttpServletRequest;
 
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
 import uy.gub.imm.sae.business.ejb.facade.LlamadasLocal;
@@ -245,12 +245,10 @@ public class LlamadorMBean extends BaseMBean {
             Llamada llamadaADestacar = llamadorSessionMBean.getLlamadasADestacar().poll();
             if (llamadaADestacar != null) {
                 Reserva reserva = llamadaADestacar.getReserva();
-                RequestContext requestContext = RequestContext.getCurrentInstance();
-                requestContext.execute("setearValor('varPuesto','" + reserva.getLlamada().getPuesto() + "');");
-                requestContext.execute("setearValor('varDocumento','" + (reserva.getNumeroDocumento() != null ? reserva.getNumeroDocumento() : "") + "');");
-                requestContext.execute("setearValor('varSerie','" + (reserva.getSerie() != null ? reserva.getSerie() : "") + "');");
-                requestContext.execute("setearValor('varNumero','" + (reserva.getNumero() != null ? reserva.getNumero().toString() : "") + "');");
-                requestContext.execute("PF('llamadaDestacada').show();");
+                PrimeFaces requestContext = PrimeFaces.current();
+                requestContext.executeScript("setearValor('varPuesto','" + reserva.getLlamada().getPuesto() + "');");
+                requestContext.executeScript("setearValor('varDocumento','" + (reserva.getNumeroDocumento() != null ? reserva.getNumeroDocumento() : "") + "');");
+                requestContext.executeScript("PF('llamadaDestacada').show();");
             }
         } catch (UserException uEx) {
             addErrorMessage(uEx, MSG_ID);
@@ -275,13 +273,13 @@ public class LlamadorMBean extends BaseMBean {
             Llamada llamadaADestacar = llamadorSessionMBean.getLlamadasADestacar().poll();
             if (llamadaADestacar != null) {
                 Reserva reserva = llamadaADestacar.getReserva();
-                RequestContext requestContext = RequestContext.getCurrentInstance();
-                requestContext.execute("setearValor('varAgenda','" + reserva.getDisponibilidades().get(0).getRecurso().getAgenda().getNombre() + "');");
-                requestContext.execute("setearValor('varRecurso','" + reserva.getDisponibilidades().get(0).getRecurso().getNombre() + "');");
-                requestContext.execute("setearValor('varSerie','" + (reserva.getSerie() != null ? reserva.getSerie() : "") + "');");
-                requestContext.execute("setearValor('varNumero','" + (reserva.getNumero() != null ? reserva.getNumero().toString() : "") + "');");
-                requestContext.execute("setearValor('varDocumento','" + (reserva.getNumeroDocumento() != null ? reserva.getNumeroDocumento() : "") + "');");
-                requestContext.execute("PF('llamadaDestacada').show();");
+                PrimeFaces requestContext = PrimeFaces.current();
+                requestContext.executeScript("setearValor('varAgenda','" + reserva.getDisponibilidades().get(0).getRecurso().getAgenda().getNombre() + "');");
+                requestContext.executeScript("setearValor('varRecurso','" + reserva.getDisponibilidades().get(0).getRecurso().getNombre() + "');");
+                requestContext.executeScript("setearValor('varSerie','" + (reserva.getSerie() != null ? reserva.getSerie() : "") + "');");
+                requestContext.executeScript("setearValor('varNumero','" + (reserva.getNumero() != null ? reserva.getNumero().toString() : "") + "');");
+                requestContext.executeScript("setearValor('varDocumento','" + (reserva.getNumeroDocumento() != null ? reserva.getNumeroDocumento() : "") + "');");
+                requestContext.executeScript("PF('llamadaDestacada').show();");
             }
         } catch (UserException uEx) {
             addErrorMessage(uEx, MSG_ID);

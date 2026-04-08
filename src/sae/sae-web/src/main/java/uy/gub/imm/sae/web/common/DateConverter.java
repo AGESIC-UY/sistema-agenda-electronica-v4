@@ -56,7 +56,7 @@ public class DateConverter implements Converter {
     }
 
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent comp, String valor) {
+    public Date getAsObject(FacesContext facesContext, UIComponent comp, String valor) {
         if (valor == null || valor.trim().isEmpty()) {
             return null;
         }

@@ -5,6 +5,7 @@
  */
 
 /* Toggle Styles */
+
 #wrapper {
 	padding-left: 0;
 	/*-webkit-transition: padding 0.5s ease;
@@ -122,4 +123,75 @@
 		position: relative;
 		margin-right: 0;
 	}
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+}
+
+body .ui-panelmenu h3.ui-panelmenu-header {
+	border: none;
+    border-bottom: 1px solid #d9d8d8;
+    border-top: 0 none;
+    background: #EAEFF3;
+    color: #141414;
+    padding: .7em .5em .7em 2.2em;
+    font-weight: normal;
+    margin: 0 0 0 0;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+    user-select: none;
+    border-radius: 0;
+    position: relative;
+    outline: 0 none;
+    font-size: 1.1rem;
+}
+
+body .ui-panelmenu h3.ui-panelmenu-header .ui-icon.ui-icon-triangle-1-e:before {
+    content: "";
+    color: blue;
+
+}
+
+body .ui-panelmenu h3.ui-panelmenu-header .ui-icon.ui-icon-triangle-1-s {
+    font-family: "primeicons" !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none
+}
+
+body .ui-panelmenu h3.ui-panelmenu-header .ui-icon.ui-icon-triangle-1-s:before {
+    content: "";
+    color: blue;
+}
+
+
+body .ui-panelmenu .ui-panelmenu-content .ui-menuitem-link {
+    display: block;
+    outline: none;
+    text-decoration: none;
+    font-weight: 400;
+    border: solid 1px transparent;
+    line-height: 16px;
+    cursor: pointer;
+    position: relative;
+    padding: 0.5em 0.3em 0.4em 2em;
+    color: #495057;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s,opacity .2s;
 }

@@ -456,12 +456,7 @@ public class MultiplePaso4MBean extends BaseMBean {
                 if (valor != null && !valor.toString().trim().equals("")) {
                     DatoReserva dato = new DatoReserva();
                     dato.setDatoASolicitar(sesionMBean.getDatosASolicitar().get(nombre));
-                    String sValor = valor.toString().trim();
-                    if (Tipo.STRING.equals(dato.getDatoASolicitar().getTipo()) || Tipo.NUMBER.equals(dato.getDatoASolicitar().getTipo())) {
-                        //Esto es un workaround para un problema en la codificación de los strings que tienen tildes
-                        sValor = Utiles.convertirISO88591aUTF8(sValor);
-                    }
-                    dato.setValor(sValor);
+                    dato.setValor(valor.toString().trim());
                     datos.add(dato);
                 }
             }
@@ -605,11 +600,6 @@ public class MultiplePaso4MBean extends BaseMBean {
                 for (String nombre : datosReservaMBean.keySet()) {
                     Object valor = datosReservaMBean.get(nombre);
                     DatoASolicitar datoSol = sesionMBean.getDatosASolicitar().get(nombre);
-                    if (valor != null && datoSol != null && (Tipo.STRING.equals(datoSol.getTipo()) || Tipo.NUMBER.equals(datoSol.getTipo())) && !valor.toString().trim().isEmpty()) {
-                        //Esto es un workaround para un problema en la codificación de los strings que tienen tildes
-                        String sValor = Utiles.convertirISO88591aUTF8(valor.toString().trim());
-                        datosReservaMBean.put(nombre, sValor);
-                    }
                 }
             }
         }

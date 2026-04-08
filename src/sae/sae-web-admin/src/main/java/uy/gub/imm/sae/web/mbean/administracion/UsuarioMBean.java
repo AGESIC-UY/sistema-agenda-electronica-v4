@@ -41,7 +41,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 
 import uy.gub.imm.sae.business.dto.UsuarioEmpresaRoles;
@@ -253,14 +253,14 @@ public class UsuarioMBean extends BaseMBean {
             Usuario usuarioEliminar = usuarioSessionMBean.getUsuarioEliminar();
             if (usuarioEliminar != null) {
                 if(!usuarioEliminar.getOrganismos().isEmpty()){
-                    RequestContext requestContext = RequestContext.getCurrentInstance();
-                    requestContext.execute("PF('eliminarUsuario').hide();");
+                    PrimeFaces requestContext = PrimeFaces.current();
+                    requestContext.executeScript("PF('eliminarUsuario').hide();");
                     addErrorMessage(sessionMBean.getTextos().get("Este es un usuario administrador, no se puede eliminar"), MSG_ID);
                     return;
                 }
                 else{
-                    RequestContext requestContext = RequestContext.getCurrentInstance();
-                    requestContext.execute("PF('eliminarUsuario').show();");
+                    PrimeFaces requestContext = PrimeFaces.current();
+                    requestContext.executeScript("PF('eliminarUsuario').show();");
                 }
             }
             

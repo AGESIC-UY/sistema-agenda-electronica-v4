@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -49,7 +49,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <p:outputLabel value="#{sessionMBean.textos['agrupacion']}" for="agrupaciones" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                    <h:selectOneListbox size="1" id="agrupaciones" value="#{datoASSessionMBean.agrupacionDatoId}" styleClass="form-control">
+                                    <h:selectOneListbox size="1" id="agrupaciones" value="#{datoASSessionMBean.agrupacionDatoId}">
                                         <f:selectItems value="#{datoASolicitarMBean.listaAgrupaciones}" />
                                     </h:selectOneListbox>
                                 </p:outputPanel>
@@ -81,7 +81,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <p:outputLabel value="#{sessionMBean.textos['tipo_de_dato']}" for="tipoDato" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                    <h:selectOneMenu id="tipoDato" value="#{datoASolicitarMBean.datoASolicitarNuevo.tipo}" styleClass="form-control textoMedio">
+                                    <h:selectOneMenu id="tipoDato" value="#{datoASolicitarMBean.datoASolicitarNuevo.tipo}" styleClass="textoMedio">
                                         <p:ajax update=":formCrear:largoMax" listener="#{datoASolicitarMBean.selectOneTipoDatoNuevo}"/>
                                         <f:selectItems value="#{datoASolicitarMBean.listaTipos}" />
                                     </h:selectOneMenu>
@@ -101,7 +101,7 @@
                             </p:outputPanel>
 
                             <p:outputPanel styleClass="form-group">
-                                <h:outputText value="#{sessionMBean.textos['dato_es']}" styleClass="col-sm-3 control-label label" />
+                                <h:outputText value="#{sessionMBean.textos['dato_es']}" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:outputPanel>
                                         <p:selectBooleanCheckbox id="clave" value="#{datoASolicitarMBean.datoASolicitarNuevo.esClave}" />
@@ -140,7 +140,7 @@
                         </legend>
                         <p:outputPanel styleClass="form-horizontal">
                             <p:outputPanel styleClass="form-group">
-                                <h:outputText value="#{sessionMBean.textos['incluir_en_el_reporte']}" styleClass="col-sm-3 control-label label" />
+                                <h:outputText value="#{sessionMBean.textos['incluir_en_el_reporte']}" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <p:selectBooleanCheckbox id="reporte" value="#{datoASolicitarMBean.datoASolicitarNuevo.incluirEnReporte}">
                                         <p:ajax update="formCrear:VAncho" listener="#{datoASolicitarMBean.limpiarAnchoDespliegueReporteNuevo}" />
@@ -171,7 +171,7 @@
                         <li class="action-buttons-second">
                             <ul>
                                 <li class="float-left">
-                                    <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" styleClass="btn-lg btn-link" />
+                                    <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" styleClass="btn-lg btn-primario" />
                                 </li>
                             </ul>
                         </li>

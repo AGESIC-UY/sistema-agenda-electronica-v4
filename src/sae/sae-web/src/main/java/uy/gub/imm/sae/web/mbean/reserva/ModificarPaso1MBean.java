@@ -1,6 +1,7 @@
 package uy.gub.imm.sae.web.mbean.reserva;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,13 +34,18 @@ import javax.servlet.http.HttpSession;
 
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
 import uy.gub.imm.sae.business.ejb.facade.ConsultasLocal;
+import uy.gub.imm.sae.business.ejb.facade.DisponibilidadesLocal;
 import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
+import uy.gub.imm.sae.common.Utiles;
+import uy.gub.imm.sae.common.VentanaDeTiempo;
 import uy.gub.imm.sae.common.enumerados.Estado;
 import uy.gub.imm.sae.entity.AgrupacionDato;
 import uy.gub.imm.sae.entity.DatoASolicitar;
 import uy.gub.imm.sae.entity.DatoReserva;
+import uy.gub.imm.sae.entity.Disponibilidad;
 import uy.gub.imm.sae.entity.Recurso;
 import uy.gub.imm.sae.entity.Reserva;
+import uy.gub.imm.sae.entity.TextoAgenda;
 import uy.gub.imm.sae.entity.ValorPosible;
 import uy.gub.imm.sae.entity.constantes.Constantes;
 import uy.gub.imm.sae.entity.global.Empresa;
@@ -62,6 +68,9 @@ public class ModificarPaso1MBean extends BaseMBean {
     @EJB
     private ConsultasLocal consultaEJB;
 
+    @EJB
+    private DisponibilidadesLocal disponibilidadEJB;
+
     @ManagedProperty(value="#{sesionMBean}")
     private SesionMBean sesionMBean;
     
@@ -81,6 +90,35 @@ public class ModificarPaso1MBean extends BaseMBean {
     private String tipoDocumento;
     private String numeroDocumento;
     private String codigoSeguridad;
+    private boolean codigoVerificado = false;
+
+    // Propiedades para calendario y selección de fecha/hora
+    private List<Recurso> recursos;
+    private List<SelectItem> recursosItems;
+    private Integer recursoId;
+
+    private boolean mostrarCalendarioCompleto = false;
+    private Date fechaSeleccionada;
+    private Date minDateTime;
+    private Date maxDateTime;
+    private List<Date> invalidDates = new ArrayList<>();
+
+    // Turnos (botones + combo)
+    public static class TurnoDTO {
+        private final Disponibilidad disponibilidad;
+        private final String label;
+        public TurnoDTO(Disponibilidad d, String label) {
+            this.disponibilidad = d;
+            this.label = label;
+        }
+        public Disponibilidad getDisponibilidad() { return disponibilidad; }
+        public String getLabel() { return label; }
+    }
+
+    private List<TurnoDTO> primerasDisponibilidades = new ArrayList<>();
+    private List<SelectItem> todasDisponibilidadesItems = new ArrayList<>();
+    private Integer disponibilidadSeleccionadaId;
+    private Disponibilidad disponibilidadSeleccionada;
 
     @PostConstruct
     @SuppressWarnings("UseSpecificCatch")
@@ -505,7 +543,19 @@ public class ModificarPaso1MBean extends BaseMBean {
     public String selecReservaEliminar(int rowIndex) {
         Reserva reserva = this.sesionMBean.getListaReservas().get(rowIndex);
         this.sesionMBean.setReservaModificar1(reserva);
-        return "siguientePaso";
+        this.sesionMBean.setReservaDatos(reserva);
+        mostrar = "VALIDAR_DATOS";
+        return null; // Permanecer en la misma página, cambiar solo el estado
+    }
+
+    /**
+     * Método para seleccionar una reserva y redirigir a Paso2 (calendario)
+     */
+    public String seleccionarReserva(int rowIndex) {
+        Reserva reserva = this.sesionMBean.getListaReservas().get(rowIndex);
+        this.sesionMBean.setReservaModificar1(reserva);
+        this.sesionMBean.setReservaDatos(reserva);
+        return "siguientePaso"; // Redirige a Paso2 (calendario)
     }
 
     public Map<String, Object> getDatosFiltroReservaMBean() {
@@ -613,10 +663,352 @@ public class ModificarPaso1MBean extends BaseMBean {
             addErrorMessage(sesionMBean.getTextos().get("los_datos_ingresados_no_son_correctos"));
             return null;
         }
-        List<Reserva> reservas = new ArrayList<>();
-        reservas.add(reserva);
-        this.sesionMBean.setListaReservas(reservas);
-        return "siguientePaso";
+
+        // Código verificado correctamente
+        codigoVerificado = true;
+
+        // Cargar recursos y disponibilidades
+        try {
+            cargarRecursos();
+            if (sesionMBean.getRecurso() != null) {
+                recursoId = sesionMBean.getRecurso().getId();
+                cargarDisponibilidades();
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al cargar disponibilidades", e);
+            addErrorMessage(sesionMBean.getTextos().get("ha_ocurrido_un_error_grave"));
+        }
+
+        return null; // Permanecer en el mismo paso para seleccionar fecha/hora
+    }
+
+    // Métodos para manejo de recursos
+    private void cargarRecursos() {
+        try {
+            recursos = agendarReservasEJB.consultarRecursos(sesionMBean.getAgenda());
+            recursosItems = new ArrayList<>();
+
+            for (Recurso r : recursos) {
+                String label = buildRecursoLabel(r);
+                recursosItems.add(new SelectItem(r.getId(), label, "", false, false, true));
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al cargar recursos", e);
+        }
+    }
+
+    private String buildRecursoLabel(Recurso r) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<div class='recurso-item'>");
+        sb.append("<strong>").append(r.getNombre() != null ? r.getNombre() : "").append("</strong>");
+        if (r.getDireccion() != null && !r.getDireccion().isEmpty()) {
+            sb.append("<br/><small>").append(r.getDireccion()).append("</small>");
+        }
+        sb.append("</div>");
+        return sb.toString();
+    }
+
+    public void cambioRecursoAjax() {
+        if (recursoId != null) {
+            for (Recurso r : recursos) {
+                if (r.getId().equals(recursoId)) {
+                    sesionMBean.setRecurso(r);
+                    break;
+                }
+            }
+            cargarDisponibilidades();
+        }
+    }
+
+    // Métodos para manejo de disponibilidades
+    private void cargarDisponibilidades() {
+        try {
+            Recurso recurso = sesionMBean.getRecurso();
+            if (recurso == null) return;
+
+            configurarCalendario(recurso);
+            fechaSeleccionada = buscarPrimerDiaConDisponibilidad(recurso);
+            cargarDisponibilidadesDelDia(recurso, fechaSeleccionada);
+            recomputarFusionadasYDerivadas();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al cargar disponibilidades", e);
+        }
+    }
+
+    private void configurarCalendario(Recurso recurso) throws Exception {
+        VentanaDeTiempo ventana = agendarReservasEJB.obtenerVentanaCalendarioInternet(recurso);
+        sesionMBean.setVentanaCalendario(ventana);
+        minDateTime = ventana.getFechaInicial();
+        maxDateTime = disponibilidadEJB.ultFechaGenerada(recurso);
+
+        if (minDateTime != null && maxDateTime != null && minDateTime.equals(maxDateTime)) {
+            Calendar calMin = Calendar.getInstance();
+            calMin.setTime(minDateTime);
+            calMin.set(Calendar.HOUR_OF_DAY, 0);
+            calMin.set(Calendar.MINUTE, 0);
+            calMin.set(Calendar.SECOND, 0);
+            calMin.set(Calendar.MILLISECOND, 0);
+            minDateTime = calMin.getTime();
+
+            Calendar calMax = Calendar.getInstance();
+            calMax.setTime(maxDateTime);
+            calMax.set(Calendar.HOUR_OF_DAY, 23);
+            calMax.set(Calendar.MINUTE, 59);
+            calMax.set(Calendar.SECOND, 59);
+            calMax.set(Calendar.MILLISECOND, 999);
+            maxDateTime = calMax.getTime();
+        }
+
+        cargarInvalidDates(recurso, ventana);
+    }
+
+    private void cargarInvalidDates(Recurso recurso, VentanaDeTiempo ventana) {
+        try {
+            invalidDates.clear();
+            List<Integer> listaCupos = agendarReservasEJB.obtenerCuposPorDia(recurso, ventana, sesionMBean.getTimeZone());
+            Calendar cont = Calendar.getInstance();
+            cont.setTime(Utiles.time2InicioDelDia(ventana.getFechaInicial()));
+
+            Integer i = 0;
+            while (!cont.getTime().after(ventana.getFechaFinal()) && i < listaCupos.size()) {
+                if (listaCupos.get(i) == null || listaCupos.get(i) <= 0) {
+                    invalidDates.add(cont.getTime());
+                }
+                cont.add(Calendar.DAY_OF_MONTH, 1);
+                i++;
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al cargar invalidDates", e);
+        }
+    }
+
+    private Date buscarPrimerDiaConDisponibilidad(Recurso recurso) throws Exception {
+        VentanaDeTiempo ventana = sesionMBean.getVentanaCalendario();
+        if (ventana == null) ventana = agendarReservasEJB.obtenerVentanaCalendarioInternet(recurso);
+
+        List<Integer> cupos = agendarReservasEJB.obtenerCuposPorDia(recurso, ventana, sesionMBean.getTimeZone());
+        Calendar cont = Calendar.getInstance();
+        cont.setTime(Utiles.time2InicioDelDia(ventana.getFechaInicial()));
+        Date fin = ventana.getFechaFinal();
+
+        int i = 0;
+        while (!cont.getTime().after(fin) && i < cupos.size()) {
+            Integer c = cupos.get(i);
+            if (c != null && c > 0) return cont.getTime();
+            cont.add(Calendar.DAY_OF_MONTH, 1);
+            i++;
+        }
+        return ventana.getFechaInicial();
+    }
+
+    private void cargarDisponibilidadesDelDia(Recurso recurso, Date dia) throws Exception {
+        if (recurso == null || dia == null) {
+            sesionMBean.setDisponibilidadesDelDiaMatutina(new uy.gub.imm.sae.web.common.RowList<>(new ArrayList<>()));
+            sesionMBean.setDisponibilidadesDelDiaVespertina(new uy.gub.imm.sae.web.common.RowList<>(new ArrayList<>()));
+            return;
+        }
+        VentanaDeTiempo ventDia = new VentanaDeTiempo();
+        ventDia.setFechaInicial(Utiles.time2InicioDelDia(dia));
+        ventDia.setFechaFinal(Utiles.time2FinDelDia(dia));
+
+        List<Disponibilidad> lista = agendarReservasEJB.obtenerDisponibilidades(recurso, ventDia, sesionMBean.getTimeZone());
+        List<Disponibilidad> mat = new ArrayList<>();
+        List<Disponibilidad> ves = new ArrayList<>();
+
+        Calendar cal = Calendar.getInstance();
+        for (Disponibilidad d : lista) {
+            if (d == null) continue;
+            cal.setTime(d.getHoraInicio());
+            if (d.getCupo() != null && d.getCupo() < 0) d.setCupo(0);
+            if (cal.get(Calendar.AM_PM) == Calendar.AM) mat.add(d);
+            else ves.add(d);
+        }
+        sesionMBean.setDisponibilidadesDelDiaMatutina(new uy.gub.imm.sae.web.common.RowList<>(mat));
+        sesionMBean.setDisponibilidadesDelDiaVespertina(new uy.gub.imm.sae.web.common.RowList<>(ves));
+    }
+
+    private void recomputarFusionadasYDerivadas() {
+        List<Disponibilidad> fusionadas = new ArrayList<>();
+        if (sesionMBean.getDisponibilidadesDelDiaMatutina() != null) {
+            for (uy.gub.imm.sae.web.common.Row<Disponibilidad> r : sesionMBean.getDisponibilidadesDelDiaMatutina())
+                if (r != null && r.getData() != null) fusionadas.add(r.getData());
+        }
+        if (sesionMBean.getDisponibilidadesDelDiaVespertina() != null) {
+            for (uy.gub.imm.sae.web.common.Row<Disponibilidad> r : sesionMBean.getDisponibilidadesDelDiaVespertina())
+                if (r != null && r.getData() != null) fusionadas.add(r.getData());
+        }
+
+        // Cargar primeros 3 turnos
+        primerasDisponibilidades = new ArrayList<>();
+        todasDisponibilidadesItems = new ArrayList<>();
+
+        if (!fusionadas.isEmpty()) {
+            SimpleDateFormat sdfFecha = new SimpleDateFormat("EEEE dd 'de' MMMM", new Locale(sesionMBean.getIdiomaActual()));
+            SimpleDateFormat sdfHora = new SimpleDateFormat(sesionMBean.getFormatoHora());
+            sdfFecha.setTimeZone(sesionMBean.getTimeZone());
+            sdfHora.setTimeZone(sesionMBean.getTimeZone());
+
+            int count = 0;
+            for (Disponibilidad d : fusionadas) {
+                String labelFecha = sdfFecha.format(d.getFecha());
+                String labelHora = sdfHora.format(d.getHoraInicio());
+                String label = labelFecha + " - " + labelHora;
+
+                if (count < 3) {
+                    primerasDisponibilidades.add(new TurnoDTO(d, label));
+                }
+
+                todasDisponibilidadesItems.add(new SelectItem(d.getId(), label));
+                count++;
+            }
+
+            // Seleccionar primer turno por defecto
+            if (!primerasDisponibilidades.isEmpty()) {
+                disponibilidadSeleccionada = primerasDisponibilidades.get(0).getDisponibilidad();
+                disponibilidadSeleccionadaId = disponibilidadSeleccionada.getId();
+            }
+        }
+    }
+
+    public void toggleMostrarCalendario() {
+        mostrarCalendarioCompleto = !mostrarCalendarioCompleto;
+        if (!mostrarCalendarioCompleto) {
+            todasDisponibilidadesItems.clear();
+        } else {
+            recomputarFusionadasYDerivadas();
+        }
+    }
+
+    public void onDateSelect(org.primefaces.event.SelectEvent event) {
+        Date d = (Date) event.getObject();
+        this.fechaSeleccionada = d;
+        sesionMBean.setDiaSeleccionado(d);
+        try {
+            cargarDisponibilidadesDelDia(sesionMBean.getRecurso(), d);
+            disponibilidadSeleccionada = null;
+            disponibilidadSeleccionadaId = null;
+            recomputarFusionadasYDerivadas();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error al actualizar disponibilidades por fecha", ex);
+            addErrorMessage(sesionMBean.getTextos().get("ha_ocurrido_un_error_grave"));
+        }
+    }
+
+    public void seleccionarDisponibilidad() {
+        // El actionListener ya setea las propiedades vía f:setPropertyActionListener para los botones
+        // Para el combo, el setter de disponibilidadSeleccionadaId busca la disponibilidad
+        if (disponibilidadSeleccionada != null) {
+            disponibilidadSeleccionadaId = disponibilidadSeleccionada.getId();
+            mostrarCalendarioCompleto = false;
+        }
+    }
+
+    public String siguientePaso() {
+        limpiarMensajesError();
+
+        // Validar que se haya seleccionado una disponibilidad
+        if (disponibilidadSeleccionada == null || disponibilidadSeleccionada.getCupo() == null || disponibilidadSeleccionada.getCupo() < 1) {
+            addErrorMessage(sesionMBean.getTextos().get("debe_seleccionar_un_horario_con_disponibilidades"));
+            return null;
+        }
+
+        try {
+            sesionMBean.setDisponibilidad(disponibilidadSeleccionada);
+            sesionMBean.setDiaSeleccionado(disponibilidadSeleccionada.getFecha());
+            return "siguientePaso";
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al procesar disponibilidad seleccionada", e);
+            addErrorMessage(sesionMBean.getTextos().get("ha_ocurrido_un_error_grave"));
+            return null;
+        }
+    }
+
+    // Getters y setters
+    public List<SelectItem> getRecursosItems() {
+        return recursosItems;
+    }
+
+    public Integer getRecursoId() {
+        return recursoId;
+    }
+
+    public void setRecursoId(Integer recursoId) {
+        this.recursoId = recursoId;
+    }
+
+    public boolean isMostrarCalendarioCompleto() {
+        return mostrarCalendarioCompleto;
+    }
+
+    public void setMostrarCalendarioCompleto(boolean mostrarCalendarioCompleto) {
+        this.mostrarCalendarioCompleto = mostrarCalendarioCompleto;
+    }
+
+    public Date getFechaSeleccionada() {
+        return fechaSeleccionada;
+    }
+
+    public void setFechaSeleccionada(Date fechaSeleccionada) {
+        this.fechaSeleccionada = fechaSeleccionada;
+    }
+
+    public Date getMinDateTime() {
+        return minDateTime;
+    }
+
+    public Date getMaxDateTime() {
+        return maxDateTime;
+    }
+
+    public List<Date> getInvalidDates() {
+        return invalidDates;
+    }
+
+    public List<TurnoDTO> getPrimerasDisponibilidades() {
+        return primerasDisponibilidades;
+    }
+
+    public List<SelectItem> getTodasDisponibilidadesItems() {
+        return todasDisponibilidadesItems;
+    }
+
+    public Integer getDisponibilidadSeleccionadaId() {
+        return disponibilidadSeleccionadaId;
+    }
+
+    public void setDisponibilidadSeleccionadaId(Integer id) {
+        this.disponibilidadSeleccionadaId = id;
+        if (id == null) {
+            disponibilidadSeleccionada = null;
+            return;
+        }
+        Disponibilidad d = buscarDisponibilidadPorIdEnDia(id);
+        this.disponibilidadSeleccionada = d;
+    }
+
+    public Disponibilidad getDisponibilidadSeleccionada() {
+        return disponibilidadSeleccionada;
+    }
+
+    public void setDisponibilidadSeleccionada(Disponibilidad disponibilidadSeleccionada) {
+        this.disponibilidadSeleccionada = disponibilidadSeleccionada;
+    }
+
+    private Disponibilidad buscarDisponibilidadPorIdEnDia(Integer id) {
+        if (id == null) return null;
+        if (sesionMBean.getDisponibilidadesDelDiaMatutina() != null) {
+            for (uy.gub.imm.sae.web.common.Row<Disponibilidad> r : sesionMBean.getDisponibilidadesDelDiaMatutina())
+                if (r != null && r.getData() != null && id.equals(r.getData().getId())) return r.getData();
+        }
+        if (sesionMBean.getDisponibilidadesDelDiaVespertina() != null) {
+            for (uy.gub.imm.sae.web.common.Row<Disponibilidad> r : sesionMBean.getDisponibilidadesDelDiaVespertina())
+                if (r != null && r.getData() != null && id.equals(r.getData().getId())) return r.getData();
+        }
+        return null;
+    }
+
+    public boolean isCodigoVerificado() {
+        return codigoVerificado;
     }
 
     @PreDestroy

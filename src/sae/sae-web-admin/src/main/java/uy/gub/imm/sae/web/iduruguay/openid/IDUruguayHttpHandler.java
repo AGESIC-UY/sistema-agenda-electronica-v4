@@ -13,6 +13,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.net.ssl.HttpsURLConnection;
 import javax.sql.DataSource;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 
@@ -41,7 +45,8 @@ public class IDUruguayHttpHandler implements HttpHandler {
      private static final Logger logger = Logger.getLogger(IDUruguayHttpHandler.class.getName());
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("uy.com.sofis.web.iduruguay.tiposdocumentos");
-    
+    private static final String[] NID_HABILITADOS_DEFAULT = {":nid:2", ":nid:3"};
+
     // Estos atributos de configuracion se deben configurar en el archivo standalone.xml, dentro del subsistema urn:jboss:domain:naming:2.0
     // <subsystem xmlns="urn:jboss:domain:naming:2.0">
     //   <remote-naming/>
@@ -78,6 +83,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
     private String ssoState;
     private String dsJndiName;
     private String ssoLogoutUrl;
+    private String[] nidsHabilitados;
     
     private final HttpHandler next;
 
@@ -103,6 +109,12 @@ public class IDUruguayHttpHandler implements HttpHandler {
                 ssoReturnUrl = (String)initContext.lookup("java:global/iduruguayhttphandler/ssoReturnUrl");
                 ssoHomePage = (String)initContext.lookup("java:global/iduruguayhttphandler/ssoHomePage");
                 dsJndiName = (String)initContext.lookup("java:global/iduruguayhttphandler/dsJndiName");
+                final String nidsHabilitadosString = (String) initContext.lookup("java:global/iduruguayhttphandler/nidsHabilitados");
+                if (StringUtils.isNotBlank(nidsHabilitadosString)) {
+                    nidsHabilitados = StringUtils.split(nidsHabilitadosString, ",");
+                } else {
+                    nidsHabilitados = NID_HABILITADOS_DEFAULT;
+                }
 
                 logger.log(Level.INFO, "    returnPath: {0}", returnPath);
                 logger.log(Level.INFO, "    ssoLogoutUrl: {0}", ssoLogoutUrl);
@@ -141,16 +153,16 @@ public class IDUruguayHttpHandler implements HttpHandler {
             if (StringUtils.isBlank(returnPath) || StringUtils.isBlank(ssoLogoutUrl) || StringUtils.isBlank(ssoBaseUrl) 
                     || StringUtils.isBlank(ssoClientId) || StringUtils.isBlank(ssoSecret) || StringUtils.isBlank(ssoState) 
                     || StringUtils.isBlank(ssoReturnUrl) ||StringUtils.isBlank(ssoHomePage) || StringUtils.isBlank(dsJndiName)){
-                logger.log(Level.FINE, "[{0}] No hay parámetros de config de Id Uruguay definidos", new Object[]{exchange.getRelativePath()});
+                logger.log(Level.INFO, "[{0}] No hay parámetros de config de Id Uruguay definidos", new Object[]{exchange.getRelativePath()});
                 next.handleRequest(exchange);
                 return;
             }
 
-            logger.log(Level.FINE, "[{0}] ================================", new Object[]{exchange.getRelativePath()});
-            logger.log(Level.FINE, "[{0}] Comenzando a procesar request...", new Object[]{exchange.getRelativePath()});
+            logger.log(Level.INFO, "[{0}] ================================", new Object[]{exchange.getRelativePath()});
+            logger.log(Level.INFO, "[{0}] Comenzando a procesar request...", new Object[]{exchange.getRelativePath()});
             logger.log(Level.FINE, "[{0}] ================================", new Object[]{exchange.getRelativePath()});
             
-            logger.log(Level.FINE, "[{0}] RequestURL: {1}", new Object[]{exchange.getRelativePath(), exchange.getRelativePath()});
+            logger.log(Level.INFO, "[{0}] RequestURL: {1}", new Object[]{exchange.getRelativePath(), exchange.getRelativePath()});
             logger.log(Level.FINE, "[{0}] QueryString: {1}", new Object[]{exchange.getRelativePath(), exchange.getQueryString()});
             logger.log(Level.FINE, "[{0}] SecurityContext: {1}", new Object[]{exchange.getRelativePath(), exchange.getSecurityContext()});
             logger.log(Level.FINE, "[{0}] AuthenticationRequired: {1}", new Object[]{exchange.getRelativePath(), (exchange.getSecurityContext() != null && exchange.getSecurityContext().isAuthenticationRequired())});
@@ -161,7 +173,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
                 // =================================================================
                 // Es un acceso a la URL de retorno luego de un login exitoso
                 // =================================================================
-                logger.log(Level.FINE, "[{0}] Es un acceso a la URL de retorno.", new Object[]{exchange.getRelativePath()});
+                logger.log(Level.INFO, "[{0}] Es un acceso a la URL de retorno.", new Object[]{exchange.getRelativePath()});
 
                 String state = exchange.getQueryParameters().get("state").getFirst();
                 if (ssoState.equals(state)) {
@@ -171,15 +183,12 @@ public class IDUruguayHttpHandler implements HttpHandler {
                     if(exchange.getQueryParameters().containsKey("error")) {
                         //ID Uruguay devolvió un error
                         if(exchange.getQueryParameters().containsKey("error_description")) {
-                            logger.log(Level.FINE, "[{0}] La respuesta enviada por ID Uruguay es de error: {1}/{2}", new Object[]{exchange.getRelativePath(), 
+                            logger.log(Level.FINE, "[{0}] La respuesta enviada por ID Uruguay es de error: {1}/{2}", new Object[]{exchange.getRelativePath(),
                             exchange.getQueryParameters().get("error_description").getFirst()});
                         }else {
-                            logger.log(Level.FINE, "[{0}] La respuesta enviada por ID Uruguay es de error: {1}", new Object[]{exchange.getRelativePath(), 
+                            logger.log(Level.INFO, "[{0}] La respuesta enviada por ID Uruguay es de error: {1}", new Object[]{exchange.getRelativePath(), 
                             exchange.getQueryParameters().get("error").getFirst()});
                         }
-                        //exchange.getResponseSender().send("Error de autenticación ante ID Uruguay.");
-                        //exchange.endExchange();
-
                         exchange.setStatusCode(302);
                         exchange.getResponseHeaders().put(Headers.LOCATION, ssoHomePage.replace("/privado/", "/publico/"));
                         exchange.endExchange();
@@ -220,12 +229,13 @@ public class IDUruguayHttpHandler implements HttpHandler {
                             logger.log(Level.SEVERE, "[{0}] No se pudo obtener el token: {1}/{2}", new Object[]{exchange.getRelativePath(), 
                             con.getResponseCode(), con.getResponseMessage()});
                             exchange.getResponseSender().send("Error de autenticación ante ID Uruguay.");
+                            exchange.setStatusCode(401);
                             exchange.endExchange();
                             return;
                         }
 
                         //Procesar la respuesta
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
                         String inputLine;
                         StringBuilder response = new StringBuilder();
                         while ((inputLine = in.readLine()) != null) {
@@ -233,7 +243,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
                         }
                         in.close();
 
-                        logger.log(Level.FINE, "[{0}] Respuesta al POST para obtener el token: {1}", new Object[]{exchange.getRelativePath(), response.toString()});
+                        logger.log(Level.INFO, "[{0}] Respuesta al POST para obtener el token: {1}", new Object[]{exchange.getRelativePath(), response.toString()});
 
                         JSONObject jsonObj = new JSONObject(response.toString());
                         String accessToken = jsonObj.getString("access_token");
@@ -256,22 +266,23 @@ public class IDUruguayHttpHandler implements HttpHandler {
 
                         //Validar el código de respuesta
                         if(con.getResponseCode() != 200) {
-                            logger.log(Level.FINE, "[{0}] No se pudo obtener los datos del usuario: {1}/{2}", new Object[]{exchange.getRelativePath(), 
+                            logger.log(Level.INFO, "[{0}] No se pudo obtener los datos del usuario: {1}/{2}", new Object[]{exchange.getRelativePath(), 
                             con.getResponseCode(), con.getResponseMessage()});
                             exchange.getResponseSender().send("Error de autenticación ante ID Uruguay.");
+                            exchange.setStatusCode(401);
                             exchange.endExchange();
                             return;
                         }
 
                         //Procesar la respuesta
-                        in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                        in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
                         response = new StringBuilder();
                         while ((inputLine = in.readLine()) != null) {
                             response.append(inputLine);
                         }
                         in.close();
 
-                        logger.log(Level.FINE, "[{0}] Respuesta al GET para obtener datos del usuario: {1}", new Object[]{exchange.getRelativePath(), response.toString()});
+                        logger.log(Level.INFO, "[{0}] Respuesta al GET para obtener datos del usuario: {1}", new Object[]{exchange.getRelativePath(), response.toString()});
 
                         jsonObj = new JSONObject(response.toString());
 
@@ -284,6 +295,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
 
                         if(StringUtils.isBlank(paisDocumento) || StringUtils.isBlank(tipoDocumento) || StringUtils.isBlank(numeroDocumento)) {
                             exchange.getResponseSender().send("Error de autenticación ante ID Uruguay.");
+                            exchange.setStatusCode(401);
                             exchange.endExchange();
                             logger.log(Level.SEVERE, "ID Uruguay no ha indicado el documento del ciudadano");
                             return;
@@ -293,6 +305,46 @@ public class IDUruguayHttpHandler implements HttpHandler {
                         tipoDocumento = convertirTipoDocumento(tipoDocumento);
 
                         String codigoUsuario = paisDocumento+"-"+tipoDocumento+"-"+numeroDocumento;
+
+                        //Validar el nivel de seguridad (acr)
+                        //Los valores posibles son urn:iduruguay:nid:0, urn:iduruguay:nid:1, urn:iduruguay:nid:2, urn:iduruguay:nid:3
+                        //Se requiere nid:2 o nid:3 para el backend
+                        String acr = null;
+                        if (jsonObj.has("acr")) {
+                            acr = jsonObj.getString("acr");
+                        } else if (jsonObj.has("nid")) {
+                            acr = jsonObj.getString("nid");
+                        }
+                        if (acr == null && idToken != null) {
+                            //Si no está en userinfo, buscarlo en el ID Token (JWT)
+                            try {
+                                String[] parts = idToken.split("\\.");
+                                if (parts.length >= 2) {
+                                    String payload = new String(Base64.getDecoder().decode(parts[1]));
+                                    JSONObject idTokenPayload = new JSONObject(payload);
+                                    if (idTokenPayload.has("acr")) {
+                                        acr = idTokenPayload.getString("acr");
+                                    } else if (idTokenPayload.has("nid")) {
+                                        acr = idTokenPayload.getString("nid");
+                                    }
+                                }
+                            } catch (Exception ex) {
+                                logger.log(Level.INFO, "No se pudo decodificar el ID Token para verificar el acr", ex);
+                            }
+                        }
+                        
+                        logger.log(Level.INFO, "[{0}] Nivel de seguridad (acr/nid) recibido: {1}", new Object[]{exchange.getRelativePath(), acr});
+                        
+                        String contextPath = src.getDeployment().getServletContext().getContextPath();
+                        logger.log(Level.INFO, "[{0}] ContextPath: {1}", new Object[]{exchange.getRelativePath(), contextPath});
+                        if (StringUtils.contains(contextPath, "sae-web-admin") &&
+                                !StringUtils.endsWithAny(acr, NID_HABILITADOS_DEFAULT)) {
+                            logger.log(Level.INFO, "[{0}] El usuario {1} no tiene el nivel de seguridad requerido (nid2 o nid3). acr: {2}", new Object[]{exchange.getRelativePath(), numeroDocumento, acr});
+                            exchange.setStatusCode(302);
+                            exchange.getResponseHeaders().put(Headers.LOCATION, contextPath + "/error/accesoNoAutorizadoIdUruguay.xhtml");
+                            exchange.endExchange();
+                            return;
+                        }
 
                         //Determinar si existe un usuario con el código de usuario indicado
                         Context initContext = new InitialContext();
@@ -306,7 +358,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
                         rs.close();
                         st.close();
 
-                        logger.log(Level.FINE, "[{0}] Existe un usuario don el código {1}? {2}", new Object[]{exchange.getRelativePath(), codigoUsuario, existeUsuario});
+                        logger.log(Level.INFO, "[{0}] Existe un usuario con el código {1}? {2}", new Object[]{exchange.getRelativePath(), codigoUsuario, existeUsuario});
 
                         //Si existe, actualizar su nombre, si no existe crearlo
                         String nombre1 = obtenerValor(jsonObj, "primer_nombre", null);
@@ -334,6 +386,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
                         boolean loginOk = exchange.getSecurityContext().login(numeroDocumento, ssoState);
                         if(!loginOk) {
                             exchange.getResponseSender().send("Error de autenticación ante ID Uruguay.");
+                            exchange.setStatusCode(401);
                             exchange.endExchange();
                             logger.log(Level.SEVERE, "No se pudo realizar la autenticación del usuario en la aplicación");
                             return;
@@ -341,7 +394,7 @@ public class IDUruguayHttpHandler implements HttpHandler {
 
                         src.getSession().putValue("IDURUGUAY_ID_TOKEN", idToken);
                         //Redirigir a la página de inicio de la aplicación
-                        logger.log(Level.FINE, "[{0}] Redirigiendo a la página de inicio...", new Object[]{exchange.getRequestPath()});
+                        logger.log(Level.INFO, "[{0}] Redirigiendo a la página de inicio...", new Object[]{exchange.getRequestPath()});
                         exchange.setStatusCode(302);
                         exchange.getResponseHeaders().put(Headers.LOCATION, ssoHomePage);
                         exchange.endExchange();
@@ -349,8 +402,9 @@ public class IDUruguayHttpHandler implements HttpHandler {
 
                     } catch (IOException | JSONException | NamingException | SQLException ex) {
                         exchange.getResponseSender().send("Error de autenticación ante ID Uruguay.");
+                        exchange.setStatusCode(401);
                         exchange.endExchange();
-                        logger.log(Level.FINE, "No se pudo procesar la respuesta del servidor de autenticación", ex);
+                        logger.log(Level.SEVERE, "No se pudo procesar la respuesta del servidor de autenticación", ex);
                         return;
                     }
 
@@ -365,33 +419,46 @@ public class IDUruguayHttpHandler implements HttpHandler {
                 // =================================================================
                 // Es un acceso a una URL comun
                 // =================================================================
-                logger.log(Level.FINE, "[{0}] No es un acceso a la URL de retorno ni de logout.", new Object[]{exchange.getRelativePath()});
+                logger.log(Level.INFO, "[{0}] No es un acceso a la URL de retorno ni de logout.", new Object[]{exchange.getRelativePath()});
 
                 //Si el recurso no requiere autenticación no hay nada para hacer
                 if(!exchange.getSecurityContext().isAuthenticationRequired()) {
-                    logger.log(Level.FINE, "[{0}] NO se requiere autenticación.", new Object[]{exchange.getRequestPath()});
+                    logger.log(Level.INFO, "[{0}] NO se requiere autenticación.", new Object[]{exchange.getRequestPath()});
                     next.handleRequest(exchange);
                     return;
                 }
 
                 //Si ya está autenticado no hay nada para hacer
                 if(exchange.getSecurityContext().isAuthenticated()) {
-                    logger.log(Level.FINE, "[{0}] Ya está autenticado.", new Object[]{exchange.getRequestPath()});
+                    logger.log(Level.INFO, "[{0}] Ya está autenticado.", new Object[]{exchange.getRequestPath()});
                     next.handleRequest(exchange);
                     return;
                 }
 
     //            Ver si se puede autenticar con los datos ya existentes
                 if(exchange.getSecurityContext().authenticate()) {
-                    logger.log(Level.FINE, "[{0}] Ya estaba autenticado previamente.", new Object[]{exchange.getRequestPath()});
+                    logger.log(Level.INFO, "[{0}] Ya estaba autenticado previamente.", new Object[]{exchange.getRequestPath()});
                     next.handleRequest(exchange);
                     return;
                 }
 
                 //Hay que hacer la autenticación
-                logger.log(Level.FINE, "[{0}] Hay que iniciar el proceso de autenticación.", new Object[]{exchange.getRequestPath()});
-                String urlRedirect = ssoBaseUrl + "authorize?response_type=code&scope=openid%20personal%20email%20document%20personal_info&"
-                        + "client_id="+ssoClientId+"&state="+ssoState+"&redirect_uri=" + ssoReturnUrl;
+                logger.log(Level.INFO, "[{0}] Hay que iniciar el proceso de autenticación.", new Object[]{exchange.getRequestPath()});
+                
+                String scope = "openid%20personal%20email%20document%20personal_info";
+                String acrValues = "";
+                ServletRequestContext srcAuth = exchange.getAttachment(ServletRequestContext.ATTACHMENT_KEY);
+                if (srcAuth != null) {
+                    String contextPath = srcAuth.getDeployment().getServletContext().getContextPath();
+                    if (contextPath != null && contextPath.contains("sae-web-admin")) {
+                        scope += "%20auth_info";
+                        acrValues = "&acr_values=urn:iduruguay:nid:0%20urn:iduruguay:nid:1%20urn:iduruguay:nid:2%20urn:iduruguay:nid:3";
+                    }
+                }
+
+                String urlRedirect = ssoBaseUrl + "authorize?response_type=code&scope=" + scope + "&"
+                        + "client_id="+ssoClientId+"&state="+ssoState+"&redirect_uri=" + ssoReturnUrl
+                        + acrValues;
                 logger.log(Level.FINE, "[{0}] URL de redirección: {1}.", new Object[]{exchange.getRequestPath(), urlRedirect});
                 exchange.setStatusCode(302);
                 exchange.getResponseHeaders().put(Headers.LOCATION, urlRedirect);

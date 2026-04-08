@@ -4,11 +4,11 @@
     <parent>
         <artifactId>sae</artifactId>
         <groupId>uy.com.sofis</groupId>
-        <version>4.6.1-r5</version>
+        <version>4.7.0</version>
     </parent>
 
     <artifactId>sae-autocompletados</artifactId>
-    <version>4.6.1-r5</version>
+    <version>4.7.0</version>
     <packaging>ejb</packaging>
 
     <name>sae-autocompletados</name>

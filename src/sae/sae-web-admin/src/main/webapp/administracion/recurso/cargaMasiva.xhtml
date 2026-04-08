@@ -22,7 +22,7 @@
                         <p:outputPanel styleClass="form-horizontal">
                             <p:outputPanel styleClass="form-group">
                                 <p:outputLabel value="#{sessionMBean.textos['agenda']}"
-                                        for="agenda" styleClass="col-sm-3 control-label label" />
+                                        for="agenda" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                         <h:inputText value="#{sessionMBean.agendaMarcada.nombre}"
                                                 id="agenda" disabled="true" styleClass="form-control" />
@@ -31,10 +31,10 @@
 
                             <p:outputPanel id="pnlArchivo" styleClass="form-group">
                                 <h:outputLabel value="#{sessionMBean.textos['archivo']}"
-                                        for="archivo_input" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                        for="archivo_input" styleClass="col-sm-3 label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
-                                        <p:fileUpload  mode="advanced" id="archivo"
-                                                fileUploadListener="#{recursoMBean.subirArchivo}" auto="true"
+                                        <p:fileUpload  mode="simple" id="archivo"
+                                                listener="#{recursoMBean.subirArchivo}" auto="true"
                                                 process="@this" update="nombreArchivo"
                                                 label="#{sessionMBean.textos['subir_archivo']}"
                                                 cancelLabel="#{sessionMBean.textos['cancelar']}"

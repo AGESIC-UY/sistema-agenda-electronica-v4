@@ -1,11 +1,13 @@
 <ui:composition template="/templates/layout.xhtml"
   xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:p="http://primefaces.org/ui/sofis"
+  xmlns:p="http://primefaces.org/ui"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:cp="http://sae-web"
   xmlns:h="http://java.sun.com/jsf/html">
 	<ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
 	<ui:define name="cuerpo">
+		<h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
 		<f:view beforePhase="#{consultaMBean.beforePhaseConsultarAtencionPresencialPeriodo}" >
 			<p:outputPanel>
 				<h:form id="form" rendered="#{sessionMBean.agendaMarcada != null and sessionMBean.recursoMarcado != null}">
@@ -19,23 +21,21 @@
 						<p:outputPanel styleClass="form-horizontal">
 
 							<p:outputPanel styleClass="form-group">
-								<h:outputLabel value="#{sessionMBean.textos['fecha_de_inicio']}" for="fechaDesde" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+								<h:outputLabel value="#{sessionMBean.textos['fecha_de_inicio']}" for="fechaDesde" styleClass="col-sm-3 label formularioCampoRequerido" />
 								<p:outputPanel styleClass="col-sm-9">
-									<h:inputText id="fechaDesde" value="#{reporteMBean.fechaDesde}" styleClass="datepicker" converter="dateConverter">
-                    <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                    <f:attribute name="onError" value="zero"/>
-									</h:inputText>
+									<cp:inputDate id="fechaDesde"  value="#{reporteMBean.fechaDesde}"  pattern="yyyy-MM-dd">
+										<f:converter converterId="dateConverter"/>
+									</cp:inputDate>
 									<p:message for="fechaDesde" />
 								</p:outputPanel>
 							</p:outputPanel>
 
 							<p:outputPanel styleClass="form-group">
-								<h:outputLabel value="#{sessionMBean.textos['fecha_de_fin']}" for="fechaHasta" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+								<h:outputLabel value="#{sessionMBean.textos['fecha_de_fin']}" for="fechaHasta" styleClass="col-sm-3 label formularioCampoRequerido" />
 								<p:outputPanel styleClass="col-sm-9">
-									<h:inputText id="fechaHasta" value="#{reporteMBean.fechaHasta}" styleClass="datepicker" converter="dateConverter">
-                    <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                    <f:attribute name="onError" value="zero"/>
-									</h:inputText>
+									<cp:inputDate id="fechaHasta"  value="#{reporteMBean.fechaHasta}"  pattern="yyyy-MM-dd">
+										<f:converter converterId="dateConverter"/>
+									</cp:inputDate>
 									<p:message for="fechaHasta" />
 								</p:outputPanel>
 							</p:outputPanel>
@@ -44,7 +44,7 @@
 					<ul class="form-action-buttons">
 						<li class="action-buttons-primary">
 						  	<p:commandButton value="#{sessionMBean.textos['consultar']}" actionListener="#{reporteMBean.reporteAtencionPresencialPeriodo}"
-						    	styleClass="btn-lg btn-primario" update="@form"/>
+						    	styleClass="btn-lg btn-primario" update="@form"   process="fechaDesde,fechaHasta,@form"/>
 							<p:commandButton value="#{sessionMBean.textos['descargar']}" disabled="#{reporteMBean.printer==null}" action="#{reporteMBean.print}" styleClass="btn-lg btn-secundario" ajax="false"/>
 						</li>
 					</ul>

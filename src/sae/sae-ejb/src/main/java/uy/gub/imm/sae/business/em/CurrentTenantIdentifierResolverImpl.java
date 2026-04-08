@@ -27,21 +27,24 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
     
     @Override
     public String resolveCurrentTenantIdentifier() {
-        try {
-            Context initContext = new InitialContext();
-            SessionContext session = (SessionContext) initContext.lookup("java:comp/EJBContext");
-            Principal principal = session.getCallerPrincipal();
-            if (principal instanceof SAEPrincipal) {
-                SAEPrincipal saePrincipal = (SAEPrincipal) principal;
-                return saePrincipal.getTenant();
+        if (TenantContext.getCurrentTenant() == null) {
+            try {
+                Context initContext = new InitialContext();
+                SessionContext session = (SessionContext) initContext.lookup("java:comp/EJBContext");
+                Principal principal = session.getCallerPrincipal();
+                if (principal instanceof SAEPrincipal) {
+                    SAEPrincipal saePrincipal = (SAEPrincipal) principal;
+                    return saePrincipal.getTenant();
+                }
+            } catch (NamingException nEx) {
+                LOGGER.log(Logger.Level.FATAL, "Error al identificar el tenant", nEx);
+            } catch (Exception ex) {
+                LOGGER.log(Logger.Level.INFO, "Error al identificar el tenant", ex);
             }
-        } catch (NamingException nEx) {
-            LOGGER.log(Logger.Level.FATAL, "Error al identificar el tenant", nEx);
+            return "public";
+        } else {
+            return TenantContext.getCurrentTenant() != null ? TenantContext.getCurrentTenant() : "public";
         }
-        catch (Exception ex) {
-            LOGGER.log(Logger.Level.INFO, "Error al identificar el tenant", ex);
-        }
-        return "public";
     }
 
     @Override

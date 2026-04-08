@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -18,7 +18,7 @@
                         <h:selectOneMenu id="idioma"
                                          value="#{textoRecursoMBean.idiomaTextos}"
                                          valueChangeListener="#{textoRecursoMBean.cambioIdiomaTextos}"
-                                         styleClass="form-control textoMedio">
+                                         styleClass="textoMedio">
                             <p:ajax update="@form" process="@this" />
                             <f:selectItems value="#{textoRecursoMBean.idiomasSoportados}" />
                         </h:selectOneMenu>
@@ -37,7 +37,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_para_el_paso_2_de_la_reserva']}"
-                                    for="textoPaso2" styleClass="col-sm-3 control-label label" />
+                                    for="textoPaso2" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoPaso2"
                                                      value="#{textoRecursoMBean.textoRec.textoPaso2}"
@@ -52,7 +52,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_para_el_paso_3_de_la_reserva']}"
-                                    for="textoPaso3" styleClass="col-sm-3 control-label label" />
+                                    for="textoPaso3" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoPaso3"
                                                      value="#{textoRecursoMBean.textoRec.textoPaso3}"
@@ -67,7 +67,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_titulo_aviso_al_confirmar']}"
-                                    for="textoTituloAvisoAlConfirmar" styleClass="col-sm-3 control-label label" />
+                                    for="textoTituloAvisoAlConfirmar" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputText id="textoTituloAvisoAlConfirmar"
                                                  value="#{textoRecursoMBean.recursoMarcado.miPerfilConTitulo}"
@@ -78,7 +78,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_corto_aviso_al_confirmar']}"
-                                    for="textoCortoAvisoAlConfirmar" styleClass="col-sm-3 control-label label" />
+                                    for="textoCortoAvisoAlConfirmar" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoCortoAvisoAlConfirmar"
                                                      value="#{textoRecursoMBean.recursoMarcado.miPerfilConCorto}"
@@ -88,7 +88,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_largo_aviso_al_confirmar']}"
-                                    for="textoLargoAvisoAlConfirmar" styleClass="col-sm-3 control-label label" />
+                                    for="textoLargoAvisoAlConfirmar" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoLargoAvisoAlConfirmar"
                                                      value="#{textoRecursoMBean.recursoMarcado.miPerfilConLargo}"
@@ -103,7 +103,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_titulo_aviso_al_cancelar']}"
-                                    for="textoTituloAvisoAlCancelar" styleClass="col-sm-3 control-label label" />
+                                    for="textoTituloAvisoAlCancelar" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputText id="textoTituloAvisoAlCancelar"
                                                  value="#{textoRecursoMBean.recursoMarcado.miPerfilCanTitulo}"
@@ -114,7 +114,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_corto_aviso_al_cancelar']}"
-                                    for="textoCortoAvisoAlCancelar" styleClass="col-sm-3 control-label label" />
+                                    for="textoCortoAvisoAlCancelar" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoCortoAvisoAlCancelar"
                                                      value="#{textoRecursoMBean.recursoMarcado.miPerfilCanCorto}"
@@ -124,7 +124,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_largo_aviso_al_cancelar']}"
-                                    for="textoLargoAvisoAlCancelar" styleClass="col-sm-3 control-label label" />
+                                    for="textoLargoAvisoAlCancelar" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoLargoAvisoAlCancelar"
                                                      value="#{textoRecursoMBean.recursoMarcado.miPerfilCanLargo}"
@@ -139,7 +139,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_titulo_recordatorio']}"
-                                    for="textoTituloRecordatorio" styleClass="col-sm-3 control-label label" />
+                                    for="textoTituloRecordatorio" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputText id="textoTituloRecordatorio"
                                                  value="#{textoRecursoMBean.recursoMarcado.miPerfilRecTitulo}"
@@ -150,7 +150,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_corto_recordatorio']}"
-                                    for="textoCortoRecordatorio" styleClass="col-sm-3 control-label label" />
+                                    for="textoCortoRecordatorio" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoCortoRecordatorio"
                                                      value="#{textoRecursoMBean.recursoMarcado.miPerfilRecCorto}"
@@ -160,7 +160,7 @@
                             <p:outputPanel styleClass="form-group">
                                 <h:outputLabel
                                     value="#{sessionMBean.textos['texto_largo_recordatorio']}"
-                                    for="textoLargoRecordatorio" styleClass="col-sm-3 control-label label" />
+                                    for="textoLargoRecordatorio" styleClass="col-sm-3 label" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputTextarea id="textoLargoRecordatorio"
                                                      value="#{textoRecursoMBean.recursoMarcado.miPerfilRecLargo}"
@@ -186,7 +186,7 @@
                             <li class="float-left"><p:commandButton
                                     value="#{sessionMBean.textos['cancelar']}"
                                     actionListener="#{textoRecursoMBean.cancelar}"
-                                    styleClass="btn-lg btn-link" /></li>
+                                    styleClass="btn-lg btn-primario" /></li>
                         </ul>
                     </li>
                 </ul>

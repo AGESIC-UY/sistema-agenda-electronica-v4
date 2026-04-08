@@ -1,6 +1,6 @@
 <ui:composition template="/reservaMultiple/Paso.template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -120,6 +120,7 @@
                                                      selection="#{multiplePaso3MBean.rowSelectMatutina}" rowKey="#{row.data.id}" caption="#{sesionMBean.textos['disponibilidades_en_la_manana']}"
                                                      captionClass="ui-helper-hidden-accessible" emptyMessage="#{sesionMBean.textos['no_hay_datos_para_mostrar']}"
                                                      rowStyleClass="#{multiplePaso3MBean.claseSegunCupo(row.data)}">
+                                            <p:ajax event="rowSelect" listener="#{multiplePaso3MBean.seleccionarHorarioMatutino}" update="form:panelVespertina" />
                                             <p:ajax event="rowSelectRadio" listener="#{multiplePaso3MBean.seleccionarHorarioMatutino}" update="form:panelVespertina" />
                                             <p:column selectionMode="single" id="radioSel" />
                                             <p:column>
@@ -139,6 +140,7 @@
                                                      selection="#{multiplePaso3MBean.rowSelectVespertina}" rowKey="#{row.data.id}" caption="#{sesionMBean.textos['disponibilidades_en_la_tarde']}"
                                                      captionClass="ui-helper-hidden-accessible" emptyMessage="#{sesionMBean.textos['no_hay_datos_para_mostrar']}"
                                                      rowStyleClass="#{multiplePaso3MBean.claseSegunCupo(row.data)}">
+                                            <p:ajax event="rowSelect" listener="#{multiplePaso3MBean.seleccionarHorarioVespertino}" update="form:panelMatutina" />
                                             <p:ajax event="rowSelectRadio" listener="#{multiplePaso3MBean.seleccionarHorarioVespertino}" update="form:panelMatutina" />
                                             <p:column id="radioSel" selectionMode="single" />
                                             <p:column>

@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -63,10 +63,10 @@
                             <h:outputText value="#{sessionMBean.textos['acciones']}" />
                         </f:facet>
                         <p:commandButton id="modificarEmpresa" value="#{sessionMBean.textos['modificar']}" action="#{empresaMBean.modificar(row.data.id)}" update="tablaEmpresas" 
-                                         styleClass="ui-button-icon-only" icon="ui-icon-pencil" title="#{sessionMBean.textos['modificar']}" >
+                                         styleClass="ui-button-icon-only" icon="fa-solid fa-pencil" title="#{sessionMBean.textos['modificar']}" >
                         </p:commandButton>
                         <p:commandButton id="eliminarEmpresa" value="#{sessionMBean.textos['eliminar']}" oncomplete="PF('eliminarEmpresa').show();" styleClass="ui-button-icon-only"
-                                         action="#{empresaMBean.selecEmpresaEliminar(row.data.id)}" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}">
+                                         action="#{empresaMBean.selecEmpresaEliminar(row.data.id)}" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}">
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>

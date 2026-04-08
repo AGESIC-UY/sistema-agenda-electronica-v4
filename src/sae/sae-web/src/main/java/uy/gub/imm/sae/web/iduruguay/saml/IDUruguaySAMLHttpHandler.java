@@ -1014,7 +1014,7 @@ public class IDUruguaySAMLHttpHandler implements HttpHandler {
         logger.log(Level.FINE, "getParameter " + paramName);    
         try {   
                 InputStream input = exchange.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
                 String line = new String();
                 while ((line = reader.readLine()) != null) {
                     if(line.startsWith(paramName)){

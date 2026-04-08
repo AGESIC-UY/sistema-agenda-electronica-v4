@@ -1,8 +1,9 @@
 <ui:composition template="/templates/layoutPublico.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:cp="http://sae-web"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="parametroBean" value="#{presencialAutogestionMBean}" />
     <ui:define name="css" />
@@ -50,13 +51,13 @@
                 <h:outputText value="#{sesionMBean.textos['solicite_turno_para_ser_atendido']}" />
             </h1>
 
-            <p:messages id="pantalla" 
+            <cp:messages id="pantalla"
                         singleInfoTitle="#{sesionMBean.textos['mensaje_en_el_formulario_info']}" multiInfoTitle="#{sesionMBean.textos['mensajes_en_el_formulario_info']}"
                         singleWarnTitle="#{sesionMBean.textos['mensaje_en_el_formulario_warn']}" multiWarnTitle="#{sesionMBean.textos['mensajes_en_el_formulario_warn']}" 
                         singleErrorTitle="#{sesionMBean.textos['mensaje_en_el_formulario_error']}" multiErrorTitle="#{sesionMBean.textos['mensajes_en_el_formulario_error']}"
                         >
                 <p:autoUpdate />
-            </p:messages>
+            </cp:messages>
 
             <h:form id="formDatosReserva" class="cancelarReserva" rendered="#{!presencialAutogestionMBean.hayErrorInit}">
                 <p:poll interval="60" listener="#{presencialAutogestionMBean.mantenerSesionActiva()}" />

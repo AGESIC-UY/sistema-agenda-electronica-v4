@@ -49,7 +49,7 @@
         <poi.version>3.16</poi.version>
         <jasypt.version>1.9.3</jasypt.version>
         <picketbox.version>5.0.3.Final-redhat-00007</picketbox.version>
-        <primefaces.version>6.2</primefaces.version>
+        <primefaces.version>7.0</primefaces.version>
         <omnifaces.version>2.7.15</omnifaces.version>
         <commons-csv.version>1.9.0</commons-csv.version>
         <joda-time.version>2.9.7</joda-time.version>

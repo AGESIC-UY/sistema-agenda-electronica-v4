@@ -1,0 +1,106 @@
+
+
+/*steps new*/
+.step-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 50px;
+}
+.step-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.3rem;
+
+}
+/*
+.step{
+    font-size: 1em;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: #eee;
+    border-radius: 99px;
+    margin-bottom: 1rem;
+    line-height: 1;
+    border: 2px solid #888;
+}*/
+.step-circle {
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid #888;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+
+.step1, .step2, .step3 {
+
+}
+
+.step-separator {
+  flex-grow: 1;
+  border-top: 2px solid #888;
+  height: 15px;
+  margin: 0 10px;
+}
+.step-separator.separator-active {
+  border-top: 2px solid #003DA5;
+}
+.step-active{
+    background-color: #003DA5;
+    color: #ffffff;
+    border: 2px solid #003DA5;
+}
+.step-finished{
+    background: #FFF;
+    border: 0px;
+}
+
+.step-num{
+    color: #000000;
+    font-size: 1em;
+    font-weight: bold;
+}
+.step-num.num-active{
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.step-desc{
+    font-size: 1.3em;
+    font-weight: normal;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    text-align: center;
+}
+
+.step-desc.desc-active{
+    color: #000000;
+    background-color: transparent;
+    font-weight: bold;
+}
+.step-desc.desc-finished{
+    color: #003DA5;
+    font-weight: 500;
+}
+
+.finished-icon{
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 99px;
+    line-height: 1;
+}

@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -80,9 +80,9 @@
                                     <h:outputText value="#{sessionMBean.textos['acciones']}"></h:outputText>
                                 </f:facet>
                                 <p:commandButton id="modificarAgrupLink" value="#{sessionMBean.textos['modificar']}" action="#{agrupacionMBean.seleccionarAgrupacion(rowIndex)}"
-                                                 update="formModificarAgrup:panelModificarAgrup" icon="ui-icon-pencil" title="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only" />
+                                                 update="formModificarAgrup:panelModificarAgrup" icon="fa-solid fa-pencil" title="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only" />
                                 <p:commandButton id="eliminarAgrupLink" value="#{sessionMBean.textos['eliminar']}" oncomplete="PF('eliminarAgrupacion').show();" styleClass="ui-button-icon-only"
-                                                 action="#{agrupacionMBean.seleccionarAgrupacionParaEliminar(rowIndex)}" icon="ui-icon-trash" title="#{sessionMBean.textos['eliminar']}" />
+                                                 action="#{agrupacionMBean.seleccionarAgrupacionParaEliminar(rowIndex)}" icon="fa-solid fa-trash" title="#{sessionMBean.textos['eliminar']}" />
                             </p:column>
                         </p:dataTable>
 
@@ -147,7 +147,7 @@
                                     <p:outputPanel styleClass="form-horizontal">
 
                                         <p:outputPanel styleClass="form-group">
-                                            <h:outputLabel value="#{sessionMBean.textos['nombre']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" for="cNombre" />
+                                            <h:outputLabel value="#{sessionMBean.textos['nombre']}" styleClass="col-sm-3 label formularioCampoRequerido" for="cNombre" />
                                             <p:outputPanel styleClass="col-sm-9">
                                                 <h:inputText id="cNombre" value="#{agrupacionMBean.agrupacionDatoNuevo.nombre}" maxlength="50" styleClass="form-control" />
                                                 <p:message for="cNombre" />
@@ -155,7 +155,7 @@
                                         </p:outputPanel>
 
                                         <p:outputPanel styleClass="form-group">
-                                            <h:outputLabel value="#{sessionMBean.textos['etiqueta']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" for="cEtiqueta" />
+                                            <h:outputLabel value="#{sessionMBean.textos['etiqueta']}" styleClass="col-sm-3 label formularioCampoRequerido" for="cEtiqueta" />
                                             <p:outputPanel styleClass="col-sm-9">
                                                 <h:inputText id="cEtiqueta" value="#{agrupacionMBean.agrupacionDatoNuevo.etiqueta}" maxlength="50" styleClass="form-control" />
                                                 <p:message for="cEtiqueta" />
@@ -163,7 +163,7 @@
                                         </p:outputPanel>
 
                                         <p:outputPanel styleClass="form-group">
-                                            <h:outputLabel value="#{sessionMBean.textos['orden']}" styleClass="col-sm-3 control-label label formularioCampoRequerido" for="VOrdUpd" />
+                                            <h:outputLabel value="#{sessionMBean.textos['orden']}" styleClass="col-sm-3 label formularioCampoRequerido" for="VOrdUpd" />
                                             <p:outputPanel styleClass="col-sm-9">
                                                 <h:inputText id="VOrdUpd" value="#{agrupacionMBean.agrupacionDatoNuevo.orden}" maxlength="5" styleClass="form-control textoCorto" converter="integerConverter" />
                                                 <p:message for="VOrdUpd" />
@@ -173,7 +173,7 @@
                                         <p:outputPanel styleClass="form-group">
                                             <p:outputPanel styleClass="col-sm-9 offset-sm-3">
                                                 <p:commandButton value="#{sessionMBean.textos['cancelar']}" immediate="true" actionListener="#{agrupacionMBean.cancelarCrearAgrupacion}"
-                                                                 update="formModificarAgrup:panelModificarAgrup" styleClass="btn btn-link" />
+                                                                 update="formModificarAgrup:panelModificarAgrup" styleClass="btn btn-secundario" />
                                                 <p:commandButton value="#{sessionMBean.textos['guardar']}" actionListener="#{agrupacionMBean.crearAgrupacion}"
                                                                  update="formModificarAgrup:panelModificarAgrup" styleClass="btn btn-secundario" />
                                             </p:outputPanel>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui/sofis"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cp="http://sae-web"
       lang="#{sessionMBean.idiomaActual}">
 
     <h:head>
@@ -65,14 +66,13 @@
                 </div>
             </div>
 
-            <p:messages id="pantalla" showDetail="true" closable="true"
+            <cp:messages id="pantalla" showDetail="true" closable="true"
                         singleInfoTitle="#{sessionMBean.textos['mensaje_en_el_formulario_info']}" multiInfoTitle="#{sessionMBean.textos['mensajes_en_el_formulario_info']}"
                         singleWarnTitle="#{sessionMBean.textos['mensaje_en_el_formulario_warn']}" multiWarnTitle="#{sessionMBean.textos['mensajes_en_el_formulario_warn']}" 
                         singleErrorTitle="#{sessionMBean.textos['mensaje_en_el_formulario_error']}" multiErrorTitle="#{sessionMBean.textos['mensajes_en_el_formulario_error']}"
                         >
                 <p:autoUpdate />
-            </p:messages>
-
+            </cp:messages>
             <div id="page-content-wrapper">
 
                 <h:form id="formPoll">

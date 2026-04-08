@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uy.com.sofis</groupId>
     <artifactId>sae</artifactId>
-    <version>4.6.1-r5</version>
+    <version>4.7.0</version>
     <packaging>pom</packaging>
     <name>sae</name>
     <modules>
@@ -35,7 +35,7 @@
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <maven-ear-plugin.version>3.2.0</maven-ear-plugin.version>
         <itextpdf.version>5.5.13.3</itextpdf.version>
-        <postgresql.version>42.4.0</postgresql.version>
+        <postgresql.version>42.7.7</postgresql.version>
         <xml-apis.version>1.4.01</xml-apis.version>
         <olap4j.version>1.2.0</olap4j.version>
         <reload4j.version>1.2.20</reload4j.version>
@@ -54,6 +54,8 @@
         <opensaml.version>2.6.4</opensaml.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <cas-client-core.version>3.6.4</cas-client-core.version>
+        <primefaces.version>12.0.0</primefaces.version>
+        <font-awesome.version>6.2.0</font-awesome.version>
     </properties>
 
     <dependencyManagement>
@@ -178,10 +180,8 @@
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>6.2</version>
+                <version>${primefaces.version}</version>
             </dependency>
-
-
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
@@ -212,6 +212,12 @@
                 <version>${hibernate.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>font-awesome</artifactId>
+                <version>${font-awesome.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>
@@ -264,6 +270,10 @@
             <id>jboss-public-repository-group</id>
             <name>Redhat GA Repository</name>
             <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
+        <repository>
+           <id>jaspersoft-third-party</id>
+           <url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
         </repository>
     </repositories>
 </project>

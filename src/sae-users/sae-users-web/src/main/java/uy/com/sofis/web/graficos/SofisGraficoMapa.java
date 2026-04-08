@@ -7,7 +7,7 @@ package uy.com.sofis.web.graficos;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -101,11 +101,11 @@ public class SofisGraficoMapa extends SofisGrafico {
             opciones += " region: " + getRegion() + ",";
         }
         opciones += "};";
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute(data);
-        context.execute(opciones);
-        context.execute("var chart = new google.visualization.GeoChart(document.getElementById('" + getNombreDiv() + "')) ");
-        context.execute("chart.draw(data, options)");
+        PrimeFaces context = PrimeFaces.current();
+        context.executeScript(data);
+        context.executeScript(opciones);
+        context.executeScript("var chart = new google.visualization.GeoChart(document.getElementById('" + getNombreDiv() + "')) ");
+        context.executeScript("chart.draw(data, options)");
     }
 
 }

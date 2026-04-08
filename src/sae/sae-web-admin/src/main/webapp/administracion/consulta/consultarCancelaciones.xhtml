@@ -1,11 +1,13 @@
 <ui:composition template="/templates/layout.xhtml"
   xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:p="http://primefaces.org/ui/sofis"
+  xmlns:p="http://primefaces.org/ui"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html">
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:cp="http://sae-web">
   <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
   <ui:define name="cuerpo">
+      <h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
     <f:view beforePhase="#{consultaCancelacionesMBean.beforePhaseConsultarCancelaciones}" >
     
     
@@ -42,7 +44,7 @@
               <p:outputPanel styleClass="form-group">
                 <h:outputLabel value="#{sessionMBean.textos['tramite']}" for="tramite" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                 <p:outputPanel styleClass="col-sm-9">
-                  <h:selectOneMenu id="seleccionTramite" styleClass="form-control" value="#{consultaCancelacionesMBean.tramiteCodigo}">
+                  <h:selectOneMenu id="seleccionTramite" value="#{consultaCancelacionesMBean.tramiteCodigo}">
                     <f:selectItems value="#{consultaCancelacionesMBean.tramites}" />
                   </h:selectOneMenu>
                   <p:message for="seleccionTramite" />
@@ -54,21 +56,19 @@
 			            <h:outputText value="#{sessionMBean.textos['reserva']}" />
 			          </legend>
 	              <p:outputPanel styleClass="form-group">
-	                <p:outputLabel value="#{sessionMBean.textos['fecha_desde']}" for="fechaDesde" styleClass="col-sm-2 control-label label" />
+	                <p:outputLabel value="#{sessionMBean.textos['fecha_desde']}" for="Fdesde" styleClass="col-sm-2 control-label label" />
 	                <p:outputPanel styleClass="col-sm-4">
-	                  <h:inputText id="fechaDesde" value="#{consultaCancelacionesMBean.reservaFechaDesde}" styleClass="datepicker" converter="dateConverter">
-	                    <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-	                    <f:attribute name="onError" value="zero"/>
-	                  </h:inputText>
-	                  <p:message for="fechaDesde" />
+                        <cp:inputDate id="Fdesde"  value="#{consultaCancelacionesMBean.reservaFechaDesde}" pattern="yyyy-MM-dd">
+                            <f:converter converterId="dateConverter"/>
+                        </cp:inputDate>
+                        <p:message for="Fdesde" />
 	                </p:outputPanel>
 	                <p:outputLabel value="#{sessionMBean.textos['fecha_hasta']}" for="fechaHasta" styleClass="col-sm-2 control-label label" />
 	                <p:outputPanel styleClass="col-sm-4">
-	                  <h:inputText id="fechaHasta" value="#{consultaCancelacionesMBean.reservaFechaHasta}" styleClass="datepicker" converter="dateConverter">
-	                    <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-	                    <f:attribute name="onError" value="zero"/>
-	                  </h:inputText>
-	                  <p:message for="fechaHasta" />
+                        <cp:inputDate id="fechaHasta"  value="#{consultaCancelacionesMBean.reservaFechaHasta}" pattern="yyyy-MM-dd">
+                            <f:converter converterId="dateConverter"/>
+                        </cp:inputDate>
+                       <p:message for="fechaHasta" />
 	                </p:outputPanel>
 	              </p:outputPanel>
               </fieldset>
@@ -80,19 +80,17 @@
 	              <p:outputPanel styleClass="form-group">
 	                <p:outputLabel value="#{sessionMBean.textos['fecha_desde']}" for="creacionFechaDesde" styleClass="col-sm-2 control-label label" />
 	                <p:outputPanel styleClass="col-sm-4">
-	                  <h:inputText id="creacionFechaDesde" value="#{consultaCancelacionesMBean.creacionFechaDesde}" styleClass="datepicker" converter="dateConverter">
-	                    <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-	                    <f:attribute name="onError" value="zero"/>
-	                  </h:inputText>
-	                  <p:message for="creacionFechaDesde" />
+                        <cp:inputDate id="creacionFechaDesde"  value="#{consultaCancelacionesMBean.creacionFechaDesde}" pattern="yyyy-MM-dd">
+                            <f:converter converterId="dateConverter"/>
+                        </cp:inputDate>
+                       <p:message for="creacionFechaDesde" />
                   </p:outputPanel>
 	                <p:outputLabel value="#{sessionMBean.textos['fecha_hasta']}" for="creacionFechaHasta" styleClass="col-sm-2 control-label label" />
 	                <p:outputPanel styleClass="col-sm-4">
-	                  <h:inputText id="creacionFechaHasta" value="#{consultaCancelacionesMBean.creacionFechaHasta}" styleClass="datepicker" converter="dateConverter">
-	                    <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-	                    <f:attribute name="onError" value="zero"/>
-	                  </h:inputText>
-	                  <p:message for="creacionFechaHasta" />
+                        <cp:inputDate id="creacionFechaHasta"  value="#{consultaCancelacionesMBean.creacionFechaHasta}" pattern="yyyy-MM-dd">
+                            <f:converter converterId="dateConverter"/>
+                        </cp:inputDate>
+                        <p:message for="creacionFechaHasta" />
 	                </p:outputPanel>
 	              </p:outputPanel>
               </fieldset>
@@ -104,19 +102,17 @@
                 <p:outputPanel styleClass="form-group">
                   <p:outputLabel value="#{sessionMBean.textos['fecha_desde']}" for="cancelacionFechaDesde" styleClass="col-sm-2 control-label label" />
                   <p:outputPanel styleClass="col-sm-4">
-                    <h:inputText id="cancelacionFechaDesde" value="#{consultaCancelacionesMBean.cancelacionFechaDesde}" styleClass="datepicker" converter="dateConverter">
-                      <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                      <f:attribute name="onError" value="zero"/>
-                    </h:inputText>
-                    <p:message for="cancelacionFechaDesde" />
+                      <cp:inputDate id="cancelacionFechaDesde"  value="#{consultaCancelacionesMBean.cancelacionFechaDesde}" pattern="yyyy-MM-dd">
+                          <f:converter converterId="dateConverter"/>
+                      </cp:inputDate>
+                     <p:message for="cancelacionFechaDesde" />
                   </p:outputPanel>
                   <p:outputLabel value="#{sessionMBean.textos['fecha_hasta']}" for="cancelacionFechaHasta" styleClass="col-sm-2 control-label label" />
                   <p:outputPanel styleClass="col-sm-4">
-                    <h:inputText id="cancelacionFechaHasta" value="#{consultaCancelacionesMBean.cancelacionFechaHasta}" styleClass="datepicker" converter="dateConverter">
-                      <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                      <f:attribute name="onError" value="zero"/>
-                    </h:inputText>
-                    <p:message for="cancelacionFechaHasta" />
+                      <cp:inputDate id="cancelacionFechaHasta"  value="#{consultaCancelacionesMBean.cancelacionFechaHasta}" pattern="yyyy-MM-dd">
+                          <f:converter converterId="dateConverter"/>
+                      </cp:inputDate>
+                      <p:message for="cancelacionFechaHasta" />
                   </p:outputPanel>
                 </p:outputPanel>
               </fieldset>
@@ -126,7 +122,7 @@
           <ul class="form-action-buttons">
             <li class="action-buttons-primary">
               <p:commandButton value="#{sessionMBean.textos['consultar']}" action="#{consultaCancelacionesMBean.consultarCancelaciones}" 
-              styleClass="btn-lg btn-primario" update="@form" />
+              styleClass="btn-lg btn-primario" update="tblCancelaciones" process="@form" />
             </li>
           </ul>
           

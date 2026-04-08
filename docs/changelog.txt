@@ -405,11 +405,92 @@ Versión 4.6.1 (2022-09-16)
 
 Versión 4.6.1-r1 (2023-03-15)
 * fix-accsa-11939: Renderizado de mapa en v4.6.1 no funciona correctamente
+
 Versión 4.6.1-r2 (2023-03-29)
-* se arregla el bug del error al cancelar la agenda
-Versión 4.6.1-r3 (2023-03-29)
-* se arregla el bug de depuracion
+* fix-accsa-12014: Se arregla el bug del error al cancelar la agenda
+
+Versión 4.6.1-r3 (2023-04-18)
+* fix-accsa-12094: Se arregla el error de consulta y el log que sale al momento de depurar las reservas
+
 Versión 4.6.1-r4 (2023-03-29)
-* se arregla el bug del error al cancelar la reserva
+* Se arregla el bug del error al cancelar la reserva
+
 Versión 4.6.1-r5 (2023-04-24)
 * se arregla el bug del error al cancelar la reserva (contexto público)
+
+Versión 4.6.2 (2023-03-09)
+* feature-accsa-mapa - Se fuerza al mapa de ubicación de un recurso a invocarse mediante HTTPS.
+* feature-accsa-8869 - se actualizo a version intermedia de primefaces 7.0
+* feature-accsa-10820 - Migración de implementación de multitenant actual Hibernate 3 a Hibernate 5 
+* Actualización de documentación de Deployment - Sebastian Ramirez
+
+Versión 4.6.3 (2023-06-28)
+* fix-accsa-12454 - Ajuste de título de mensajes
+* fix-accsa-12235 - Arreglo en página de validaciones
+* fix-accsa-11991 - Errores encontrados en revisión frontend de SAE 4.6.2
+
+Versión 4.6.4 (2024-06-20)
+* 12454 correcion informacion adicional
+* Fix/12234 errores en modificar cupos
+* 12234 se corrige la creacion de parametro
+* Se encontro un bug en la implementacion de Mojarra para Primefaces,...
+* Se corrige el datoASSessionMBean.valorDelDatoSeleccionado.fechaHasta y...
+* 12195 errores estilos app
+* Se modifico el icono en el boton de ver, ahora la tabla maneja una fila...
+* Se modificaron los estilos para los botones ya que contenian iconos, tambien...
+* Se agregaron elementos con estilos para poder mostrar los form y combo lado a...
+* Se cambian los estilos para mostrar los campos de horas y minutos in line, se...
+* Se cambio al disposicion de tabla y se quitaron los estilos de tabla
+* Se agregan nuevos estilos para alinear titulos
+* Se agregan nuevos estilos para los horarios y el datepicker tanto para el...
+* se arreglan los campos tipo date
+* 12234 arreglo de los calendarios
+* Fix/input date
+* 13229 arreglo de los estilos
+* Se ajustan componentes, layouts hacerlo similar al contexto publico
+* Se agregan estilos para el datepicker de modificacion de recursos en ...
+* Se modifican parametros del listener de evento en importar.xhtml y cargaMasiva.xhtml
+* Arreglo login usuarios
+* Arreglo estilos
+* FIX 13969 / 13836 - Consulta disponibilidades / iframe
+* Fix de render de pagina de importacion.
+* Se modifica la documentacion para agregar pasos sobre multitenant
+* Revert "Merge branch 'fix-accsa-13969b' into 'master'"
+* Se agregan estilos para corregir:
+* Tareas #13836 - Vulnerabilidad detectada en paso 1 de reserva - iframe mapa
+* 13229 arreglo de modificar recurso
+* Arreglo de los recursos y de la clausula ya son visibles
+* Fix validacion de fechas
+Versión 4.6.5 (2025-08-27)
+* Se agregan nuevos estilos para los horarios y el datepicker
+* Arreglo de trazas
+* Último login: agregado feature de registro de último acceso
+* 13229 arreglo del estado del proceso
+* Corrección en mensajes de error
+* Varios arreglos de estilos (fix-15289-estilosvarios)
+* Arreglo de calendario y disponibilidad (fix-15267-calendarioydisponibilidad)
+* Accesibilidad: mejoras para cumplimiento de requerimientos (fix/12865-gaston-accesibilidad)
+* Agregado módulo de postgresql
+* Ventana de disponibilidad: arreglo de comportamiento (fix-14618-ventanaDisponibilidad)
+* Se extiende la columna ip_origen en ae_reservas para soportar valores de ipv6
+* Se agrega nuevo release configurado para iduruguay en la configuracion y los ultimos fixes realizados
+* 15630 puntos a corregir
+Versión 4.6.6 (2025-09-25)
+* Se agregan datos necesarios para la implementacion de postgres 17 y se actualiza documentacion
+Versión 4.6.7 (2025-11-19)
+* Se corrige problema de finalización de trazas
+* Refactor del proceso de las trazas de fin (15740)
+* Se agrega perfil para compilación de versión usando iduruguay
+Versión 4.7.0 (2026-01-29)
+* Se completaron todas las tareas del ticket
+* Se muestran mensajes si no hay cupos, se muestran siempre 3 turnos rapidos incluso si el dia esta terminando, se muestra el primero del dia siguiente por ej, se agregan direccion, departamento, localidad, latitud y longitud como campos obligatorios
+* 15772 se arregla el valor a solicitar
+* 15770 15772 mejora de la ip de origen
+* Se ajustan estilos para que los radiobutton de la lista de recurso este alineada
+* Tareas #15879: Modificación de login por nivel de seguridad
+* Primera version de pasos fusionados para la reserva, implementado en contexto privado y publico
+* Se agregan cambios reportados por Sebastian sobre textos y mensajes en errores que surgen de la validacion del formulario de reserva
+* Se repican estilos nuevos para la alerta de cancelacion de reserva en contexto publico, se modifican todos los errores de /errors en ambos contextos
+* Se corrigen errores en los warnings dentro de sae-webadmin, tambien se corrige como se calculan las fechas disponibles para el datepicker y como se comparan fechas
+* Se corrige error de carga de recursos en actualizacionMasiva.xhtml
+* Se agregan estilos para el formulario de captcha se vea bien en mobile en el paso 2 de reserva

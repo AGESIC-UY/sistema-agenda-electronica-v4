@@ -22,7 +22,7 @@ package uy.gub.imm.sae.web.mbean.administracion;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import uy.gub.imm.sae.business.ejb.facade.AgendaGeneralLocal;
 import uy.gub.imm.sae.business.ejb.facade.AgendasLocal;
@@ -140,8 +140,11 @@ public class AgendaMBean extends BaseMBean {
 
     @PostConstruct
     public void postConstruct() {
+        agendasDisponibles = new ArrayList<>();
         if (sessionMBean.getEmpresaActual() == null) {
             addErrorMessage(sessionMBean.getTextos().get("debe_especificar_la_empresa"));
+        }else {
+            cargarAgendasDisponibles();
         }
     }
 
@@ -179,7 +182,7 @@ public class AgendaMBean extends BaseMBean {
                     //del bloque comparten el mismo componente JSF, todas ellas quedan con color rojo, incluso si no tienen error (JSF utiliza el mismo componente para todos los divs).
                     //Esto lo que hace es agendar un código JavaScript que le quita la clase 'form-group-con-error' al componente.
                     String compDomId = "form:tramites:" + ind + ":fgCodigoTramite";
-                    RequestContext.getCurrentInstance().execute("document.getElementById('" + compDomId + "').className=document.getElementById('" + compDomId + "').className.replace('form-group-con-error','')");
+                    PrimeFaces.current().executeScript("document.getElementById('" + compDomId + "').className=document.getElementById('" + compDomId + "').className.replace('form-group-con-error','')");
                     String claveTramite = "[" + tramite.getTramiteCodigo().trim() + "][" + tramite.getTramiteNombre().trim() + "]";
                     claveTramite = claveTramite.toLowerCase();
                     if (tramitesUsados.contains(claveTramite)) {
@@ -307,7 +310,7 @@ public class AgendaMBean extends BaseMBean {
                         //del bloque comparten el mismo componente JSF, todas ellas quedan con color rojo, incluso si no tienen error (JSF utiliza el mismo componente para todos los divs).
                         //Esto lo que hace es agendar un código JavaScript que le quita la clase 'form-group-con-error' al componente.
                         String compDomId = "form:tramites:" + ind + ":fgCodigoTramite";
-                        RequestContext.getCurrentInstance().execute("document.getElementById('" + compDomId + "').className=document.getElementById('" + compDomId + "').className.replace('form-group-con-error','')");
+                        PrimeFaces.current().executeScript("document.getElementById('" + compDomId + "').className=document.getElementById('" + compDomId + "').className.replace('form-group-con-error','')");
                         String claveTramite = "[" + tramite.getTramiteCodigo().trim() + "][" + tramite.getTramiteNombre().trim() + "]";
                         claveTramite = claveTramite.toLowerCase();
                         if (tramitesUsados.contains(claveTramite)) {
@@ -560,22 +563,54 @@ public class AgendaMBean extends BaseMBean {
         ta.setAgenda(null);
     }
 
-    public void beforePhaseActualizar(PhaseEvent event) {
-
-        if (!FacesContext.getCurrentInstance().isPostback()) {
-            // Verificar que el usuario tiene permisos para acceder a esta página
-            if(!BooleanUtils.isTrue(sessionMBean.getAdminOrganismoActual())) {
-                FacesContext ctx = FacesContext.getCurrentInstance();
-                ctx.getApplication().getNavigationHandler().handleNavigation(ctx, "", "noAutorizado");
-            }
-            if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-                sessionMBean.setPantallaTitulo(sessionMBean.getTextos().get("actualizacion_masiva"));
-            }
-
-            initDatosActualizacionMasiva();
+    public String initView() {
+        // 1. Verificación de seguridad (ESTO SE MANTIENE AQUI)
+        if(!BooleanUtils.isTrue(sessionMBean.getAdminOrganismoActual())) {
+            return "noAutorizado";
         }
 
+        // 2. Títulos
+        sessionMBean.setPantallaTitulo(sessionMBean.getTextos().get("actualizacion_masiva"));
 
+        // 3. Inicializar el resto de datos si es necesario (pero ya no el combo principal)
+        // Solo cargamos recursos si ya había algo marcado en sesión
+        try {
+            Agenda agenda = sessionMBean.getAgendaMarcada();
+            // Si hay agenda marcada y la lista de recursos está vacía, la cargamos
+            if (agenda != null && (recursoSessionMBean.getRecursos() == null || recursoSessionMBean.getRecursos().isEmpty())) {
+                List<Recurso> recursosList = generalEJB.consultarRecursos(agenda);
+                if (recursosList != null) {
+                    recursosList.sort(new RecursoComparatorNombre());
+                    if(!recursosList.isEmpty()){
+                        recursoSessionMBean.setRecursos(new RowList<>(recursosList));
+                    }
+                }
+            }
+            // Limpiamos campos solo si es una petición GET inicial (opcional)
+            if (!FacesContext.getCurrentInstance().isPostback()) {
+                limpiarCampos();
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        return null;
+    }
+    private void cargarAgendasDisponibles() {
+        try {
+            agendasDisponibles = new ArrayList<>();
+            agendasDisponibles.add(new SelectItem("", sessionMBean.getTextos().get("seleccionar")));
+
+            // Usamos el EJB para llenar la lista
+            List<Agenda> agendas = generalEJB.consultarAgendas();
+            if (agendas != null) {
+                for(Agenda ag : agendas) {
+                    agendasDisponibles.add(new SelectItem(ag.getId().toString(), ag.getNombre()));
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error cargando agendas en PostConstruct", e);
+        }
     }
 
     private void initDatosActualizacionMasiva(){
@@ -684,8 +719,8 @@ public class AgendaMBean extends BaseMBean {
                 addAdvertenciaMessage("Descargue reporte de errores para ver detalles", MSG_ID);
                 byte[] bytes = new CsvReport().convertToCSV(csvRows);
                 InputStream inputStream = new ByteArrayInputStream(bytes);
-                reporte = new DefaultStreamedContent(inputStream, "text/csv", "reporte.csv",
-                    StandardCharsets.UTF_8.toString());
+                reporte = DefaultStreamedContent.builder().contentType("text/csv").name("reporte.csv").stream(() -> inputStream).build();
+                        //StandardCharsets.UTF_8.toString());
             } else {
                 addInfoMessage(sessionMBean.getTextos().get("actualizacion_recursos")
                     .replaceAll("x", String.valueOf(count)), MSG_ID);
@@ -761,16 +796,34 @@ public class AgendaMBean extends BaseMBean {
     }
 
     public void cambioSeleccionAgenda(AjaxBehaviorEvent event) throws UserException {
-        if(StringUtils.isNumeric(agendaActualId)) {
-            int agendaId = Integer.parseInt(agendaActualId);
-            List<Recurso> recursos = recursosEJB.consultarRecursoByAgendaId(agendaId);
-            recursosAgenda = new RowList<>(recursos);
-        } else {
-            recursosAgenda = new RowList<>();
-        }
-        seleccionarTodos = false;
-    }
+        // 1. Limpiamos SIEMPRE la lista antes de empezar para evitar el bug de "ver el anterior"
+        this.recursosAgenda = new RowList<>(new ArrayList<Recurso>());
+        this.seleccionarTodos = false;
 
+        // 2. Obtenemos el valor de la agenda
+        // Nota: agendaActualId ya debería tener el valor nuevo porque quitamos el 'immediate' del XHTML
+        if(StringUtils.isNumeric(agendaActualId)) {
+            try {
+                int agendaId = Integer.parseInt(agendaActualId);
+
+                // 3. Consultamos los recursos de la NUEVA agenda seleccionada
+                List<Recurso> recursos = recursosEJB.consultarRecursoByAgendaId(agendaId);
+
+                if (recursos != null) {
+                    // Ordenamos para que la vista sea consistente (evita errores de índice)
+                    recursos.sort(new RecursoComparatorNombre());
+                    this.recursosAgenda = new RowList<>(recursos);
+                }
+
+                LOGGER.info("Se cargaron " + (recursos != null ? recursos.size() : 0) +
+                        " recursos para la agenda ID: " + agendaId);
+
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Error al cambiar de agenda", e);
+                addErrorMessage("Error al cargar los recursos de la agenda seleccionada");
+            }
+        }
+    }
     public RowList<Recurso> getRecursosAgenda() {
         return recursosAgenda;
     }

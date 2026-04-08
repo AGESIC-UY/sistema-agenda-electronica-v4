@@ -1000,6 +1000,8 @@ INSERT INTO ae_textos (codigo, texto) VALUES ('la_fecha_de_fin_de_disponibilidad
 INSERT INTO ae_textos (codigo, texto) VALUES ('la_fecha_de_inicio_de_disponibilidad_debe_ser_igual_o_posterior_a_la_fecha_de_inicio_de_vigencia', 'La fecha de inicio de atención al público debe ser posterior a la fecha de inicio de vigencia');
 INSERT INTO ae_textos (codigo, texto) VALUES ('la_fecha_de_fin_de_vigencia_es_obligatoria', 'La fecha de fin de vigencia es obligatoria');
 INSERT INTO ae_textos (codigo, texto) VALUES ('la_fecha_de_fin_de_disponibilidad_debe_ser_igual_o_anterior_a_la_fecha_de_fin_de_vigencia', 'La fecha de fin de atención al público debe ser anterior a la fecha de fin de vigencia');
+INSERT INTO ae_textos (codigo, texto) VALUES ('la_fecha_de_inicio_de_disponibilidad_debe_ser_igual_o_anterior_a_la_fecha_de_fin_de_vigencia', 'La fecha de inicio de atención al público debe ser anterior a la fecha de fin de vigencia');
+INSERT INTO ae_textos (codigo, texto) VALUES ('el_periodo_de_atencion_debe_estar_comprendido_en_el_periodo_de_vigencia', 'El período de antención al público debe estar comprendido dentro del período de vigencia');
 INSERT INTO ae_textos (codigo, texto) VALUES ('este_campo_sera_su_codigo_de_usuario', 'Este campo será su código de usuario');
 INSERT INTO ae_textos (codigo, texto) VALUES ('la_reserva_no_corresponde_al_recurso_seleccionado', 'La reserva no corresponde al recurso seleccionado');
 INSERT INTO ae_textos (codigo, texto) VALUES ('reportes', 'Reportes');
@@ -1291,12 +1293,17 @@ INSERT INTO ae_textos (codigo, texto) VALUES ('actualizacion_recursos', 'Se han 
 INSERT INTO ae_textos (codigo, texto) VALUES ('actualizar_datos', 'Actualizar datos');
 INSERT INTO ae_textos (codigo, texto) VALUES ('actualizacion_masiva_datos', 'Actualización masiva de datos');
 INSERT INTO ae_textos (codigo, texto) VALUES ('carga_masiva', 'Carga Masiva');
+INSERT INTO ae_textos (codigo, texto) VALUES ('volver_paso_anterior', 'Volver al Paso Anterior');
 UPDATE ae_textos SET texto='Correo de cambio de recurso' WHERE codigo='correo_de_traslado';
 UPDATE ae_textos SET texto='Tenga en cuenta que no se ha podido enviar la notificación por correo electrónico; tome nota de los datos de la reserva.' WHERE codigo='no_se_pudo_enviar_notificacion_de_confirmacion_tome_nota_de_los_datos_de_la_reserva';
 update global.ae_textos set texto='Se han modificado x recursos' where codigo = 'actualizacion_recursos';
 INSERT INTO global.ae_textos(codigo, texto) VALUES ('reporte_errores_actualizacion_masiva_reservas', 'Reporte de errores de actualización masiva de recursos');
+INSERT INTO ae_textos (codigo, texto) VALUES ('la_hora_de_inicio_debe_ser_igual_o_posterior_a_la_actual', 'La hora de inicio debe ser igual o posterior a la actual');
+UPDATE global.ae_textos SET texto='Texto del logo' WHERE codigo='logo_texto_alternativo';
+UPDATE global.ae_textos SET texto='Atenciones por funcionario' WHERE codigo='reporte_atencion_funcionario';
+UPDATE global.ae_textos SET texto='Tiempos por funcionario' WHERE codigo='reporte_tiempo_atencion_funcionario';
 
-
+--
 --
 -- CLAVES PRIMARIAS
 --

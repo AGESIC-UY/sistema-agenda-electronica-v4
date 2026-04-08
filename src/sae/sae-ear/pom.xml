@@ -5,11 +5,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <parent>
     <artifactId>sae</artifactId>
     <groupId>uy.com.sofis</groupId>
-    <version>4.6.1-r5</version>
+    <version>4.7.0</version>
   </parent>
 
     <artifactId>sae-ear</artifactId>
-    <version>4.6.1-r5</version>
+    <version>4.7.0</version>
     <packaging>ear</packaging>
 
     <name>sae-ear</name>
@@ -59,31 +59,31 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         <dependency>
             <groupId>uy.com.sofis</groupId>
             <artifactId>sae-ejb</artifactId>
-            <version>4.6.1-r5</version>
+            <version>4.7.0</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>uy.com.sofis</groupId>
             <artifactId>sae-ejb-client</artifactId>
-            <version>4.6.1-r5</version>
+            <version>4.7.0</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>uy.com.sofis</groupId>
             <artifactId>sae-web</artifactId>
-            <version>4.6.1-r5</version>
+            <version>4.7.0</version>
             <type>war</type>
         </dependency>
         <dependency>
             <groupId>uy.com.sofis</groupId>
             <artifactId>sae-web-admin</artifactId>
-            <version>4.6.1-r5</version>
+            <version>4.7.0</version>
             <type>war</type>
         </dependency>
         <dependency>
             <groupId>uy.com.sofis</groupId>
             <artifactId>sae-rest</artifactId>
-            <version>4.6.1-r5</version>
+            <version>4.7.0</version>
             <type>war</type>
         </dependency>
         <!-- itext -->

@@ -3,7 +3,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui/sofis">
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:component>
         <h:form id="disenioFormularioForm">
@@ -18,7 +18,7 @@
                 </div>
                 <p:outputPanel>
                     <p:commandButton value="#{sessionMBean.textos['cerrar']}" update="disenioFormularioForm:disenioFormularioBody"
-                                     oncomplete="PF('disenioFormularioModalBox').hide();" styleClass="btn-link btn pull-right"/>
+                                     oncomplete="PF('disenioFormularioModalBox').hide();" styleClass="btn-primario btn pull-right"/>
                 </p:outputPanel>
             </p:dialog>
         </h:form>

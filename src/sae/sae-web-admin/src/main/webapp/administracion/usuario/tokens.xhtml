@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -60,7 +60,7 @@
                             <h:outputText value="#{sessionMBean.textos['acciones']}"></h:outputText>
                         </f:facet>
 
-                        <p:commandButton id="eliminarToken" value="#{sessionMBean.textos['eliminar']}" oncomplete="PF('eliminarToken').show();" icon="ui-icon-trash"
+                        <p:commandButton id="eliminarToken" value="#{sessionMBean.textos['eliminar']}" oncomplete="PF('eliminarToken').show();" icon="fa-solid fa-trash"
                                          actionListener="#{tokensMBean.selecTokenEliminar}" title="#{sessionMBean.textos['eliminar']}" styleClass="ui-button-icon-only" />
                     </p:column>
                 </p:dataTable>
@@ -98,8 +98,8 @@
                                 </p:outputPanel>
                                 <p:outputPanel styleClass="form-group">
                                     <p:outputPanel styleClass="col-sm-9 offset-sm-3">
-                                        <p:commandButton value="#{sessionMBean.textos['cancelar']}" actionListener="#{tokensMBean.cancelarToken}" update="form" styleClass="btn btn-link" />
-                                        <p:commandButton value="#{sessionMBean.textos['crear_token']}" actionListener="#{tokensMBean.crearToken}" update="form" styleClass="btn btn-secundario" />
+                                        <p:commandButton value="#{sessionMBean.textos['cancelar']}" actionListener="#{tokensMBean.cancelarToken}" update="form" styleClass="btn btn-primario" />
+                                        <p:commandButton value="#{sessionMBean.textos['crear_token']}" actionListener="#{tokensMBean.crearToken}" update="form" styleClass="btn btn-primario" />
                                     </p:outputPanel>
                                 </p:outputPanel>
                             </p:outputPanel>

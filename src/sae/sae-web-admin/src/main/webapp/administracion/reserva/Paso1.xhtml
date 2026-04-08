@@ -1,74 +1,148 @@
 <ui:composition template="/administracion/reserva/Paso.template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
-    <ui:param name="parametroBean" value="#{paso1AdminMBean}" />
-    <ui:param name="agenda_nombre" value="#{paso1AdminMBean.agendaNombre}" />
-    <ui:param name="paso_numero" value="1" />
-    <ui:param name="paso_texto" value="#{sessionMBean.textos['seleccione_ubicacion']}" />
-    <ui:param name="hay_error" value="#{paso1AdminMBean.errorInit}" />
-    <ui:param name="clase_columna_izq" value="columnaIzquierda col-sm-6" />
-    <ui:param name="clase_columna_der" value="columnaDerecha col-sm-5" />
-    <ui:param name="yaExisteReservaCamposClave" value="false" />
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="descripcion">
-        <f:view beforePhase="#{paso1AdminMBean.beforePhase}" >
-            <h:panelGroup id="infoRecurso" layout="block" >
-                <p:outputPanel styleClass="infoDireccion" rendered="#{sessionMBean.agendaMarcada != null}">
-                    <h:panelGroup>
-                        <iframe src="#{paso1AdminMBean.urlMapa}" class="iframeMapa" title="mapa de locación" />
-                    </h:panelGroup>
-                    <div class="direccion">
-                        <h:outputText value="#{paso1AdminMBean.direccionCompleta}" />
-                    </div>
-                    <div class="horario">
-                        <h:outputText value="#{paso1AdminMBean.horario}" />
-                    </div>
-                </p:outputPanel>
-                <p:outputPanel styleClass="descripcionAgenda" rendered="#{sessionMBean.agendaMarcada != null}">
-                    <pre>
-                        <h:outputFormat value="#{paso1AdminMBean.descripcion}" />
-                    </pre>
-                </p:outputPanel>
-                <h:panelGroup rendered="#{paso1AdminMBean.infoRecurso != null}" styleClass="infoAdicional box-grey" layout="block">
-                    <h:outputText value="Información adicional}: " styleClass="tituloResalte" />
-                    <p:dataList value="#{paso1AdminMBean.infoRecurso}" var="row">
-                        <h:outputText value="#{row.etiqueta}: " />
-                        <h:outputText value="#{row.valor}" />
-                    </p:dataList>
-                </h:panelGroup>
-            </h:panelGroup>
-        </f:view>
-    </ui:define>
+    <ui:param name="parametroBean" value="#{paso1AdminMBean}"/>
+    <ui:param name="agenda_nombre" value="#{paso1AdminMBean.agendaNombre}"/>
+    <ui:param name="paso_numero" value="1"/>
+    <ui:param name="paso_texto" value="#{sessionMBean.textos['paso1_reserva']}"/>
+    <ui:param name="hay_error" value="#{paso1AdminMBean.errorInit}"/>
+    <ui:param name="clase_columna_izq" value="columnaIzquierda col-sm-6"/>
+
+    <ui:param name="yaExisteReservaCamposClave" value="false"/>
+    <ui:param name="recursoSinDisponibilidad" value="#{not paso1AdminMBean.recursoTieneDisponibilidad}"/>
+
     <ui:define name="contenido">
-        <p:outputPanel  rendered="#{sessionMBean.agendaMarcada != null}" styleClass="form-horizontal">
+        <p:outputPanel rendered="#{sessionMBean.agendaMarcada != null}" styleClass="form-horizontal">
+
+            <!-- Selección de recurso -->
             <div id="recurso" class="form-group">
-                <div class="col-sm-4 col-md-5">
-                    <h:outputFormat value="#{paso1AdminMBean.etiquetaSeleccionDelRecurso}" styleClass="label control-label" />
+                <div class="col-sm-5 col-md-4">
+                    <h:outputFormat value="#{sessionMBean.textos['paso_final_reserva_agenda']}"
+                                    styleClass="label control-label"/>
                 </div>
-                <div class="col-sm-8 col-md-7">
-                    <p:selectOneRadio value="#{paso1AdminMBean.recursoId}" layout="responsive" columns="1" valueChangeListener="#{paso1AdminMBean.cambioRecurso}">
-                        <p:ajax update="contenedorPaso" />
-                        <f:selectItems value="#{paso1AdminMBean.recursosItems}" />
+                <div class="col-sm-7 col-md-8">
+                    <p:selectOneRadio value="#{paso1AdminMBean.recursoId}" layout="responsive" columns="1"
+                                      styleClass="radio-rich">
+                        <p:ajax listener="#{paso1AdminMBean.cambioRecursoAjax}"
+                                update="@form"
+                                process="@this"/>
+                        <f:selectItems value="#{paso1AdminMBean.recursosItems}"/>
                     </p:selectOneRadio>
                 </div>
             </div>
+
+            <!-- 3 primeros turnos -->
+            <p:outputPanel id="turnosDisponibles" styleClass="turnos-block"
+                           rendered="#{not empty paso1AdminMBean.primerasDisponibilidades or paso1AdminMBean.mostrarCalendarioCompleto}">
+                <div class="form-group row">
+                    <div class="col-sm-5 col-md-4">
+                        <h:outputText styleClass="label control-label"
+                                      value="#{sessionMBean.textos['turnos_disponibles']}"/>
+                    </div>
+
+                    <div class="col-sm-7 col-md-8">
+                        <!-- Botones verticales (primeros 3 turnos) -->
+                        <div id="primeros-turnos" class="d-grid gap-2 mb-3">
+                            <ui:repeat value="#{paso1AdminMBean.primerasDisponibilidades}" var="d">
+                                <p:commandButton styleClass="#{paso1AdminMBean.disponibilidadSeleccionadaId eq d.disponibilidad.id
+                              ? 'btn-lg btn-turno turno-seleccionado'
+                              : 'btn-lg btn-turno'}"
+                                                 value="#{d.label}"
+                                                 actionListener="#{paso1AdminMBean.seleccionarDisponibilidad}"
+                                                 update="@form">
+                                    <!-- Marcar también el ID para que siguientePaso funcione sin combo -->
+                                    <f:setPropertyActionListener
+                                            target="#{paso1AdminMBean.disponibilidadSeleccionada}"
+                                            value="#{d.disponibilidad}"/>
+                                    <f:setPropertyActionListener
+                                            target="#{paso1AdminMBean.disponibilidadSeleccionadaId}"
+                                            value="#{d.disponibilidad.id}"/>
+                                </p:commandButton>
+                            </ui:repeat>
+                        </div>
+
+                        <!-- Toggle calendario -->
+                        <div class="ver-calendario mb-3">
+                            <p:commandLink styleClass="link-calendario"
+                                           value="#{sessionMBean.textos['ver_calendario_completo']}"
+                                           actionListener="#{paso1AdminMBean.toggleMostrarCalendario}"
+                                           update="@form"/>
+                        </div>
+                    </div>
+                </div>
+            </p:outputPanel>
+            <p:outputPanel id="calendarioRow" rendered="#{paso1AdminMBean.mostrarCalendarioCompleto}">
+                <div class="form-group row align-items-start">
+                    <!-- Columna etiqueta -->
+                    <div class="col-sm-5 col-md-4">
+                        <h:outputText styleClass="label control-label"
+                                      value="#{sessionMBean.textos['etiqueta_calendario']}"/>
+                    </div>
+
+                    <!-- Columna contenido -->
+                    <div class="col-sm-7 col-md-8">
+                        <div class="calendario-box">
+                            <p:datePicker id="calendarioCompleto"
+                                          value="#{paso1AdminMBean.fechaSeleccionada}"
+                                          pattern="#{sessionMBean.formatoFecha}"
+                                          locale="es"
+                                          disabledDates="#{paso1AdminMBean.invalidDates}"
+                                          mindate="#{paso1AdminMBean.minDateTime}"
+                                          maxdate="#{paso1AdminMBean.maxDateTime}"
+                                          inline="true">
+                                <p:ajax event="dateSelect"
+                                        listener="#{paso1AdminMBean.onDateSelect}"
+                                        update="@form"/>
+                            </p:datePicker>
+                            <p:outputPanel id="panelFecha" styleClass="panelFechaDatePicker">
+                                <h:outputText value="#{paso1AdminMBean.fechaSeleccionada}">
+                                    <f:convertDateTime dateStyle="full" locale="#{sessionMBean.locale}"/>
+                                </h:outputText>
+                            </p:outputPanel>
+                        </div>
+                    </div>
+                </div>
+            </p:outputPanel>
+
+            <!-- Combo horarios -->
+            <p:outputPanel id="horariosRow" rendered="#{paso1AdminMBean.mostrarCalendarioCompleto}">
+                <div id="horariosRow" class="form-group row align-items-center mt-4">
+                    <!-- Columna etiqueta -->
+                    <div class="col-sm-5 col-md-4">
+                        <h:outputText styleClass="label control-label"
+                                      value="#{sessionMBean.textos['horarios_disponibles']}"/>
+                    </div>
+
+                    <!-- Columna contenido -->
+                    <div class="col-sm-7 col-md-8">
+                        <p:selectOneMenu id="horarios_disponibles"
+                                         value="#{paso1AdminMBean.disponibilidadSeleccionadaId}"
+                                         style="width: 100%; max-width: 14rem;">
+                            <f:selectItems value="#{paso1AdminMBean.todasDisponibilidadesItems}"/>
+                            <p:ajax process="@this" update="@form"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </p:outputPanel>
         </p:outputPanel>
     </ui:define>
+
     <ui:define name="botones">
-        <p:outputPanel rendered="#{sessionMBean.agendaMarcada != null}">
-            <ul class="form-action-buttons">
-                <li class="action-buttons-primary">
-                    <ul>
-                        <li>
-                            <h:commandButton styleClass="btn-lg btn-primario" value="#{sessionMBean.textos['elegir_dia_y_hora']} #{paso1AdminMBean.simboloSiguiente}" 
-                                             action="#{paso1AdminMBean.siguientePaso}" />
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </p:outputPanel>
+        <ul class="form-action-buttons">
+            <li class="action-buttons-primary">
+                <ul>
+                    <li>
+                        <h:commandButton styleClass="btn-lg btn-primario"
+                                         value="#{sessionMBean.textos['completar_datos']}"
+                                         action="#{paso1AdminMBean.siguientePaso}"/>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </ui:define>
 </ui:composition>

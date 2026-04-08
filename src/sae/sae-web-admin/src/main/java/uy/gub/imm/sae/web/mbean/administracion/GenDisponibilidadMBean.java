@@ -93,7 +93,7 @@ public class GenDisponibilidadMBean extends BaseMBean {
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    public void obtenerCuposModelo(ActionEvent e) {
+    public void obtenerCuposModelo() {
         limpiarMensajesError();
         try {
             boolean hayError = false;
@@ -234,7 +234,7 @@ public class GenDisponibilidadMBean extends BaseMBean {
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    public void generarDisponibilidades(ActionEvent event) {
+    public void generarDisponibilidades() {
         limpiarMensajesError();
         try {
             boolean hayError = false;

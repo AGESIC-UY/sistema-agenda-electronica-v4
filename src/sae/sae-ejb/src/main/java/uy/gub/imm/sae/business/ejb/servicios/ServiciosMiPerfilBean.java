@@ -92,35 +92,35 @@ public class ServiciosMiPerfilBean {
                 //Cargo acciones
                 accionMiPerfil = recursosEJB.obtenerAccionMiPerfilDeRecurso(recurso.getId());
                 if (accionMiPerfil != null) {
-                    if (!accionMiPerfil.getUrl_con_1().isEmpty()) {
+                    if (accionMiPerfil.getUrl_con_1() != null && !accionMiPerfil.getUrl_con_1().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_con_1());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_con_1().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_con_1().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_con_2().isEmpty()) {
+                    if (accionMiPerfil.getUrl_con_2() != null && !accionMiPerfil.getUrl_con_2().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_con_2());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_con_2().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_con_2().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_con_3().isEmpty()) {
+                    if (accionMiPerfil.getUrl_con_3() != null && !accionMiPerfil.getUrl_con_3().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_con_3());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_con_3().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_con_3().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_con_4().isEmpty()) {
+                    if (accionMiPerfil.getUrl_con_4() != null && !accionMiPerfil.getUrl_con_4().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_con_4());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_con_4().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_con_4().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_con_5().isEmpty()) {
+                    if (accionMiPerfil.getUrl_con_5() != null && !accionMiPerfil.getUrl_con_5().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_con_5());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_con_5().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
@@ -143,35 +143,35 @@ public class ServiciosMiPerfilBean {
                 //Cargo acciones
                 accionMiPerfil = recursosEJB.obtenerAccionMiPerfilDeRecurso(recurso.getId());
                 if (accionMiPerfil != null) {
-                    if (!accionMiPerfil.getUrl_can_1().isEmpty()) {
+                    if (accionMiPerfil.getUrl_can_1() != null && !accionMiPerfil.getUrl_can_1().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_can_1());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_can_1().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_can_1().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_can_2().isEmpty()) {
+                    if (accionMiPerfil.getUrl_can_2() != null && !accionMiPerfil.getUrl_can_2().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_can_2());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_can_2().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_can_2().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_can_3().isEmpty()) {
+                    if (accionMiPerfil.getUrl_can_3() != null && !accionMiPerfil.getUrl_can_3().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_can_3());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_can_3().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_can_3().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_can_4().isEmpty()) {
+                    if (accionMiPerfil.getUrl_can_4() != null && !accionMiPerfil.getUrl_can_4().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_can_4());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_can_4().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));
                         jObject.addProperty("destacada", accionMiPerfil.getDestacada_can_4().toString());
                         jAcciones.add(jObject);
                     }
-                    if (!accionMiPerfil.getUrl_can_5().isEmpty()) {
+                    if (accionMiPerfil.getUrl_can_5() != null && !accionMiPerfil.getUrl_can_5().isEmpty()) {
                         JsonObject jObject = new JsonObject();
                         jObject.addProperty("nombreBoton", accionMiPerfil.getTitulo_can_5());
                         jObject.addProperty("linkBoton", accionMiPerfil.getUrl_can_5().replace("{latitud}", "" + recurso.getLatitud()).replace("{longitud}", "" + recurso.getLongitud()).replace("{linkBase}", "" + confBean.getString("DOMINIO",empresa.getOrganismoId())).replace("{empresa}", "" + empresa.getId()).replace("{agenda}", "" + recurso.getAgenda().getId()).replace("{reserva}", "" + reserva.getId()));

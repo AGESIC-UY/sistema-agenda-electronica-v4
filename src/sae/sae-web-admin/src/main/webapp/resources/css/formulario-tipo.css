@@ -21,14 +21,15 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: inherit;
-	font-weight: 600;
-	line-height: 1.1;
-	color: inherit;
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
 }
 h1 {
 	margin-top: 0;
 	margin-bottom: 30px;
+	font-size: 2.5rem;
 }
 h2 {
 	margin-top: 10px;
@@ -45,22 +46,22 @@ h6 {
 	margin-bottom: 10px;
 }
 h1 {
-	font-size: 2em;
+	 font-size: 2.5rem;
 }
 h2 {
-	font-size: 1.45em;
+	font-size: 2rem;
 }
 h3 {
-	font-size: 1.25em;
+	font-size: 1.75rem;
 }
 h4 {
-	font-size: 1.15em;;
+	font-size: 1.5rem;
 }
 h5 {
-	font-size: 1em;
+	font-size: 1.25rem;
 }
 h6 {
-	font-size: 0.9em;
+	font-size: 1rem;
 }
 p {
 	margin: 0 0 10px;
@@ -85,7 +86,7 @@ ol ol {
 	clear: both;
 }
 /* Flotación */
-.float-left {
+le.float-left {
 	float: left!important;
 }
 .float-right {
@@ -169,7 +170,7 @@ button .icn {
 	line-height: 1.1;
 }
 .btn-sm .ui-button-text, .btn .ui-button-text, .btn-lg .ui-button-text, .btn-default .ui-button-text, .btn-primario .ui-button-text, .btn-secundario .ui-button-text {
-	padding: 0;
+	padding: 0 important!;
 }
 .btn-sm {
 	padding: 2px 10px;
@@ -201,7 +202,7 @@ button .icn {
 }
 .btn-primario, a.btn-primario, button.btn-primario, button.btn-primario.ui-state-default {
 	color: #FFF;
-	background-color: #337ab7;
+	background-color: #003DA5;
 	box-shadow: 0 2px 0 #1A2F5A;
 	text-decoration: none;
 	border: 1px solid transparent;
@@ -279,6 +280,9 @@ fieldset[disabled] .btn-link,
 	color: #003dc6;
 	text-decoration: none !important;
 	background-color: transparent;
+}
+body .ui-button.ui-button-text-only .ui-button-text{
+    padding: 0rem !important;
 }
 .button-no-style {
 	background: transparent;
@@ -737,8 +741,13 @@ fieldset[disabled] .btn-link,
 	height: 46px;
 }
 .icn-warning-lg {
-	background: url(../imgs/icons/icn-warning-lg.png) no-repeat;
+	background: url(../images/alert-warning.svg) no-repeat;
 	width: 51px;
+	height: 46px;
+}
+.icn-error-lg {
+	background: url(../images/alert-danger.svg) no-repeat;
+	width: 46px;
 	height: 46px;
 }
 
@@ -815,6 +824,14 @@ fieldset legend {
 fieldset fieldset > legend {
 	font-size: 1em;
 }
+.flex-label{
+    display: flex ;
+    align-items:center;
+    justify-content:end;
+    font-size: 1.4em;
+    color: black;
+    padding-right: 15px;
+}
 fieldset label, fieldset span.label {
 	position: relative;
 	/*display: inline-block;*/
@@ -843,6 +860,7 @@ fieldset fieldset label, fieldset fieldset span.label {
 /* Date picker */
 input[type="date"]::-webkit-inner-spin-button {
     display: none;
+    font-size: 16px;
     -webkit-appearance: none;
 }
 input[type="file"] {
@@ -1036,6 +1054,8 @@ input[disabled]:not(.btn), select[disabled], textarea[disabled], .form-group-dis
     padding-right: 0;
     padding-left: 0;
     font-weight: bold;
+    font-family: Arial,sans-serif;
+    font-size: 1em;
 }
 textarea.form-control {
 	height: auto;
@@ -1397,22 +1417,21 @@ fieldset fieldset .input-msg {
 .dialog-box {
 	width: 100%;
 	box-sizing: border-box;
-	border-width: 1px;
-	border-style: solid;
+	border: none;
 	margin: 0 auto;
 	margin-bottom: 25px;
 	border-radius: 2px;
 }
 .dialog-success {
-	border-color: #c1e0b4;
+	border-left: 4px solid #279e3f;
 	background: #ecf6e8;
 }
 .dialog-warning {
-	border-color: #e7e2c5;
+	border-left: 4px solid #d4a017;
 	background: #fbf8ea;
 }
 .dialog-error {
-	border-color: #e3c4c4;
+	border-left: 4px solid #BF2026;
 	background: #ffeded;
 }
 .dialog-center {
@@ -1428,17 +1447,20 @@ fieldset fieldset .input-msg {
 	list-style-position: inside;
 	padding: 0;
 }
+.dialog-data p {
+	font-size: 16px;
+}
 .dialog-title {
 	display: block;
-	font-weight: normal;
-	font-size: 1.25em;
+	font-weight: bold;
+	font-size: 1.5rem;
 	margin-bottom: 5px;
 	line-height: 1.1;
 }
 .dialog-icon {
 	display: table-cell;
-	vertical-align: middle;
-	padding: 0 35px;
+	vertical-align: top;
+	padding: 20px 35px;
 	padding-right: 30px;
 }
 .dialog-icon .icn {
@@ -1818,6 +1840,42 @@ table input[type="text"], table select, table textarea {
 .pagination .active {
 	font-weight: bold;
 }
+/*Estilos nueva seleccion de disponibilidades*/
+#primeros-turnos .ui-button.btn-turno,
+  #primeros-turnos .ui-button.btn-turno.ui-state-default,
+  #primeros-turnos .ui-button.btn-turno.ui-state-hover,
+  #primeros-turnos .ui-button.btn-turno.ui-state-focus,
+  #primeros-turnos .ui-button.btn-turno.ui-state-active {
+    background: transparent !important;
+    border: 1px solid #003DA5 !important;
+    color: #003DA5 !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    font-size: initial !important;
+  }
+
+  #primeros-turnos .ui-button.btn-turno.ui-state-hover,
+  #primeros-turnos .ui-button.btn-turno.ui-state-focus {
+    background: #EEF2FC !important;
+    text-decoration: underline !important;
+  }
+
+  #primeros-turnos .ui-button.btn-turno .ui-button-text {
+    color: inherit !important;
+  }
+
+  #primeros-turnos .ui-button.btn-turno.turno-seleccionado {
+        background-color: #EEF2FC !important;
+        border-color: #EEF2FC !important;
+  }
+
+
+
+
+#horariosRow {
+    margin-top: 20px;
+}
 
 /* --------------- |MAX 1200| --------------- */
 @media screen and (max-width: 1200px) {
@@ -2144,6 +2202,7 @@ table input[type="text"], table select, table textarea {
 		width: 100%;
 		max-width: 100%;
 		min-width: inherit;
+		font-size: 16px;
 	}
 	.input-group {
 		width: 100%;
@@ -2390,3 +2449,98 @@ table input[type="text"], table select, table textarea {
 		display: none;
 	}
 }
+
+/* Estilos responsivos para calendarios en mobile */
+@media (max-width: 767px) {
+    /* Sobrescribir width:auto de PrimeFaces para p-datepicker */
+    span.p-datepicker.ui-calendar {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Contener el calendario dentro del div */
+    .ui-datepicker-inline,
+    .ui-datepicker-calendar-container,
+    .ui-datepicker-calendar {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        table-layout: fixed !important;
+    }
+
+    /* Ajustar celdas del calendario para que no se desborden */
+    .ui-datepicker-calendar td,
+    .ui-datepicker-calendar th {
+        padding: 0.2rem 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    /* Ajustar contenido de las celdas */
+    .ui-datepicker-calendar td .ui-state-default,
+    .ui-datepicker-calendar td span {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Formularios dinámicos: etiqueta arriba, campo abajo */
+    .form-horizontal .row {
+        flex-direction: column !important;
+    }
+
+    .form-horizontal .row.d-flex.justify-content-center {
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+    }
+
+    .form-horizontal .row label.col-lg-4,
+    .form-horizontal .row label.flex-label {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: left !important;
+        justify-content: flex-start !important;
+        margin-bottom: 0.5rem !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .form-horizontal .row .col-lg-8 {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .form-horizontal .row .col-lg-8.px-4 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* Alinear contenido del div de inputs a la izquierda */
+    .form-horizontal .row .col-lg-8[style*="display: flex"] {
+        justify-content: flex-start !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+    }
+
+    /* Ajustar ancho de inputs para que quepan con el icono de ayuda */
+    .form-horizontal .row .col-lg-8 input.form-control,
+    .form-horizontal .row .col-lg-8 select,
+    .form-horizontal .row .col-lg-8 textarea,
+    .form-horizontal .row .col-lg-8 .ui-inputfield {
+        flex: 1 1 auto !important;
+        max-width: calc(100% - 30px) !important;
+        width: auto !important;
+        min-width: 0 !important;
+    }
+
+    /* Icono de ayuda no debe encogerse */
+    .form-horizontal .row .col-lg-8 img[src*="info.png"] {
+        flex-shrink: 0 !important;
+        margin-left: 5px !important;
+    }
+}
+

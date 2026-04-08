@@ -1,14 +1,16 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cp="http://sae-web">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
         <f:view beforePhase="#{genDisponibilidadMBean.beforePhaseGenerarDisponibilidades}" >
 
             <p:outputPanel rendered="#{sessionMBean.agendaMarcada != null and sessionMBean.recursoMarcado != null}">
+                <h:outputStylesheet  library="css" name="disponibilidadescalendar.css" />
                 <h:form id="formGenerarPatronDia">
                     <p:outputPanel id="panelGenerarPatronDia">
                         <p:outputPanel styleClass="form-required">
@@ -22,18 +24,17 @@
                                 <p:outputPanel styleClass="form-group">
                                     <h:outputLabel value="#{sessionMBean.textos['fecha']}" for="fecha" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-sm-9">
-                                        <h:inputText id="fecha" value="#{genDispSessionMBean.fechaModelo}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                        <cp:inputDate id="fecha"  value="#{genDispSessionMBean.fechaModelo}" pattern="yyyy-MM-dd">
+                                            <f:converter converterId="dateConverter"/>
+                                        </cp:inputDate>
                                         <h:outputText styleClass="input-msg" value="#{genDisponibilidadMBean.mensajePeriodoDisponibilidad}" />
                                         <p:message for="fecha" />
                                     </p:outputPanel>
                                 </p:outputPanel>
                                 <p:outputPanel styleClass="form-group">
                                     <p:outputPanel styleClass="col-sm-9 offset-sm-3">
-                                        <p:commandButton value="#{sessionMBean.textos['consultar_disponibilidades']}" actionListener="#{genDisponibilidadMBean.obtenerCuposModelo}"
-                                                         update="formGenerarPatronDia:panelGenerarPatronDia" styleClass="btn btn-secundario" />
+                                        <p:commandButton value="#{sessionMBean.textos['consultar_disponibilidades']}" action="#{genDisponibilidadMBean.obtenerCuposModelo}" process="formGenerarPatronDia:fecha,@this"
+                                                         update="panelTablaMatutina,panelTablaVespertina" styleClass="btn-lg btn-primario" />
                                     </p:outputPanel>
                                 </p:outputPanel>
                             </p:outputPanel>
@@ -113,27 +114,25 @@
                                     <h:outputText styleClass="input-msg" value="#{genDisponibilidadMBean.mensajePeriodoDisponibilidad2}" />
                                 </p:outputPanel>
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['fecha_de_inicio']}" for="fechaDesde" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                    <h:outputLabel value="#{sessionMBean.textos['fecha_de_inicio']}" for="fechaDesde" styleClass="col-sm-3 label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-xs-7 col-sm-9 col-md-6">
-                                        <h:inputText id="fechaDesde" value="#{genDispSessionMBean.fechaInicial}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                        <cp:inputDate id="fechaDesde"  value="#{genDispSessionMBean.fechaInicial}" pattern="yyyy-MM-dd">
+                                            <f:converter converterId="dateConverter"/>
+                                        </cp:inputDate>
                                         <p:message for="fechaDesde" />
                                     </p:outputPanel>
                                 </p:outputPanel>
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputLabel value="#{sessionMBean.textos['fecha_de_fin']}" for="fechaHasta" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                    <h:outputLabel value="#{sessionMBean.textos['fecha_de_fin']}" for="fechaHasta" styleClass="col-sm-3 label formularioCampoRequerido" />
                                     <p:outputPanel styleClass="col-xs-7 col-sm-9 col-md-6">
-                                        <h:inputText id="fechaHasta" value="#{genDispSessionMBean.fechaFinal}" styleClass="datepicker" converter="dateConverter">
-                                            <f:attribute name="pattern" value="#{sessionMBean.formatoFecha}"/>
-                                            <f:attribute name="onError" value="zero"/>
-                                        </h:inputText>
+                                        <cp:inputDate id="fechaHasta"  value="#{genDispSessionMBean.fechaFinal}" pattern="yyyy-MM-dd">
+                                            <f:converter converterId="dateConverter"/>
+                                        </cp:inputDate>
                                         <p:message for="fechaHasta" />
                                     </p:outputPanel>
                                 </p:outputPanel>
                                 <p:outputPanel styleClass="form-group">
-                                    <h:outputText value="#{sessionMBean.textos['dias_a_aplicar']}" styleClass="col-sm-3 control-label label" />
+                                    <h:outputText value="#{sessionMBean.textos['dias_a_aplicar']}" styleClass="col-sm-3 label" />
                                     <p:outputPanel styleClass="col-sm-9">
                                         <p:outputPanel>
                                             <p:selectBooleanCheckbox id="diaAplicarLu" value="#{genDispSessionMBean.diasAplicar[0]}"  />
@@ -171,8 +170,8 @@
                             <li class="action-buttons-primary">
                                 <ul>
                                     <li>
-                                        <p:commandButton value="#{sessionMBean.textos['crear_disponibilidades']}" actionListener="#{genDisponibilidadMBean.generarDisponibilidades}"
-                                                         update="formGenerarPatronDia:panelGenerarPatronDia" styleClass="btn-lg btn-primario" />
+                                        <p:commandButton value="#{sessionMBean.textos['crear_disponibilidades']}" action="#{genDisponibilidadMBean.generarDisponibilidades}"
+                                                         update="formGenerarPatronDia:panelTablaMatutina, formGenerarPatronDia:panelTablaVespertina" styleClass="btn-lg btn-primario" />
                                     </li>
                                 </ul>
                             </li>

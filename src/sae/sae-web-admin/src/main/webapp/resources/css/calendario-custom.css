@@ -1,0 +1,10 @@
+body .ui-datepicker .ui-datepicker-calendar td .ui-state-default{
+    background: transparent !important;
+}
+
+body .ui-datepicker .ui-datepicker-calendar td>a.ui-state-active, body .ui-datepicker .ui-datepicker-calendar td>span.ui-state-active{
+    background-color: #003da5 !important;
+    color: #FFF !important;
+    text-decoration: none !important;
+    border-radius: 2px;
+ }

@@ -31,6 +31,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import org.apache.log4j.Logger;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.datatable.DataTable;
 
 import uy.gub.imm.sae.business.ejb.facade.ValidacionesLocal;
@@ -59,6 +60,8 @@ public class ValidacionMantenimientoMBean extends BaseMBean {
 
     private Validacion validacion; //Accion que está siendo editada o modificada
     private Validacion validacionEliminar; //Acción seleccionada para eliminar
+
+    private String nombreParametro;
 
     public void beforePhase(PhaseEvent event) {
         if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
@@ -151,7 +154,15 @@ public class ValidacionMantenimientoMBean extends BaseMBean {
     }
 
     public void crearParametro(ActionEvent event) {
-        this.validacion.getParametrosValidacion().add(new ParametroValidacion());
+        if (this.nombreParametro == null || this.nombreParametro.trim().isEmpty()) {
+            addErrorMessage(sessionMBean.getTextos().get("el_nombre_del_parametro_es_obligatorio"), "agregarParametroForm:parametroNombre");
+            return;
+        }
+        ParametroValidacion parametroValidacion = new ParametroValidacion();
+        parametroValidacion.setNombre(this.nombreParametro);
+        this.validacion.getParametrosValidacion().add(parametroValidacion);
+        this.nombreParametro=null;
+        PrimeFaces.current().executeScript("PF('agregarParametro').hide()");
     }
 
     public void eliminarParametro(Integer ordinal) {
@@ -218,5 +229,13 @@ public class ValidacionMantenimientoMBean extends BaseMBean {
         limpiarMensajesError();
         this.validacion = null;
         cargarValidaciones();
+    }
+
+    public String getNombreParametro() {
+        return nombreParametro;
+    }
+
+    public void setNombreParametro(String nombreParametro) {
+        this.nombreParametro = nombreParametro;
     }
 }

@@ -374,7 +374,7 @@ public class ReservaMBean extends BaseMBean {
         this.cuerpoMensaje = cuerpoMensaje;
     }
 
-    public void obtenerReservasPeriodo(ActionEvent e) {
+    public void obtenerReservasPeriodo() {
         limpiarMensajesError();
         boolean hayErrores = false;
         if (fechaDesde == null) {

@@ -4,24 +4,12 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
-import javax.ejb.EJB;
-import javax.ejb.Schedule;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.Table;
-import javax.persistence.TemporalType;
+import javax.ejb.*;
+import javax.persistence.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
@@ -33,6 +21,9 @@ import javax.xml.ws.handler.Handler;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
+import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.jboss.ejb3.annotation.TransactionTimeout;
 
 import uy.gub.agesic.itramites.bruto.web.ws.cabezal.CabezalDTO;
@@ -57,6 +48,7 @@ import uy.gub.agesic.itramites.bruto.web.ws.linea.TipoRegistroTrazabilidadEnum;
 import uy.gub.imm.sae.business.dto.InformacionRequestDTO;
 import uy.gub.imm.sae.business.ejb.facade.ConfiguracionLocal;
 import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
+import uy.gub.imm.sae.business.em.TenantContext;
 import uy.gub.imm.sae.business.ws.SoapHandler;
 import uy.gub.imm.sae.entity.Agenda;
 import uy.gub.imm.sae.entity.DatoASolicitar;
@@ -65,7 +57,9 @@ import uy.gub.imm.sae.entity.ValorPosible;
 import uy.gub.imm.sae.entity.global.Empresa;
 import uy.gub.imm.sae.entity.global.Trazabilidad;
 
-@Stateless
+//@Stateless
+@Singleton
+@Lock(LockType.READ)
 @SuppressWarnings("UseSpecificCatch")
 public class ServiciosTrazabilidadBean {
 
@@ -82,6 +76,11 @@ public class ServiciosTrazabilidadBean {
 	private ConfiguracionLocal confBean;
 	@EJB
 	private RecursosLocal recursosBean;
+
+	@PersistenceContext(unitName = "SAE-EJB")
+	private EntityManager entityManager;
+
+	private ReentrantLock lock = new ReentrantLock();
 
 	/*
 	 * Por documentación del campo estado ver el documento
@@ -353,8 +352,9 @@ public class ServiciosTrazabilidadBean {
 			TimeZone timezone = determinarTimeZoneDeReserva(empresa, reserva);
 			ValorPosible valorPosible = recursosBean.obtenerValorPosiblePorValor(tipoDocumento, datoSolicitar.getId(),
 					timezone);
-			tipoDocumento = StringUtils.isEmpty(valorPosible.getValorEnTraza()) ? tipoDocumento
-					: valorPosible.getValorEnTraza();
+			if (valorPosible != null && !StringUtils.isEmpty(valorPosible.getValorEnTraza())) {
+				tipoDocumento = valorPosible.getValorEnTraza();
+			}
 		}
 		String documento = reserva.getDocumento();
 		String[] arrOfStr = documento.split(" ");
@@ -362,11 +362,11 @@ public class ServiciosTrazabilidadBean {
 			int documentoAux = Integer.parseInt(arrOfStr[1]);
 			if (documentoAux > 0)
 				documento = arrOfStr[1];
-			
+
 		}catch (Exception e) {
 			logger.warn("Sin Documento");
 		}
-		 
+
 		involucradoDTO.setOid(codigoPais + "-" + tipoDocumento + "-" + documento);
 		involucradoDTO.setRole(RoleEnum.SOLICITANTE);
 		return involucradoDTO;
@@ -385,8 +385,9 @@ public class ServiciosTrazabilidadBean {
 			TimeZone timezone = determinarTimeZoneDeReserva(empresa, reserva);
 			ValorPosible valorPosible = recursosBean.obtenerValorPosiblePorValor(tipoDocumento, datoSolicitar.getId(),
 					timezone);
-			tipoDocumento = StringUtils.isEmpty(valorPosible.getValorEnTraza()) ? tipoDocumento
-					: valorPosible.getValorEnTraza();
+			if (valorPosible != null && !StringUtils.isEmpty(valorPosible.getValorEnTraza())) {
+				tipoDocumento = valorPosible.getValorEnTraza();
+			}
 		}
 		String documento = reserva.getDocumento();
 		String[] arrOfStr = documento.split(" ");
@@ -394,7 +395,7 @@ public class ServiciosTrazabilidadBean {
 			int documentoAux = Integer.parseInt(arrOfStr[1]);
 			if (documentoAux > 0)
 				documento = arrOfStr[1];
-			
+
 		}catch (Exception e) {
 			logger.warn("Sin Documento");
 		}
@@ -615,7 +616,7 @@ public class ServiciosTrazabilidadBean {
 			estadoProceso = EstadoProcesoEnum.FINALIZADO;
 			break;
 		case 4:
-			estadoProceso = EstadoProcesoEnum.CERRADO;
+			estadoProceso = EstadoProcesoEnum.CANCELADO;
 			break;
 		default:
 			estadoProceso = EstadoProcesoEnum.INICIO;
@@ -949,26 +950,22 @@ public class ServiciosTrazabilidadBean {
 
 	@SuppressWarnings("unchecked")
 	@Schedule(second = "0", minute = "0", hour = "1", timezone = "America/Montevideo", persistent = false)
-	//@Schedule(second = "0", minute = "*/15", hour = "*", persistent = false)
+	//@Schedule(second = "0", minute = "*/5", hour = "*", persistent = false)
 	@TransactionTimeout(value = 30, unit = TimeUnit.MINUTES)
 	public void finalizarTrazas() {
 
-		logger.warn("No se ejecuta el método finalizarTrazas porque no fue migrado");
-
+		long inicio = System.currentTimeMillis();
 		try {
-			logger.info("Iniciando ejecución de cierre de trazas...");
 
-			// Intentar liberar el lock por si lo tiene esta instancia
-			globalEntityManager.createNativeQuery("SELECT pg_advisory_unlock(" + LOCK_ID_FINALIZAR + ")")
-					.getSingleResult();
-			// Intentar obtener el lock
-			boolean lockOk = (boolean) globalEntityManager
-					.createNativeQuery("SELECT pg_try_advisory_lock(" + LOCK_ID_FINALIZAR + ")").getSingleResult();
-			if (!lockOk) {
+			logger.info("Iniciando ejecución de cierre de trazas...");
+			boolean isLockAcquired = lock.tryLock();
+			if (!isLockAcquired) {
 				// Otra instancia tiene el lock
 				logger.info("No se ejecuta el cierre de trazas porque hay otra instancia haciéndolo.");
 				return;
 			}
+
+
 			// No hay otra instancia con el lock, se continúa
 
 			// Template para la consulta de reservas vencidas con trazabilidad habilitada
@@ -1076,9 +1073,11 @@ public class ServiciosTrazabilidadBean {
 								linea.setIdTraza(idTrazaLinea);
 
 								// linea.setEdicionModelo(version);
-								Query queryRs = globalEntityManager.createQuery(
+								TenantContext.setCurrentTenant(empresa.getDatasource());
+								Query queryRs = entityManager.createQuery(
 										"SELECT r FROM Reserva r WHERE r.id=:reservaId");
 								Reserva reserva = (Reserva) queryRs.setParameter("reservaId", reservaId).getSingleResult();
+								//Reserva reserva = entityManager.find(Reserva.class, reservaId);
 								Agenda agenda = reserva.getDisponibilidades().get(0).getRecurso().getAgenda();
 								DatosProcesoTramiteLineaDTO datosProceso = new DatosProcesoTramiteLineaDTO();
 								//String datosExtra = "edicionModelo: " + version;
@@ -1138,6 +1137,8 @@ public class ServiciosTrazabilidadBean {
 							} catch (Exception ex) {
 								logger.error("No se pudo cerrar la traza " + transaccionId + " de la empresa "
 										+ empresa.getId() + " (" + empresa.getNombre() + ")", ex);
+							} finally {
+								TenantContext.clear();
 							}
 						}
 					} catch (Exception ex) {
@@ -1148,9 +1149,13 @@ public class ServiciosTrazabilidadBean {
 			}
 		} finally {
 			// Intentar liberar el lock (si lo tiene esta instancia)
-			globalEntityManager.createNativeQuery("SELECT pg_advisory_unlock(" + LOCK_ID_FINALIZAR + ")")
-					.getSingleResult();
+			lock.unlock();
+			long finalizacion = System.currentTimeMillis();
+			long tiempoejecucion = finalizacion - inicio;
+			logger.info("Se finaliza la finalizacion de las trazas : "+finalizacion);
+			logger.info("Tiempo de ejecucion la finalizacion de las trazas : "+tiempoejecucion);
 			logger.info("Ejecución de cierre de trazas finalizada.");
 		}
 	}
+
 }

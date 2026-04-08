@@ -728,6 +728,7 @@ public class DisponibilidadesBean implements DisponibilidadesLocal {
     /**
      * Determina la última fecha para la cual se generaron disponibilidades para el recurso indicado
      */
+    @Override
     public Date ultFechaGenerada(Recurso recurso) throws UserException {
         Object maximo = entityManager.createQuery(
                         "SELECT MAX(d.fecha) "
@@ -920,6 +921,7 @@ public class DisponibilidadesBean implements DisponibilidadesLocal {
 
         return disponibilidad;
     }
+
 
 
 }

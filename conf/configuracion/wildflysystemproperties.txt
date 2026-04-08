@@ -6,3 +6,8 @@
   <property name="org.apache.coyote.http11.Http11Protocol.SERVER" value="Server undisclosed"/>
   <property name="org.apache.catalina.connector.URI_ENCODING" value="UTF-8"/>
 </system-properties>
+
+//Multitenant
+<system-properties>
+        <property name="jndi_tenant_datasource" value="java:/postgres-sae-tenant-ds"/>
+</system-properties>

@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -20,7 +20,7 @@
                         </legend>
                         <p:outputPanel styleClass="form-horizontal">
                             <p:outputPanel styleClass="form-group">
-                                <h:outputLabel value="#{sessionMBean.textos['id._de_la_reserva']}" for="VNroReserva" styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                <h:outputLabel value="#{sessionMBean.textos['id._de_la_reserva']}" for="VNroReserva" styleClass="col-sm-3 label formularioCampoRequerido" />
                                 <p:outputPanel styleClass="col-sm-9">
                                     <h:inputText id="VNroReserva" value="#{consultaMBean.idReserva}" styleClass="form-control textoCorto" />
                                     <p:message for="VNroReserva"></p:message>

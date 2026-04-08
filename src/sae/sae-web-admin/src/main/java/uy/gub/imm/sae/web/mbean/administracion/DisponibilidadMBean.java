@@ -20,10 +20,7 @@
 package uy.gub.imm.sae.web.mbean.administracion;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -37,6 +34,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 
+import org.primefaces.PrimeFaces;
 import uy.gub.imm.sae.common.DisponibilidadReserva;
 import uy.gub.imm.sae.common.Utiles;
 import uy.gub.imm.sae.common.VentanaDeTiempo;
@@ -104,7 +102,7 @@ public class DisponibilidadMBean extends BaseMBean {
         this.sessionMBean = sessionMBean;
     }
 
-    public void obtenerCuposCons(ActionEvent event) {
+    public void obtenerCuposCons() {
         limpiarMensajesError();
 
         boolean hayErrores = false;
@@ -130,6 +128,7 @@ public class DisponibilidadMBean extends BaseMBean {
         if (dispSessionMBean.getFechaHasta() == null) {
             try {
                 dispSessionMBean.setFechaHasta(disponibilidadesEJB.ultFechaGenerada(sessionMBean.getRecursoMarcado()));
+                PrimeFaces.current().ajax().update("form:fHasta");
             } catch (Exception ex) {
                 addErrorMessage(sessionMBean.getTextos().get("no_se_pudo_obtener_la_ultima_fecha_generada"), MSG_ID);
             }
@@ -139,7 +138,7 @@ public class DisponibilidadMBean extends BaseMBean {
         }
     }
 
-    public void obtenerCuposModif(ActionEvent e) {
+    public void obtenerCuposModif() {
         limpiarMensajesError();
         dispSessionMBean.setDisponibilidadesDelDiaMatutinaModif(null);
         dispSessionMBean.setDisponibilidadesDelDiaVespertinaModif(null);
@@ -417,44 +416,48 @@ public class DisponibilidadMBean extends BaseMBean {
         for (Row<DisponibilidadReserva> row : listDispReserva) {
             if (row.getData().isSeleccionado()) {
                 int cupo = row.getData().getCupo();
-                switch (this.tipoOperacion) {
-                    case 1:
-                        //Aumentar valor
-                        cupo = cupo + valorCupo;
-                        break;
-                    case 2:
-                        //Disminuir valor
-                        cupo = cupo - valorCupo;
-                        if (cupo < 0) {
-                            cupo = 0;
-                        }   break;
-                    default:
-                        //Establecer valor
-                        cupo = valorCupo;
-                        break;
-                }
-                Disponibilidad disp = new Disponibilidad();
-                disp.setId(row.getData().getId());
-                disp.setCupo(cupo);
-                if (dispSessionMBean.getModificarTodos()) {
-                    try {
-                        List<String> advertencias = disponibilidadesEJB.modificarCupoPeriodoValorOperacion(disp, sessionMBean.getTimeZone(), valorCupo, this.tipoOperacion, dispSessionMBean.getDiasAplicar());
-                        for (String advertencia : advertencias) {
-                            addAdvertenciaMessage(sessionMBean.getTextos().get("para_diahora_el_cupo_se_modifico_parcialmente_porque_hay_mas_reservas").replace("{diahora}", advertencia), MSG_ID);
-                        }
-                    } catch (Exception e) {
-                        addErrorMessage(e, MSG_ID);
-                        return;
+                Date hoy = new Date();
+                if (hoy.compareTo(row.getData().getHoraInicio())<0) {
+                    switch (this.tipoOperacion) {
+                        case 1:
+                            //Aumentar valor
+                            cupo = cupo + valorCupo;
+                            break;
+                        case 2:
+                            //Disminuir valor
+                            cupo = cupo - valorCupo;
+                            if (cupo < 0) {
+                                cupo = 0;
+                            }
+                            break;
+                        default:
+                            //Establecer valor
+                            cupo = valorCupo;
+                            break;
                     }
-                } else {
-                    try {
-                        int nuevoCupo = disponibilidadesEJB.modificarCupoDeDisponibilidad(disp);
-                        if (disp.getCupo() != nuevoCupo) {
-                            addAdvertenciaMessage(sessionMBean.getTextos().get("el_cupo_se_modifico_parcialmente_porque_hay_mas_reservas"), MSG_ID);
+                    Disponibilidad disp = new Disponibilidad();
+                    disp.setId(row.getData().getId());
+                    disp.setCupo(cupo);
+                    if (dispSessionMBean.getModificarTodos()) {
+                        try {
+                            List<String> advertencias = disponibilidadesEJB.modificarCupoPeriodoValorOperacion(disp, sessionMBean.getTimeZone(), valorCupo, this.tipoOperacion, dispSessionMBean.getDiasAplicar());
+                            for (String advertencia : advertencias) {
+                                addAdvertenciaMessage(sessionMBean.getTextos().get("para_diahora_el_cupo_se_modifico_parcialmente_porque_hay_mas_reservas").replace("{diahora}", advertencia), MSG_ID);
+                            }
+                        } catch (Exception e) {
+                            addErrorMessage(e, MSG_ID);
+                            return;
                         }
-                    } catch (Exception e) {
-                        addErrorMessage(e, MSG_ID);
-                        return;
+                    } else {
+                        try {
+                            int nuevoCupo = disponibilidadesEJB.modificarCupoDeDisponibilidad(disp);
+                            if (disp.getCupo() != nuevoCupo) {
+                                addAdvertenciaMessage(sessionMBean.getTextos().get("el_cupo_se_modifico_parcialmente_porque_hay_mas_reservas"), MSG_ID);
+                            }
+                        } catch (Exception e) {
+                            addErrorMessage(e, MSG_ID);
+                            return;
+                        }
                     }
                 }
             }

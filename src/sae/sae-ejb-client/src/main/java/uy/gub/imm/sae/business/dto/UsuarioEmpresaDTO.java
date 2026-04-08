@@ -1,5 +1,7 @@
 package uy.gub.imm.sae.business.dto;
 
+import java.util.Date;
+
 public class UsuarioEmpresaDTO {
 
     private Integer id;
@@ -10,6 +12,8 @@ public class UsuarioEmpresaDTO {
 
     private String correo;
 
+    private Date ultimoLogin;
+
     private String rolesEmpresa;
 
     public UsuarioEmpresaDTO() {
@@ -17,12 +21,13 @@ public class UsuarioEmpresaDTO {
         // TODO Auto-generated constructor stub
     }
 
-    public UsuarioEmpresaDTO(Integer id, String codigo, String nombre, String correo, String rolesEmpresa) {
+    public UsuarioEmpresaDTO(Integer id, String codigo, String nombre, String correo, Date ultimoLogin, String rolesEmpresa) {
         super();
         this.id = id;
         this.codigo = codigo;
         this.nombre = nombre;
         this.correo = correo;
+        this.ultimoLogin = ultimoLogin;
         this.rolesEmpresa = rolesEmpresa;
     }
 
@@ -57,6 +62,10 @@ public class UsuarioEmpresaDTO {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+
+    public Date getUltimoLogin(){return ultimoLogin;}
+
+    public void setUltimoLogin(Date ultimoLogin) {this.ultimoLogin = ultimoLogin; }
 
     public String getRolesEmpresa() {
         return rolesEmpresa;

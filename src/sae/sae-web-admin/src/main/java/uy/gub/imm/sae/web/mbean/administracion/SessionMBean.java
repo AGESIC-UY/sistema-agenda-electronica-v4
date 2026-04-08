@@ -23,8 +23,10 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +64,7 @@ import javax.servlet.http.HttpSession;
 import org.jboss.security.SecurityContext;
 import org.jboss.security.SecurityContextAssociation;
 import org.jboss.security.SecurityContextFactory;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -1021,7 +1023,20 @@ public class SessionMBean extends SessionCleanerMBean {
                             break;
                     }
                 }
-                                
+                //Se actualiza la fecha y hora del ultimo login del usuario
+                if (usuarioActual != null) {
+                    try {
+                        ZoneId zonaHorariaMontevideo = ZoneId.of("America/Montevideo");
+                        Instant ahora = Instant.now();
+                        ZonedDateTime fechaHoraMontevideo = ZonedDateTime.ofInstant(ahora, zonaHorariaMontevideo);
+                        Date ultimoLoginParaDB = Date.from(fechaHoraMontevideo.toInstant());
+                        usuariosEmpresasEJB.actualizarUltimoLogin(usuarioActual.getId(), ultimoLoginParaDB);
+                    } catch (Exception e) {
+                        LOGGER.log(Level.WARNING, "No se pudo registrar la fecha del último login", e);
+                    }
+                }
+
+
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error al  cargar datos del usuario", ex);
@@ -1295,7 +1310,18 @@ public class SessionMBean extends SessionCleanerMBean {
         // No se puede cachear porque un stream y la segunda vez que el cliente
         // lo pide está cerrado y no es muestra la imagen
         if (empresaActual != null && empresaActualLogoBytes != null) {
-            return new DefaultStreamedContent(new ByteArrayInputStream(empresaActualLogoBytes));
+            return  DefaultStreamedContent.builder()
+                    .contentType("image/png")
+                    .stream(() -> {
+                        try {
+                            return new ByteArrayInputStream(empresaActualLogoBytes);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    })
+                    .build();
         }
         return null;
     }
@@ -1541,7 +1567,7 @@ public class SessionMBean extends SessionCleanerMBean {
                 return;
             }
             idiomaActual = idiomaSeleccionado;
-            RequestContext.getCurrentInstance().execute("document.documentElement.lang='" + idiomaActual + "'");
+            PrimeFaces.current().executeScript("document.documentElement.lang='" + idiomaActual + "'");
             cargarTextos();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "No se pudo cambiar el idioma", ex);

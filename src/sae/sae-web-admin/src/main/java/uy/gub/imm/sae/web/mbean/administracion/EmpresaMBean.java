@@ -42,8 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
-import org.primefaces.context.RequestContext;
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.PrimeFaces;
 
 import uy.gub.imm.opencsv.ext.entity.CommonLabelValueImpl;
 import uy.gub.imm.opencsv.ext.entity.LabelValue;
@@ -455,9 +455,9 @@ public class EmpresaMBean extends BaseMBean {
     }
 
     public void cambioLogo(FileUploadEvent event) {
-        UploadedFile archivo = event.getFile();
+        UploadedFile  archivo = event.getFile();
         try {
-            byte[] bytes = IOUtils.toByteArray(archivo.getInputstream());
+            byte[] bytes = IOUtils.toByteArray(archivo.getInputStream());
             empresaSessionMBean.getEmpresaEditar().setLogo(bytes);
             boolean actualizarLogoCabezal = false;
             if (sessionMBean.getEmpresaActualId() != null && empresaSessionMBean.getEmpresaEditar() != null
@@ -511,7 +511,7 @@ public class EmpresaMBean extends BaseMBean {
                         e.printStackTrace();
                     } finally {
                         UsuarioEmpresaDTO usuarioListado = new UsuarioEmpresaDTO(usuario.getId(), usuario.getCodigo(),
-                                usuario.getNombre(), usuario.getCorreoe(),
+                                usuario.getNombre(), usuario.getCorreoe(), usuario.getUltimoLogin(),
                                 this.getRolesUsuarioEmpresa(listadoRolesUsuarioEmpresa));
                         listadoUsuarios.add(usuarioListado);
                     }
@@ -547,8 +547,8 @@ public class EmpresaMBean extends BaseMBean {
                 rolesRecurso.add(usuarioRolesRecursoDTO);
             }
             this.rolesUsuarioRecursosActual = new RowList<UsuarioRolesRecursoDTO>(rolesRecurso);
-            RequestContext requestContext = RequestContext.getCurrentInstance();
-            requestContext.execute("PF('listarRolesUsuarioRecurso').show();");
+            PrimeFaces requestContext = PrimeFaces.current();
+            requestContext.executeScript("PF('listarRolesUsuarioRecurso').show();");
         } catch (ApplicationException e) {
             LOGGER.log(Level.WARNING, "No se pudo obtener los roles del usuario por recurso", e);
         }
@@ -679,7 +679,7 @@ public class EmpresaMBean extends BaseMBean {
                         e.printStackTrace();
                     } finally {
                         UsuarioEmpresaDTO usuarioListado = new UsuarioEmpresaDTO(usuario.getId(), usuario.getCodigo(),
-                                usuario.getNombre(), usuario.getCorreoe(),
+                                usuario.getNombre(), usuario.getCorreoe(), usuario.getUltimoLogin(),
                                 this.getRolesUsuarioEmpresa(listadoRolesUsuarioEmpresa));
                         listadoUsuarios.add(usuarioListado);
                     }

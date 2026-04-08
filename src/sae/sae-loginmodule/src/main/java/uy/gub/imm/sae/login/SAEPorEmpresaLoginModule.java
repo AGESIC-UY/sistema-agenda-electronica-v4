@@ -90,8 +90,8 @@ public class SAEPorEmpresaLoginModule extends AbstractServerLoginModule {
                 DataSource ds = (DataSource) initContext.lookup(dsJndiName);
                 conn = ds.getConnection();
                 //El usuario no debe estar eliminado y debe tener asociada al menos una empresa
-                st = conn.prepareStatement("SELECT password FROM global.ae_usuarios u WHERE u.codigo=? AND u.fecha_baja IS NULL ");
-                st.setString(1, codigo);
+                st = conn.prepareStatement("SELECT password FROM global.ae_usuarios u WHERE TRIM(u.codigo)=? AND u.fecha_baja IS NULL ");
+                st.setString(1, codigo!=null?codigo.strip():codigo);
                 st.executeQuery();
                 rs = st.getResultSet();
                 if (!rs.next()) {

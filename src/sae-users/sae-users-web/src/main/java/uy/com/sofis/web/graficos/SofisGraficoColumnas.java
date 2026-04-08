@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -90,11 +90,11 @@ public class SofisGraficoColumnas extends SofisGrafico {
         }
         opciones += "};";
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "data:{0} options:{1}", new Object[]{data, opciones});
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute(data);
-        context.execute(opciones);
-        context.execute("var chart = new google.charts.Bar(document.getElementById('" + getNombreDiv() + "')) ");
-        context.execute("chart.draw(data, options)");
+        PrimeFaces context = PrimeFaces.current();
+        context.executeScript(data);
+        context.executeScript(opciones);
+        context.executeScript("var chart = new google.charts.Bar(document.getElementById('" + getNombreDiv() + "')) ");
+        context.executeScript("chart.draw(data, options)");
     }
 
     public void ejecutarPruebaJS() {
@@ -120,10 +120,10 @@ public class SofisGraficoColumnas extends SofisGrafico {
                 + "width: 900,"
                 + "chart: { subtitle: 'Percentaje' },"
                 + "bar: { groupWidth: '90%'}}\n";
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute(data);
-        context.execute(opciones);
-        context.execute("var chart = new google.charts.Bar(document.getElementById('" + getNombreDiv() + "')) ");
-        context.execute("chart.draw(data, google.charts.Bar.convertOptions(options))");
+        PrimeFaces context = PrimeFaces.current();
+        context.executeScript(data);
+        context.executeScript(opciones);
+        context.executeScript("var chart = new google.charts.Bar(document.getElementById('" + getNombreDiv() + "')) ");
+        context.executeScript("chart.draw(data, google.charts.Bar.convertOptions(options))");
     }
 }

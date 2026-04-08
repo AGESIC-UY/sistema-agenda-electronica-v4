@@ -158,6 +158,12 @@ public class CrearDisponibilidadMBean extends BaseMBean {
                 addErrorMessage(sessionMBean.getTextos().get("la_hora_de_inicio_es_obligatoria"), "formCrearDisponibilidad:seleccionHoraD");
                 hayError = true;
             }
+            Calendar todayWithHour = new GregorianCalendar();
+            if (c1.before(todayWithHour)) {
+                addErrorMessage(sessionMBean.getTextos().get("la_hora_de_inicio_debe_ser_igual_o_posterior_a_la_actual"), "formCrearDisponibilidad:seleccionHoraD");
+                hayError = true;
+            }
+
             Calendar c2 = new GregorianCalendar();
             c2.set(Calendar.YEAR, c0.get(Calendar.YEAR));
             c2.set(Calendar.MONTH, c0.get(Calendar.MONTH));
@@ -171,9 +177,13 @@ public class CrearDisponibilidadMBean extends BaseMBean {
                 hayError = true;
             }
             if (crearDispSessionMBean.getHoraDesde().compareTo(crearDispSessionMBean.getHoraHasta()) >= 0) {
-                addErrorMessage(sessionMBean.getTextos().get("la_hora_de_fin_debe_ser_posterior_a_la_hora_de_inicio"), "formCrearDisponibilidad:seleccionHoraD", "formCrearDisponibilidad:seleccionHoraH");
+                addErrorMessage(sessionMBean.getTextos().get("la_hora_de_fin_debe_ser_posterior_a_la_hora_de_inicio"),  "formCrearDisponibilidad:seleccionHoraH");
                 hayError = true;
             }
+
+
+
+
             if (crearDispSessionMBean.getFrecuencia() == null) {
                 addErrorMessage(sessionMBean.getTextos().get("la_frecuencia_es_obligatoria"), "formCrearDisponibilidad:frecuencia");
                 hayError = true;
@@ -281,7 +291,7 @@ public class CrearDisponibilidadMBean extends BaseMBean {
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    public void consultarDisponibilidadesDelDia(ActionEvent event) {
+    public void consultarDisponibilidadesDelDia() {
         limpiarMensajesError();
         try {
             boolean hayError = false;

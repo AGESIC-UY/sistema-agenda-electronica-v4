@@ -31,6 +31,14 @@
         <param-name>com.sun.faces.autoCompleteOffOnViewState</param-name>
         <param-value>false</param-value>
     </context-param>  
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>uy.gub.imm.sae.web.common.CharacterEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

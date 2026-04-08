@@ -18,7 +18,18 @@
         <managed-bean-name>consReservaDatosSessionMBean</managed-bean-name>
         <managed-bean-class>uy.gub.imm.sae.web.mbean.administracion.ConsultaReservaDSessionMBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>    
+    </managed-bean>
+    <component>
+        <component-type>uy.gub.imm.sae.web.component.messages.CustomMessages</component-type>
+        <component-class>uy.gub.imm.sae.web.component.messages.CustomMessages</component-class>
+    </component>
+    <render-kit>
+        <renderer>
+            <component-family>uy.gub.imm.sae.web.component</component-family>
+            <renderer-type>uy.gub.imm.sae.web.component.messages.CustomMessagesRenderer</renderer-type>
+            <renderer-class>uy.gub.imm.sae.web.component.messages.CustomMessagesRenderer</renderer-class>
+        </renderer>
+    </render-kit>
 <!--    
     <managed-bean>
         <managed-bean-name>sessionMBean</managed-bean-name>
@@ -639,23 +650,8 @@
             <redirect />
         </navigation-case>
     </navigation-rule>
-
     <navigation-rule>
         <from-view-id>/administracion/reserva/Paso2.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>siguientePaso</from-outcome>
-            <to-view-id>/administracion/reserva/Paso3.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>pasoAnterior</from-outcome>
-            <to-view-id>/administracion/reserva/Paso1.xhtml</to-view-id>
-            <redirect />
-        </navigation-case>
-    </navigation-rule>
-
-    <navigation-rule>
-        <from-view-id>/administracion/reserva/Paso3.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>reservaConfirmada</from-outcome>
             <to-view-id>/administracion/reserva/PasoFinal.xhtml</to-view-id>
@@ -663,7 +659,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>pasoAnterior</from-outcome>
-            <to-view-id>/administracion/reserva/Paso2.xhtml</to-view-id>
+            <to-view-id>/administracion/reserva/Paso1.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
@@ -992,6 +988,11 @@
     <validator>
         <validator-id>xmlValidator</validator-id>
         <validator-class>uy.gub.imm.sae.web.validator.XMLValidator</validator-class>
+    </validator>
+
+    <validator>
+        <validator-id>documentoValidator</validator-id>
+        <validator-class>uy.gub.imm.sae.web.validator.DocumentoValidator</validator-class>
     </validator>
 
 

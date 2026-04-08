@@ -75,7 +75,7 @@ public class DepuracionReservasBean implements DepuracionReservasLocal {
     
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-   @TransactionTimeout(value=15, unit=TimeUnit.MINUTES)
+    @TransactionTimeout(value=15, unit=TimeUnit.MINUTES)
     public void eliminarReservas(Empresa empresa, Calendar fechaLimiteIndividual, Calendar fechaLimiteMultiple, Integer idRecurso, List<Integer> idsReservaIndividuales, List<Integer> idsReservaMultiples) {
         int cant = 0;
 		

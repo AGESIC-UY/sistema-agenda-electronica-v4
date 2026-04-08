@@ -1,6 +1,6 @@
 <ui:composition template="/reservaMultiple/Paso.template.xhtml" 
   xmlns="http://www.w3.org/1999/xhtml" 
-  xmlns:p="http://primefaces.org/ui/sofis" 
+  xmlns:p="http://primefaces.org/ui"
   xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core" 
 	xmlns:h="http://java.sun.com/jsf/html">
@@ -105,8 +105,8 @@
 						</legend>
 						<div class="form-horizontal">
 							<h:panelGroup id="captcha" styleClass="form-group" layout="block">
-								<h:outputLabel value="Comprobación de seguridad" for="secureText" styleClass="col-sm-4 control-label label formularioCampoRequerido" />
-								<p:outputPanel styleClass="col-sm-8">
+
+								<p:outputPanel styleClass="col-12 col-sm-8 mx-auto">
 									<h:outputText styleClass="textoCaptcha" value="#{multiplePasoFinalMBean.textoIndicativoCaptcha}" />
 									<h:inputText id="secureText" size="10" styleClass="form-control" value="#{multiplePasoFinalMBean.textoCaptchaUsuario}" />
 									<p:commandLink styleClass="recargarCaptcha" id="btnRecargarCaptcha" value="#{sesionMBean.textos['solicitar_otra_frase']}"

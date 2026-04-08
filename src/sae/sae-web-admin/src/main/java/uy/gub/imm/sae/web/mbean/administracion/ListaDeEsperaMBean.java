@@ -23,7 +23,6 @@ import javax.faces.model.SelectItem;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.subtable.SubTable;
-import org.primefaces.context.RequestContext;
 
 import uy.gub.imm.sae.business.dto.ReservaDTO;
 import uy.gub.imm.sae.business.ejb.facade.LlamadasLocal;

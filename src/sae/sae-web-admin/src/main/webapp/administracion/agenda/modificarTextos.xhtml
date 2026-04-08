@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml" 
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -15,7 +15,7 @@
                     <p:outputPanel styleClass="form-group">
                         <p:outputLabel for="idioma" value="#{sessionMBean.textos['idioma']}" styleClass="control-label label" />
                         <h:selectOneMenu id="idioma" value="#{textoAgendaMBean.idiomaTextos}" valueChangeListener="#{textoAgendaMBean.cambioIdiomaTextos}"
-                                         styleClass="form-control textoMedio">
+                                         styleClass="textoMedio">
                             <p:ajax update="@form" process="@this" />
                             <f:selectItems value="#{textoAgendaMBean.idiomasSoportados}" />
                         </h:selectOneMenu>
@@ -81,7 +81,7 @@
                             <p:outputPanel styleClass="col-sm-8">
                                 <p:outputPanel styleClass="form-horizontal">
                                     <p:outputPanel styleClass="form-group">
-                                        <h:outputLabel value="#{sessionMBean.textos['texto_para_el_ticket_de_reserva']}" for="textoTicket" styleClass="control-label label col-sm-3" />
+                                        <h:outputLabel value="#{sessionMBean.textos['texto_para_el_ticket_de_reserva']}" for="textoTicket" styleClass="label col-sm-3" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <p:inputTextarea id="textoTicket" rows="10" maxlength="1000" style="width:100%" value="#{textoAgendaMBean.textoAux.textoTicketConf}" />
                                             <h:outputText value="#{sessionMBean.textos['puede_ingresar_codigo_html']}" />
@@ -116,7 +116,7 @@
                             <p:outputPanel styleClass="col-sm-8">
                                 <p:outputPanel styleClass="form-horizontal">
                                     <p:outputPanel styleClass="form-group">
-                                        <h:outputLabel value="#{sessionMBean.textos['texto_para_el_correo_de_confirmacion']}" for="textocorreo" styleClass="control-label label col-sm-3" />
+                                        <h:outputLabel value="#{sessionMBean.textos['texto_para_el_correo_de_confirmacion']}" for="textocorreo" styleClass="label col-sm-3" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <p:inputTextarea id="textocorreo" rows="10" maxlength="1000" style="width:100%" value="#{textoAgendaMBean.textoAux.textoCorreoConf}" />
                                             <h:outputText value="#{sessionMBean.textos['puede_ingresar_codigo_html']}" />
@@ -149,7 +149,7 @@
                             <p:outputPanel styleClass="col-sm-8">
                                 <p:outputPanel styleClass="form-horizontal">
                                     <p:outputPanel styleClass="form-group">
-                                        <h:outputLabel value="#{sessionMBean.textos['texto_para_el_correo_de_cancelacion']}" for="textocorreocanc" styleClass="col-sm-3 control-label label" />
+                                        <h:outputLabel value="#{sessionMBean.textos['texto_para_el_correo_de_cancelacion']}" for="textocorreocanc" styleClass="col-sm-3 label" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <p:inputTextarea id="textocorreocanc" rows="10" maxlength="1000" style="width:100%" value="#{textoAgendaMBean.textoAux.textoCorreoCanc}" />
                                             <h:outputText value="#{sessionMBean.textos['puede_ingresar_codigo_html']}" />
@@ -179,7 +179,7 @@
                                 <p:outputPanel styleClass="form-horizontal">
                                     <p:outputPanel styleClass="form-group">
                                         <h:outputLabel value="#{sessionMBean.textos['texto_para_el_correo_de_traslado']}" for="textocorreocanc" 
-                                            styleClass="col-sm-3 control-label label" />
+                                            styleClass="col-sm-3 label" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <p:inputTextarea id="textocorreotras" rows="10" maxlength="1000" style="width:100%" 
                                                 value="#{textoAgendaMBean.textoAux.textoCorreoTras}" />
@@ -220,7 +220,7 @@
                     <li class="action-buttons-second">
                         <ul>
                             <li class="float-left">
-                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" styleClass="btn-lg btn-link" />
+                                <p:commandButton value="#{sessionMBean.textos['cancelar']}" action="cancelar" styleClass="btn-lg btn-primario" />
                             </li>
                         </ul>
                     </li>

@@ -1,7 +1,7 @@
 <ui:composition template="/templates/layout.xhtml" 
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
@@ -55,10 +55,10 @@
                                 <h:outputText value="#{sessionMBean.textos['acciones']}"></h:outputText>
                             </f:facet>
                             <p:commandButton id="modificarAccion" value="#{sessionMBean.textos['modificar']}" 
-                                             actionListener="#{accionAsignacionMBean.editarAccion(rowIndex)}" icon="ui-icon-pencil" 
+                                             actionListener="#{accionAsignacionMBean.editarAccion(rowIndex)}" icon="fa-solid fa-pencil"
                                              update="form:panelAsociaciones" title="#{sessionMBean.textos['modificar']}" styleClass="ui-button-icon-only" />
                             <p:commandButton id="eliminarAccion" value="#{sessionMBean.textos['eliminar']}" 
-                                             action="#{accionAsignacionMBean.selecAccionEliminar(rowIndex)}" icon="ui-icon-trash" update="form:panelAsociaciones" 
+                                             action="#{accionAsignacionMBean.selecAccionEliminar(rowIndex)}" icon="fa-solid fa-trash" update="form:panelAsociaciones"
                                              oncomplete="PF('eliminarAccion').show();" title="#{sessionMBean.textos['eliminar']}" styleClass="ui-button-icon-only" />
                         </p:column>
                     </p:dataTable>
@@ -76,11 +76,11 @@
                                 <p:outputPanel styleClass="form-horizontal">
                                     <p:outputPanel styleClass="form-group">
                                         <h:outputLabel value="#{sessionMBean.textos['accion']}" for="accionAsociacion" 
-                                                       styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                                       styleClass="col-sm-3 label formularioCampoRequerido" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <h:selectOneMenu id="accionAsociacion" value="#{accionAsignacionMBean.accionDelRecurso.accion.id}" 
                                                              valueChangeListener="#{accionAsignacionMBean.cambioAccionDelRecurso}" 
-                                                             styleClass="form-control textoLargo">
+                                                             styleClass="textoLargo">
                                                 <p:ajax update="tablaAccionesPorDato" process="@this" />
                                                 <f:selectItems value="#{accionAsignacionMBean.accionesItems}" />
                                             </h:selectOneMenu>
@@ -89,7 +89,7 @@
                                     </p:outputPanel>
                                     <p:outputPanel styleClass="form-group">
                                         <h:outputLabel value="#{sessionMBean.textos['orden_de_ejecucion']}" for="ordenAsociacion" 
-                                                       styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                                       styleClass="col-sm-3 label formularioCampoRequerido" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <h:inputText id="ordenAsociacion" value="#{accionAsignacionMBean.accionDelRecurso.ordenEjecucion}" 
                                                          maxlength="3" styleClass="form-control" converter="integerConverter" />
@@ -98,10 +98,10 @@
                                     </p:outputPanel>
                                     <p:outputPanel styleClass="form-group">
                                         <h:outputLabel value="#{sessionMBean.textos['evento']}" for="eventoAsociacion" 
-                                                       styleClass="col-sm-3 control-label label formularioCampoRequerido" />
+                                                       styleClass="col-sm-3 label formularioCampoRequerido" />
                                         <p:outputPanel styleClass="col-sm-9">
                                             <h:selectOneMenu id="eventoAsociacion" value="#{accionAsignacionMBean.accionDelRecurso.evento}" 
-                                                             styleClass="form-control textoLargo">
+                                                             styleClass="textoLargo">
                                                 <f:selectItems value="#{accionAsignacionMBean.eventosItems}" />
                                             </h:selectOneMenu>
                                             <p:message for="eventoAsociacion"></p:message>
@@ -132,7 +132,7 @@
                                             </f:facet> 
                                             <p:commandButton id="eliminarParametro" value="#{sessionMBean.textos['eliminar']}" 
                                                              action="#{accionAsignacionMBean.eliminarAccionPorDato(num)}"
-                                                             icon="ui-icon-trash" update="form:panelAsociaciones" title="#{sessionMBean.textos['eliminar']}" 
+                                                             icon="fa-solid fa-trash" update="form:panelAsociaciones" title="#{sessionMBean.textos['eliminar']}"
                                                              styleClass="ui-button-icon-only" />
                                         </p:column>
                                     </p:dataTable>
@@ -153,7 +153,7 @@
                                         <li class="float-left">
                                             <p:commandButton value="#{sessionMBean.textos['cancelar']}" 
                                                              actionListener="#{accionAsignacionMBean.cancelarAsociacion}"
-                                                             styleClass="btn-lg btn-link" update="form:panelForm form:panelAsociaciones" />
+                                                             styleClass="btn-lg btn-primario" update="form:panelForm form:panelAsociaciones" />
                                         </li>
                                     </ul>
                                 </li>

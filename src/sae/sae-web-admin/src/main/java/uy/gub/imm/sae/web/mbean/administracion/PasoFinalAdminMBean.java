@@ -49,7 +49,9 @@ import uy.gub.imm.sae.web.common.FormularioDinamicoReserva;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.faces.context.FacesContext;
+
 import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
+import uy.gub.imm.sae.web.common.TicketUtiles;
 
 /**
  * Presenta todos los datos de la reserva y da la opción de imprimir un recibo.
@@ -70,7 +72,7 @@ public class PasoFinalAdminMBean extends BaseMBean {
     private SessionMBean sessionMBean;
 
     private List<DatoDelRecurso> infoRecurso;
-
+    private String urlMapa;
     private UIComponent campos;
 
     @PostConstruct
@@ -156,7 +158,7 @@ public class PasoFinalAdminMBean extends BaseMBean {
     }
 
     public String getDescripcion() {
-        try{  
+        try {
             TextoAgenda textoAgenda = getTextoAgenda(sessionMBean.getAgenda(), sessionMBean.getIdiomaActual());
             if (textoAgenda != null) {
                 String str = textoAgenda.getTextoTicketConf();
@@ -170,7 +172,7 @@ public class PasoFinalAdminMBean extends BaseMBean {
                     Reserva reserva = sessionMBean.getReservaConfirmada();
                     Recurso recurso = reserva.getDisponibilidades().get(0).getRecurso();
                     String linkCancelacion = linkBase + "/sae/cancelarReserva/Paso1.xhtml?e=" + sessionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&ri=" + reserva.getId();
-                    String linkModificacion = linkBase +"/sae/modificarReserva/Paso1.xhtml?e=" + sessionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&r=" + recurso.getId() + "&ri=" + reserva.getId();
+                    String linkModificacion = linkBase + "/sae/modificarReserva/Paso1.xhtml?e=" + sessionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&r=" + recurso.getId() + "&ri=" + reserva.getId();
                     str = Metavariables.remplazarMetavariables(str, reserva, sessionMBean.getFormatoFecha(), sessionMBean.getFormatoHora(), linkCancelacion, linkModificacion);
                     return str;
                 } else {
@@ -179,10 +181,10 @@ public class PasoFinalAdminMBean extends BaseMBean {
             } else {
                 return "";
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.getMessage());
             return "";
-	}
+        }
     }
 
     /**
@@ -205,7 +207,13 @@ public class PasoFinalAdminMBean extends BaseMBean {
         }
     }
 
+    /**
+     * Retorna solo la fecha sin la hora del turno
+     */
     public Date getDiaSeleccionado() {
+        if (sessionMBean.getDisponibilidad() != null) {
+            return sessionMBean.getDisponibilidad().getFecha();
+        }
         return sessionMBean.getDiaSeleccionado();
     }
 
@@ -237,4 +245,95 @@ public class PasoFinalAdminMBean extends BaseMBean {
         }
     }
 
+    /**
+     * Retorna solo la dirección del recurso
+     */
+    public String getRecursoDireccion() {
+        Recurso recurso = sessionMBean.getRecurso();
+        if (recurso != null && recurso.getDireccion() != null) {
+            return recurso.getDireccion();
+        }
+        return "";
+    }
+
+    public void mostrarMapa(Recurso recurso) {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String schema = "https";
+        String host = request.getServerName();
+        String port = "" + request.getServerPort();
+        String domain = request.getContextPath();
+        if (!domain.startsWith("/")) {
+            domain = "/" + domain;
+        }
+        if (!domain.endsWith("/")) {
+            domain = domain + "/";
+        }
+        urlMapa = schema + "://" + host + ":" + domain + "mapa/mapa2.html?";
+        String lat = "";
+        String lon = "";
+        if (recurso != null) {
+            if (recurso.getLatitud() != null) {
+                lat = recurso.getLatitud().toString();
+            }
+            if (recurso.getLongitud() != null) {
+                lon = recurso.getLongitud().toString();
+            }
+        }
+        urlMapa = urlMapa + "lat=" + lat + "&lon=" + lon;
+    }
+
+    public String getUrlMapa() {
+        if (urlMapa == null) {
+            mostrarMapa(sessionMBean.getRecurso());
+        }
+        return urlMapa;
+    }
+
+    public String getDireccionCompleta() {
+        Recurso recurso = sessionMBean.getRecurso();
+        if (recurso == null) {
+            return "";
+        }
+        StringBuilder direccion = new StringBuilder("");
+        if (recurso.getDireccion() != null) {
+            direccion.append(recurso.getDireccion());
+        }
+        if (recurso.getLocalidad() != null) {
+            if (direccion.length() > 0) {
+                direccion.append(" - ");
+            }
+            direccion.append(recurso.getLocalidad());
+        }
+        if (recurso.getDepartamento() != null) {
+            if (direccion.length() > 0) {
+                direccion.append(" - ");
+            }
+            direccion.append(recurso.getDepartamento());
+        }
+        return direccion.toString();
+    }
+
+    /**
+     * Retorna la URL de Google Maps con las coordenadas del recurso.
+     * Usa la URL base configurada en sessionMBean.textos['url_google_maps']
+     *
+     * @return URL completa con coordenadas o null si no hay coordenadas o URL base no configurada
+     */
+    public String getUrlGoogleMaps() {
+        Recurso recurso = sessionMBean.getRecurso();
+        if (recurso != null && recurso.getLatitud() != null && recurso.getLongitud() != null) {
+            String urlBase = sessionMBean.getTextos().get("url_google_maps");
+            if (urlBase != null && !urlBase.isEmpty()) {
+                return urlBase + recurso.getLatitud() + "," + recurso.getLongitud();
+            }
+        }
+        return null;
+    }
+
+    public String generarTicket(boolean imprimir) {
+        TicketUtiles ticketUtiles = new TicketUtiles();
+        ticketUtiles.generarTicket(sessionMBean.getEmpresaActual(), sessionMBean.getAgenda(), sessionMBean.getRecurso(), sessionMBean.getTimeZone(),
+                sessionMBean.getReservaConfirmada(), sessionMBean.getFormatoFecha(), sessionMBean.getFormatoHora(), sessionMBean.getTextos(), imprimir);
+        return null;
+    }
 }

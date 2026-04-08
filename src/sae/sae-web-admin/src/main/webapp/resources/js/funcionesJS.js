@@ -62,85 +62,6 @@ $(document).on('click', '.checkInmediato', function(){
 		}	
 });
 
-$(document).on('focus', '.datepicker',  function() {
-  var formatoFecha = document.getElementById('formatoFecha').value;
-  $(this).datepicker({
-    dateFormat: formatoFecha
-  });
-});
-
-$(document).on('keydown', '.datepicker',    function() {
-//Por alguna razón da error al invocar esta función, pero no es necesaria ya que solo se admite la tecla tab
-//    $.datepicker.customKeyPress(event);
-});
-
-$.extend($.datepicker, { // Extends datepicker with shortcuts.
-  customKeyPress: function (event) {
-    var inst = $.datepicker._getInst(event.target);
-    var isRTL = inst.dpDiv.is(".ui-datepicker-rtl");
-    switch (event.keyCode) {
-      case 37:    // LEFT --> -1 day
-        $('body').css('overflow','hidden');
-        $.datepicker._adjustDate(event.target, (isRTL ? +1 : -1), "D");
-        break;
-      case 38:    // UPP --> -7 day
-        $('body').css('overflow','hidden');
-        $.datepicker._adjustDate(event.target, -7, "D");
-        break;
-      case 39:    // RIGHT --> +1 day
-        $('body').css('overflow','hidden');
-        $.datepicker._adjustDate(event.target, (isRTL ? -1 : +1), "D");
-        break;
-      case 40:    // DOWN --> +7 day
-        $('body').css('overflow','hidden');
-        $.datepicker._adjustDate(event.target, +7, "D");
-        break;
-    }
-    $('body').css('overflow','visible');
-  }
-});
-
-$.datepicker.regional['es'] = {
-		 closeText: 'Cerrar',
-		 prevText: 'Anterior',
-		 nextText: 'Siguiente',
-		 currentText: 'Hoy',
-		 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-		 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-		 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-		 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-		 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-		 weekHeader: 'Sm',
-		 dateFormat: 'dd/mm/yy',
-		 firstDay: 1,
-		 isRTL: false,
-		 showMonthAfterYear: false,
-		 yearSuffix: ''
-		 };
-
-$.datepicker.setDefaults($.datepicker.regional['es']);
-
-$(function() {
-  var formatoFecha0 = document.getElementById('formatoFecha');
-  var formatoFecha = "dd/MM/yyyy";
-  if(formatoFecha0 != null) {
-    formatoFecha = formatoFecha0.value;
-  }
-  $( "#datepickerinline" ).datepicker({
-  	dateFormat: formatoFecha,
-  	onSelect: function(date) { 
-       document.getElementById("form:diaSelect").value=date;
-       document.getElementById("form:callBean").click();
-    },
-    beforeShowDay: disponibilidadFecha
-  });
-});
-
-$(document).on('keydown', '#datepickerinline',    function() {
-// Por alguna razón da error al invocar esta función, pero no es necesaria ya que solo se admite la tecla tab
-//    $.datepicker.customKeyPress(event);
-});
-
 function soloTabs(e){
   //9 es tab, 0 es otro caracter de control (Firefox y SeaMonkey devuelven 0)
   var keynum = e.which;
@@ -170,3 +91,60 @@ function scrollToTop() {
     });
 
 }
+document.addEventListener("DOMContentLoaded", function(event) {
+
+PrimeFaces.locales['es'] = {
+        closeText: 'Cerrar',
+        prevText: 'Anterior',
+        nextText: 'Siguiente',
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        weekHeader: 'Semana',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: '',
+        timeOnlyTitle: 'Sólo hora',
+        timeText: 'Tiempo',
+        hourText: 'Hora',
+        minuteText: 'Minuto',
+        secondText: 'Segundo',
+        millisecondText: 'Milisegundo',
+        currentText: 'Fecha actual',
+        ampm: false,
+        month: 'Mes',
+        week: 'Semana',
+        day: 'Día',
+        allDayText: 'Todo el día',
+        today: 'Hoy',
+        clear: 'Claro'
+    };
+});
+
+// Manejar seleccion visual de turnos usando delegacion de eventos
+(function() {
+    // Usar delegacion de eventos en el document para que funcione incluso despues de AJAX updates
+    document.addEventListener('click', function(event) {
+        // Verificar si el click fue en un boton de turno o dentro de el
+        var target = event.target;
+
+        // Buscar el boton padre si se hizo click en un elemento interno
+        while (target && target !== document) {
+            if (target.classList && target.classList.contains('btn-turno')) {
+                // Remover clase de todos los botones
+                var botones = document.querySelectorAll('#primeros-turnos .btn-turno');
+                botones.forEach(function(btn) {
+                    btn.classList.remove('turno-seleccionado');
+                });
+
+                // Agregar clase al boton clickeado
+                target.classList.add('turno-seleccionado');
+                break;
+            }
+            target = target.parentElement;
+        }
+    });
+})();

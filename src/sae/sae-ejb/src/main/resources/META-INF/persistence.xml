@@ -18,17 +18,17 @@
         <class>uy.gub.imm.sae.entity.global.Novedad</class>
         <class>uy.gub.imm.sae.entity.global.Token</class>
         <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
             <property name="hibernate.default_schema" value="global" />
             <property name="hibernate.format_sql" value="false" />
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.cache.use_query_cache" value="false" />
-            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheproviders" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
             <property name="hibernate.cache.use_second_level_cache" value="false" />
             <property name="hibernate.jdbc.batch_size" value="20" />
-            <property name=" hibernate.query.plan_cache_max_size" value="3072" />
-            <property name="ibernate.connection.provider_disables_autocommit" value="true" />
+            <property name="hibernate.query.plan_cache_max_size" value="3072" />
+            <property name="hibernate.connection.provider_disables_autocommit" value="true" />
             <property name="hibernate.query.in_clause_parameter_padding" value="true" />
-            
         </properties>
     </persistence-unit>
 
@@ -78,14 +78,14 @@
         <class>uy.gub.imm.sae.entity.TokenReserva</class>
         <class>uy.gub.imm.sae.entity.AccionMiPerfil</class>
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.format_sql" value="false" />
             <property name="hibernate.multiTenancy" value="SCHEMA" />
             <property name="hibernate.tenant_identifier_resolver" value="uy.gub.imm.sae.business.em.CurrentTenantIdentifierResolverImpl" />
             <property name="hibernate.multi_tenant_connection_provider" value="uy.gub.imm.sae.business.em.MultiTenantConnectionProviderImpl" />
             <property name="hibernate.cache.use_query_cache" value="false" />
-            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheproviders" />
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCachingRegionFactory" />
             <property name="hibernate.cache.use_second_level_cache" value="false" />
         </properties>
     </persistence-unit>

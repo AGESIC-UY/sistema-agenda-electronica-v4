@@ -1,6 +1,6 @@
 <ui:composition template="/templates/layout.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:p="http://primefaces.org/ui/sofis"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html">
@@ -41,25 +41,33 @@
                         </f:facet>
                         <h:outputText value="#{row.data.codigo}"></h:outputText>
                     </p:column>
-                    <p:column width="40%">
+                    <p:column width="30%">
                         <f:facet name="header">
                             <h:outputText value="#{sessionMBean.textos['nombre_y_apellido']}" />
                         </f:facet>
                         <h:outputText value="#{row.data.nombre}"></h:outputText>
                     </p:column>
-                    <p:column width="40%">
+                    <p:column width="30%">
                         <f:facet name="header">
                             <h:outputText value="#{sessionMBean.textos['correo_electronico']}" />
                         </f:facet>
                         <h:outputText value="#{row.data.correoe}" />
+                    </p:column>
+                    <p:column width="20%">
+                        <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['ultimo_login']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.ultimoLogin}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Montevideo" />
+                        </h:outputText>
                     </p:column>
                     <p:column styleClass="alinCentro" width="15%">
                         <f:facet name="header">
                             <h:outputText value="#{sessionMBean.textos['acciones']}" />
                         </f:facet>
                         <p:commandButton id="modificarUsuario" value="#{sessionMBean.textos['modificar']}" action="#{usuarioMBean.modificar(row.data.id)}" update="tablaUsuarios" 
-                                         styleClass="ui-button-icon-only" icon="ui-icon-pencil" title="#{sessionMBean.textos['modificar']}" />
-                        <p:commandButton id="eliminarUsuario" value="#{sessionMBean.textos['eliminar']}"  icon="ui-icon-trash"
+                                         styleClass="ui-button-icon-only" icon="fa-solid fa-pencil" title="#{sessionMBean.textos['modificar']}" />
+                        <p:commandButton id="eliminarUsuario" value="#{sessionMBean.textos['eliminar']}"  icon="fa-solid fa-trash"
                                          action="#{usuarioMBean.selecUsuarioEliminar(row.data.id)}" title="#{sessionMBean.textos['eliminar']}" styleClass="ui-button-icon-only" />
                     </p:column>
                 </p:dataTable>

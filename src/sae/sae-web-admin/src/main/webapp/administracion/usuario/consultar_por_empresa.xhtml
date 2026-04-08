@@ -1,5 +1,5 @@
 <ui:composition template="/templates/layout.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:p="http://primefaces.org/ui/sofis" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
     <ui:param name="nombre_pagina" value="#{sessionMBean.pantallaTitulo}" />
     <ui:define name="cuerpo">
@@ -44,7 +44,7 @@
                     <h:outputLabel value="#{sessionMBean.textos['listado_de_empresas']}" for="empresa"
                         styleClass="col-sm-3 control-label label" />
                     <p:outputPanel styleClass="col-sm-9">
-                        <h:selectOneMenu id="empresa" styleClass="form-control" value="#{empresaMBean.empresaActual.id}"
+                        <h:selectOneMenu id="empresa" value="#{empresaMBean.empresaActual.id}"
                             valueChangeListener="#{empresaMBean.cambioEmpresaActual}">
                             <p:ajax update="form" process="@this" />
                             <f:selectItem itemValue="0" itemLabel="Seleccione una empresa"></f:selectItem>
@@ -82,6 +82,14 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
+                            <h:outputText value="#{sessionMBean.textos['ultimo_login']}" />
+                        </f:facet>
+                        <h:outputText value="#{row.data.ultimoLogin}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Montevideo" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
                             <h:outputText value="#{sessionMBean.textos['roles_del_usuario_en_la_empresa']}" />
                         </f:facet>
                         <h:outputText value="#{row.data.rolesEmpresa}" />
@@ -90,11 +98,10 @@
                         <f:facet name="header">
                             <h:outputText value="#{sessionMBean.textos['roles_del_usuario_por_recurso']}" />
                         </f:facet>
-                        <p:commandButton id="listarRolesUsuarioRecurso"
-                            value="#{sessionMBean.textos['roles_del_usuario_por_recurso']}" icon="ui-icon-extlink"
+                        <p:commandButton id="listarRolesUsuarioRecurso" styleClass="ui-button-icon-only" icon="pi pi-external-link"
+                            value="#{sessionMBean.textos['roles_del_usuario_por_recurso']}"
                             action="#{empresaMBean.obtenerRolesUsuarioRecurso(row.data.id)}"
-                            title="#{sessionMBean.textos['roles_del_usuario_por_recurso']}"
-                            styleClass="ui-button-icon-only" update="listadoRolesUsuarioRecurso" />
+                            title="#{sessionMBean.textos['roles_del_usuario_por_recurso']}" update="listadoRolesUsuarioRecurso" />
                     </p:column>
                 </p:dataTable>
                 <ul class="form-action-buttons">

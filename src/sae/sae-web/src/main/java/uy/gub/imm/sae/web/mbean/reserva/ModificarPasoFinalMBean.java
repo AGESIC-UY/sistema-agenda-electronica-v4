@@ -263,8 +263,41 @@ public class ModificarPasoFinalMBean extends BaseMBean {
         return null;
     }
 
+    public String getUrlModificacion() {
+        Reserva reserva = sesionMBean.getReservaConfirmada();
+        if (reserva != null) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String linkModificacion = request.getScheme() + "://" + request.getServerName();
+            if ("http".equals(request.getScheme()) && request.getServerPort() != 80 || "https".equals(request.getScheme()) && request.getServerPort() != 443) {
+                linkModificacion = linkModificacion + ":" + request.getServerPort();
+            }
+            Recurso recurso = reserva.getDisponibilidades().get(0).getRecurso();
+            Agenda agenda = recurso.getAgenda();
+
+            linkModificacion = linkModificacion + "/sae/modificarReserva/Paso1.xhtml?e=" + sesionMBean.getEmpresaActual().getId() + "&a=" + agenda.getId() + "&r=" + recurso.getId() + "&ri=" + reserva.getId();
+            return linkModificacion;
+        }
+        return null;
+    }
+
     public String getUrlTramite() {
         return sesionMBean.getUrlTramite();
+    }
+
+    /**
+     * Retorna la URL de Google Maps con las coordenadas del recurso.
+     * Usa la URL base configurada en sesionMBean.textos['url_google_maps']
+     * @return URL completa con coordenadas o null si no hay coordenadas o URL base no configurada
+     */
+    public String getUrlGoogleMaps() {
+        Recurso recurso = sesionMBean.getRecurso();
+        if (recurso != null && recurso.getLatitud() != null && recurso.getLongitud() != null) {
+            String urlBase = sesionMBean.getTextos().get("url_google_maps");
+            if (urlBase != null && !urlBase.isEmpty()) {
+                return urlBase + recurso.getLatitud() + "," + recurso.getLongitud();
+            }
+        }
+        return null;
     }
 
     public boolean isErrorInit() {

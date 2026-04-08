@@ -361,6 +361,7 @@ public class MultiplePaso2MBean extends BaseMBean {
                     return null;
                 }
             } catch (Exception ex) {
+                recursoTieneDisponibilidad = true;
                 addErrorMessage(sesionMBean.getTextos().get("sin_disponibilidades"));
                 ex.printStackTrace();
                 return null;
@@ -392,6 +393,7 @@ public class MultiplePaso2MBean extends BaseMBean {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String schema = "https";
         String host = request.getServerName();
+        String port = "" + request.getServerPort();
         String domain = request.getContextPath();
         if (!domain.startsWith("/")) {
             domain = "/" + domain;
@@ -399,7 +401,7 @@ public class MultiplePaso2MBean extends BaseMBean {
         if (!domain.endsWith("/")) {
             domain = domain + "/";
         }
-        urlMapa = schema + "://" + host + domain + "mapa/mapa2.html?";
+        urlMapa = schema + "://" + host + ":" + domain + "mapa/mapa2.html?";
         String lat = "";
         String lon = "";
         if (recurso != null) {

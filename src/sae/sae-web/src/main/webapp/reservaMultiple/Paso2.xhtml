@@ -1,6 +1,6 @@
 <ui:composition template="/reservaMultiple/Paso.template.xhtml"
   xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:p="http://primefaces.org/ui/sofis"
+  xmlns:p="http://primefaces.org/ui"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:f="http://java.sun.com/jsf/core"
   xmlns:h="http://java.sun.com/jsf/html">
@@ -18,7 +18,7 @@
 		<h:panelGroup id="infoRecurso" layout="block">
 			<p:outputPanel styleClass="infoDireccion" rendered="#{!multiplePaso2MBean.errorInit}">
 				<h:panelGroup >
-				  <iframe src="#{multiplePaso2MBean.urlMapa}" class="iframeMapa" title="#{sesionMBean.textos['mapa_de_locacion']}" />
+				  <iframe src="#{multiplePaso2MBean.urlMapa}" class="iframeMapa" title="#{sesionMBean.textos['mapa_de_locacion']}" sandbox="allow-scripts"/>
 				</h:panelGroup>
 				<div class="direccion">
 					<h:outputText value="#{multiplePaso2MBean.direccionCompleta}" />
