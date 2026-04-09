@@ -1,26 +1,36 @@
-# SAE - VERSION  4.4
-# SAE-USERS - VERSION 0.2
+# Sistema de Agenda Electrónica
 
-## OBJETO
-SAE (Sistema de Agenda Electronica) Esta es una aplicacion que permite gestionar la reserva de numeros para un servicio o tramite de una organizacion. Entre otras cosas permite gestionar los horarios de atencion de las oficinas, los cupos, las reservas y la recepcion posterior de los usuarios que realizan dichas reservas.
 
-## ESTRUCTURA DEL PROYECTO GIT
 
-- dockerv4: Proyecto docker compose para ambiente de desarrollo.
-- test: Informes de testing de las diferentes versiones y evidencias del mismo.
-- src: codigo fuente de SAE y SAE-USERS.
+## Descripción
 
-## DOCUMENTACION
+El Sistema de Agenda Electrónica (SAE) es una solución digital provista por Agesic que permite a organismos públicos gestionar turnos, agendas y reservas de forma eficiente, ordenada y centrada en la ciudadanía. Se trata de un activo de software público uruguayo que forma parte del portafolio de soluciones del Estado.
 
-Ubicacion de la documentacion: simple/documents
+SAE permite gestionar el ciclo completo de atención al ciudadano, desde la planificación de horarios y puestos de atención, hasta la reserva de turnos en línea y la atención presencial. Es una aplicación que facilita la reserva de turnos para trámites y servicios, permitiendo a los organismos:
 
-* Changelog: ./docs
-* Manual de Instalacion: ./docs/Operaciones/
-* Manual de Actualizacion: ./docs/Operaciones/
-* Manual de Desarrollo: ./docs/Desarrollo/
+- Definir horarios de atención y disponibilidad de cupos.
 
-## EMPAQUETADOS
+- Permitir a los usuarios reservar turnos de forma anticipada.
 
-Ubicacion: ./bin 
+- Administrar la recepción y el flujo de personas en oficinas.
 
-## nuevo titulo
+- Consultar reportes e indicadores de uso del servicio.
+
+SAE tuvo su origen en el marco de los tramites en línea de la Intendencia de Montevideo y posteriormente fue incorporado al catálogo de soluciones de Agesic como software público uruguayo. Actualmente es utilizado por múltiples organismos del Estado para organizar la atención presencial y reducir traslados innecesarios.
+
+Agesic ha incorporado nuevas funcionalidades para fortalecer su uso dentro de la estrategia de digitalización del Estado:
+
+- Clave única: acceso centralizado y autenticación segura para servicios digitales
+
+- Trazabilidad de trámites: seguimiento del estado de un trámite durante todo su proceso.
+
+- Usabilidad, accesibilidad y diseño responsivo: cumplimiento de estándares web y diseño adaptable a dispositivos móviles.
+
+Las últimas versiones de SAE incluye significativas mejoras en aspectos técnicos de seguridad, accesibilidad, actualización y adecuación tecnológica. Asimismo, incorpora mejoras funcionales el proceso de reservas, simplificación de uso y una mayor experiencia de usuario.
+
+## Estructura del Proyecto GIT
+
+- bin: Empaquetado de SAE.
+- conf: Archivos de configuración, notas y script de migración, creación de bases.
+- docs: Documentación de SAE.
+- src: Código fuente de SAE.
