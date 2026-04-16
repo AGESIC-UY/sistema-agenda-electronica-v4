@@ -226,7 +226,6 @@ INSERT INTO global.ae_textos (codigo, texto) VALUES ('debe_haber_una_unica_accio
 INSERT INTO global.ae_textos (codigo, texto) VALUES ('debe_haber_una_unica_accion_de_cancelacion_destacada', 'Debe haber una (y solo una) acción de aviso al cancelar marcada como destacada, cuya URL no sea vacía.');
 INSERT INTO global.ae_textos (codigo, texto) VALUES ('debe_haber_una_unica_accion_de_recordatorio_destacada', 'Debe haber una (y solo una) acción de recordatorio marcada como destacada, cuya URL no sea vacía');
 
-
 INSERT INTO global.ae_textos (codigo, texto) VALUES ('vencimiento_aviso_al_confirmar', 'Vencimiento de aviso al confirmar');
 INSERT INTO global.ae_textos (codigo, texto) VALUES ('vencimiento_aviso_al_cancelar', 'Vencimiento de aviso al cancelar');
 INSERT INTO global.ae_textos (codigo, texto) VALUES ('vencimiento_recordatorio', 'Vencimiento de recordatorio');
@@ -288,15 +287,18 @@ INSERT INTO global.ae_configuracion(clave, valor) VALUES ('MIPERFIL_OID', '');
 -- =======================================================================================================================
 -- 2.3.7
 
--- Nada para hacer
+INSERT INTO "global".ae_textos (codigo, texto) VALUES('administradorDeRecursos', 'Administrador de recursos');
 -- =======================================================================================================================
 -- 4.0.0
+
+INSERT INTO "global".ae_configuracion (clave, valor) VALUES ('WS_NOVEDADES_XML_LOG', 'false');
+INSERT INTO "global".ae_configuracion (clave, valor) VALUES ('CARGA_MASIVA_DIAS_RECURSOS_NUEVOS', '30');
+INSERT INTO "global".ae_configuracion (clave, valor) VALUES ('CARGA_MASIVA_DIAS_RECURSOS_EXISTENTES', '15');
 
 INSERT INTO "global".ae_textos (codigo,texto) VALUES ('seleccion_organismo','Selección de organismo');
 INSERT INTO "global".ae_textos (codigo,texto) VALUES ('dispone_varios_organismos','Dispone de varios organismos, debe seleccionar uno para operar');
 INSERT INTO "global".ae_textos (codigo,texto) VALUES ('debe_selecionar_un_organismo','Debe seleccionar un organismo');
 INSERT INTO "global".ae_textos (codigo,texto) VALUES ('configuracion_del_organismo','Configuración del organismo');
-
 
 -- Se eliminan valores en la tabla de configuración
 delete from "global".ae_configuracion where clave in ('WS_TRAZABILIDAD_URLSTS','WS_TRAZABILIDAD_ROL','WS_TRAZABILIDAD_POLICY','WS_TRAZABILIDAD_ORG_KS_PATH',
@@ -402,7 +404,6 @@ INSERT INTO "global".ae_textos (codigo, texto) VALUES ('la_reserva_primer_dosis_
 INSERT INTO "global".ae_textos (codigo, texto) VALUES ('no_se_puede_cancelar_la_reserva_dos', 'No se puede cancelar la reserva de la segunda dosis por si sola, la cancelación se hace mediante la reserva de la primer dosis y el sistema cancela ambas reservas');
 INSERT INTO "global".ae_textos (codigo, texto) VALUES ('no_existen_reservas_para_confirmar', 'No existen reservas para confirmar');
 INSERT INTO "global".ae_textos (codigo, texto) VALUES ('envio_novedades_como_dato_extra', 'Envío a novedades como dato extra');
-INSERT INTO "global".ae_configuracion (clave, valor) VALUES('WS_NOVEDADES_XML_LOG', 'false');
 INSERT INTO "global".ae_textos (codigo, texto) VALUES ('la_fecha_reserva_dos_debe_ser_posterior_a_la_fecha_reserva_uno', 'La fecha de la reserva dos debe ser posterior a la fecha de la reserva uno');
 INSERT INTO "global".ae_textos (codigo, texto) VALUES ('error_marcar_reserva', 'Error: no se ha podido crear la reserva');
 
@@ -468,11 +469,6 @@ UPDATE "global".ae_textos SET texto='Correo de cambio de recurso' WHERE codigo='
 UPDATE "global".ae_textos SET texto='Tenga en cuenta que no se ha podido enviar la notificación por correo electrónico; tome nota de los datos de la reserva.' WHERE codigo='no_se_pudo_enviar_notificacion_de_confirmacion_tome_nota_de_los_datos_de_la_reserva';
 INSERT INTO "global".ae_textos(codigo, texto) VALUES('carga_masiva_recursos_disponibilidades', 'Carga masiva de recursos y disponibilidades');
 
-
--- Ejecutar para cada organismo las siguientes variables de configuración
-INSERT INTO "global".ae_configuracion (clave, valor,org_id) VALUES('CARGA_MASIVA_DIAS_RECURSOS_NUEVOS', '30',{organismo_id});
-INSERT INTO "global".ae_configuracion (clave, valor,org_id) VALUES('CARGA_MASIVA_DIAS_RECURSOS_EXISTENTES', '15',{organismo_id});
-
 -- Versión 4.4.0 (2021-10-09)
 INSERT INTO "global".ae_textos(codigo, texto) VALUES ('consultar_usuarios_por_empresa', 'Consultar usuarios por empresa');
 INSERT INTO "global".ae_textos(codigo, texto) VALUES ('roles', 'Roles');
@@ -504,14 +500,18 @@ INSERT INTO global.ae_textos(codigo, texto) VALUES ('mensaje_reporte_disponible'
 -- Nada para hacer
 -- =======================================================================================================================
 -- 4.6.1
--- Nada para hacer
+
+INSERT INTO global.ae_textos (codigo, texto) VALUES ('recursos_a_mostrar', 'Recursos a mostrar');
+INSERT INTO global.ae_textos (codigo, texto) VALUES ('abrir_llamador_externo', 'Abrir el llamador externo');
+INSERT INTO global.ae_textos (codigo, texto) VALUES ('abrir_llamador_interno', 'Abrir el llamador interno');
+
 -- =======================================================================================================================
 -- 4.6.2
 -- Nada para hacer
 -- =======================================================================================================================
 
 -- Versión 4.6.2 (2023-07-06)
-INSERT INTO ae_textos (codigo, texto) VALUES ('la_hora_de_inicio_debe_ser_igual_o_posterior_a_la_actual', 'La hora de inicio debe ser igual o posterior a la actual');
+INSERT INTO global.ae_textos (codigo, texto) VALUES ('la_hora_de_inicio_debe_ser_igual_o_posterior_a_la_actual', 'La hora de inicio debe ser igual o posterior a la actual');
 
 --  Versión 4.6.3 (2023-09-05)
 INSERT INTO global.ae_textos(codigo, texto) VALUES ('confirmacion_hora_seleccionada','CONFIRMACIÓN DE HORA SELECCIONADA');

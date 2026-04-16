@@ -265,10 +265,6 @@ ALTER TABLE {esquema}.ae_reservas ADD COLUMN notificar boolean DEFAULT true;
 -- =======================================================================================================================
 -- 2.3.7
 
--- RQF-01: Usuario Administrador de recursos.
-INSERT INTO "global".ae_textos (codigo, texto) VALUES('administradorDeRecursos', 'Administrador de recursos');
-
-
 -- RQF-02: Servicio Rest para consultar modificaciones en recursos.
 
 CREATE TABLE {esquema}.ae_recursos_aud (
@@ -379,7 +375,7 @@ ALTER TABLE {esquema}.ae_datos_a_solicitar ADD COLUMN incluir_en_novedades boole
 -- 4.3.0
 -- Ejecutar estos scripts especificando el esquema de base de datos de cada empresa, se agregan dos columnas en la tabla ae_recursos y ae_recursos_aud
 ALTER TABLE {esquema}.ae_recursos ADD COLUMN reserva_pen_tiempo_max integer DEFAULT NULL;
-ALTER TABLE {esquema}.ae_recursos_aud ADD COLUMN reserva_pend_tiempo_max integer DEFAULT NULL;
+ALTER TABLE {esquema}.ae_recursos_aud ADD COLUMN reserva_pen_tiempo_max integer DEFAULT NULL;
 ALTER TABLE {esquema}.ae_recursos ADD COLUMN reserva_multiple_pend_tiempo_max integer DEFAULT NULL;
 ALTER TABLE {esquema}.ae_recursos_aud ADD COLUMN reserva_multiple_pend_tiempo_max integer DEFAULT NULL;
 
