@@ -1,0 +1,1600 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.siif.cgn.gub.uy/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="CGNSiiF" targetNamespace="http://ws.siif.cgn.gub.uy/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.siif.cgn.gub.uy/" elementFormDefault="unqualified" targetNamespace="http://ws.siif.cgn.gub.uy/" version="1.0">
+
+  <xs:element name="getCargaInicial" type="tns:getCargaInicial"/>
+
+  <xs:element name="getCargaInicialResponse" type="tns:getCargaInicialResponse"/>
+
+  <xs:element name="getCargaInicialYAjustes" type="tns:getCargaInicialYAjustes"/>
+
+  <xs:element name="getCargaInicialYAjustesResponse" type="tns:getCargaInicialYAjustesResponse"/>
+
+  <xs:element name="getConciliacion" type="tns:getConciliacion"/>
+
+  <xs:element name="getConciliacionCtasFinancieras" type="tns:getConciliacionCtasFinancieras"/>
+
+  <xs:element name="getConciliacionCtasFinancierasResponse" type="tns:getConciliacionCtasFinancierasResponse"/>
+
+  <xs:element name="getConciliacionResponse" type="tns:getConciliacionResponse"/>
+
+  <xs:element name="getFacturasPagas" type="tns:getFacturasPagas"/>
+
+  <xs:element name="getFacturasPagasResponse" type="tns:getFacturasPagasResponse"/>
+
+  <xs:element name="getFacturasPagasTotalmente" type="tns:getFacturasPagasTotalmente"/>
+
+  <xs:element name="getFacturasPagasTotalmenteResponse" type="tns:getFacturasPagasTotalmenteResponse"/>
+
+  <xs:element name="getIntervenidas" type="tns:getIntervenidas"/>
+
+  <xs:element name="getIntervenidasResponse" type="tns:getIntervenidasResponse"/>
+
+  <xs:element name="getModificacionesPresupuestales" type="tns:getModificacionesPresupuestales"/>
+
+  <xs:element name="getModificacionesPresupuestalesResponse" type="tns:getModificacionesPresupuestalesResponse"/>
+
+  <xs:element name="getPriorizadas" type="tns:getPriorizadas"/>
+
+  <xs:element name="getPriorizadasResponse" type="tns:getPriorizadasResponse"/>
+
+  <xs:element name="getSolicStatus" type="tns:getSolicStatus"/>
+
+  <xs:element name="getSolicStatusResponse" type="tns:getSolicStatusResponse"/>
+
+  <xs:element name="obtenerAfeComOblPorUE" type="tns:obtenerAfeComOblPorUE"/>
+
+  <xs:element name="obtenerAfeComOblPorUEResponse" type="tns:obtenerAfeComOblPorUEResponse"/>
+
+  <xs:element name="obtenerCuentasBancariasPorBenef" type="tns:obtenerCuentasBancariasPorBenef"/>
+
+  <xs:element name="obtenerCuentasBancariasPorBenefResponse" type="tns:obtenerCuentasBancariasPorBenefResponse"/>
+
+  <xs:element name="obtenerMotivoIntervObligacion" type="tns:obtenerMotivoIntervObligacion"/>
+
+  <xs:element name="obtenerMotivoIntervObligacionResponse" type="tns:obtenerMotivoIntervObligacionResponse"/>
+
+  <xs:element name="obtenerNroLoteObligacion" type="tns:obtenerNroLoteObligacion"/>
+
+  <xs:element name="obtenerNroLoteObligacionResponse" type="tns:obtenerNroLoteObligacionResponse"/>
+
+  <xs:element name="obtenerPagosEntregadosPorObl" type="tns:obtenerPagosEntregadosPorObl"/>
+
+  <xs:element name="obtenerPagosEntregadosPorOblResponse" type="tns:obtenerPagosEntregadosPorOblResponse"/>
+
+  <xs:element name="obtenerTasaCambioPorMoneda" type="tns:obtenerTasaCambioPorMoneda"/>
+
+  <xs:element name="obtenerTasaCambioPorMonedaResponse" type="tns:obtenerTasaCambioPorMonedaResponse"/>
+
+  <xs:element name="priorizar" type="tns:priorizar"/>
+
+  <xs:element name="priorizarResponse" type="tns:priorizarResponse"/>
+
+  <xs:element name="putSolic" type="tns:putSolic"/>
+
+  <xs:element name="putSolicResponse" type="tns:putSolicResponse"/>
+
+  <xs:element name="version" type="tns:version"/>
+
+  <xs:element name="versionResponse" type="tns:versionResponse"/>
+
+  <xs:complexType name="obtenerMotivoIntervObligacion">
+    <xs:sequence>
+      <xs:element name="obligacion" type="tns:obligacionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obligacionRequest">
+    <xs:sequence>
+      <xs:element name="anio">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="unidadEjecutora">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nroDocAfectacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nroDocCompromiso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nroDocObligacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="secObligacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="0"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerMotivoIntervObligacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:motivoIntervObligacionResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="motivoIntervObligacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="motivoDeIntervencion" type="xs:int"/>
+      <xs:element minOccurs="0" name="descripcionMotivoIntervencion" type="xs:string"/>
+      <xs:element minOccurs="0" name="observacionInterv" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getConciliacionCtasFinancieras">
+    <xs:sequence>
+      <xs:element name="request" type="tns:conciliacionCtasFinancierasRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conciliacionCtasFinancierasRequest">
+    <xs:sequence>
+      <xs:element name="codigosIrDesde">
+        <xs:simpleType>
+          <xs:restriction base="xs:long">
+            <xs:maxInclusive value="99999999999999999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="codigosIrHasta">
+        <xs:simpleType>
+          <xs:restriction base="xs:long">
+            <xs:maxInclusive value="99999999999999999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="financiamiento">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="unidadEjecutora">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getConciliacionCtasFinancierasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:conciliacionCtasFinancierasResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conciliacionCtasFinancierasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaConciliacionCtasFinancieras"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaConciliacionCtasFinancieras">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="fechaTransacDesde" type="xs:date"/>
+      <xs:element minOccurs="0" name="fechaTransacHasta" type="xs:date"/>
+      <xs:element minOccurs="0" name="codigoSirDesde" type="xs:long"/>
+      <xs:element minOccurs="0" name="codigoSirHasta" type="xs:long"/>
+      <xs:element minOccurs="0" name="codigoSir" type="xs:string"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+      <xs:element minOccurs="0" name="fecha" type="xs:date"/>
+      <xs:element minOccurs="0" name="documento" type="xs:string"/>
+      <xs:element minOccurs="0" name="importe" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="debeHaber" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getFacturasPagasTotalmente">
+    <xs:sequence>
+      <xs:element name="request" type="tns:facturasPagasTotalmenteRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="facturasPagasTotalmenteRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getFacturasPagasTotalmenteResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:facturasPagasTotalmenteResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="facturasPagasTotalmenteResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaFacturasPagasTotalmente"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaFacturasPagasTotalmente">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutadora" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocAfectacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocCompromiso" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroLoteObl" type="xs:int"/>
+      <xs:element minOccurs="0" name="conceptoDeGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipodeEjecucion" type="xs:string"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="claseId" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruc" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaEntregaEnviado" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerAfeComOblPorUE">
+    <xs:sequence>
+      <xs:element name="obligacion" type="tns:afeComOblPorUERequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="afeComOblPorUERequest">
+    <xs:sequence>
+      <xs:element name="anio">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="unidadEjecutora">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerAfeComOblPorUEResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:afeComOblPorUEResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="afeComOblPorUEResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="obligaciones" nillable="true" type="tns:obligacion"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obligacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anio" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocAfectacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocCompromiso" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="secObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="montoObligacion" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoRetenciones" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="montoLiquidoME" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="tasaDeCambio" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="claseId" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruc" type="xs:string"/>
+      <xs:element minOccurs="0" name="banco" type="xs:int"/>
+      <xs:element minOccurs="0" name="agencia" type="xs:int"/>
+      <xs:element minOccurs="0" name="ctaCorriente" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoCuenta" type="xs:string"/>
+      <xs:element minOccurs="0" name="monedaCuenta" type="xs:int"/>
+      <xs:element minOccurs="0" name="estadoObligacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="procesoGeneralObl" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getIntervenidas">
+    <xs:sequence>
+      <xs:element name="request" type="tns:intervenidasRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="intervenidasRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getIntervenidasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:intervenidasResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="intervenidasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaIntervenida"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaIntervenida">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocAfectacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocCompromiso" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroLoteOblig" type="xs:int"/>
+      <xs:element minOccurs="0" name="conceptoDeGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="claseId" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruc" type="xs:string"/>
+      <xs:element minOccurs="0" name="secObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeEjecucion" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoDeModificacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="tasaDeCambio" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoObligacion" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoRetenciones" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="liquidoAPagar" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="fechaAprobado" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPriorizadas">
+    <xs:sequence>
+      <xs:element name="request" type="tns:priorizadasRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="priorizadasRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPriorizadasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:priorizadasResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="priorizadasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaPriorizada"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaPriorizada">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocAfectacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocCompromiso" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroLoteOblig" type="xs:int"/>
+      <xs:element minOccurs="0" name="conceptoDeGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="claseId" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruc" type="xs:string"/>
+      <xs:element minOccurs="0" name="anioPriorizacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="mesDePriorizacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="secDePriorizacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="montoPriorizado" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoPagado" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="fechaConfirmado" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCargaInicial">
+    <xs:sequence>
+      <xs:element name="request" type="tns:cargaInicialRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cargaInicialRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCargaInicialResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:cargaInicialResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cargaInicialResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaCargaInicial"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaCargaInicial">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="programa" type="xs:int"/>
+      <xs:element minOccurs="0" name="proyecto" type="xs:int"/>
+      <xs:element minOccurs="0" name="objetoDelGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="auxiliar" type="xs:int"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeCredito" type="xs:int"/>
+      <xs:element minOccurs="0" name="importe" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getModificacionesPresupuestales">
+    <xs:sequence>
+      <xs:element name="request" type="tns:modificacionesPresupuestalesRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modificacionesPresupuestalesRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getModificacionesPresupuestalesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:modificacionesPresupuestalesResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modificacionesPresupuestalesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaModPresup"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaModPresup">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="programa" type="xs:int"/>
+      <xs:element minOccurs="0" name="proyecto" type="xs:int"/>
+      <xs:element minOccurs="0" name="objetoDelGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="auxiliar" type="xs:int"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeCredito" type="xs:int"/>
+      <xs:element minOccurs="0" name="importe" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="fechaAprobado" type="xs:date"/>
+      <xs:element minOccurs="0" name="fechaModificacion" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="unidadEjecutoraCreadora" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDoc" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeModPres" type="xs:int"/>
+      <xs:element minOccurs="0" name="procGen" type="xs:string"/>
+      <xs:element minOccurs="0" name="fecVig" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="numeroNorma" type="xs:int"/>
+      <xs:element minOccurs="0" name="articuloNorma" type="xs:int"/>
+      <xs:element minOccurs="0" name="observaciones" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerCuentasBancariasPorBenef">
+    <xs:sequence>
+      <xs:element name="beneficiario" type="tns:beneficiarioRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="beneficiarioRequest">
+    <xs:sequence>
+      <xs:element name="claseId">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ruc">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="12"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerCuentasBancariasPorBenefResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:cuentasBancariasBenefResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cuentasBancariasBenefResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="cuentasBancariasValidas" nillable="true" type="tns:cuentaBancaria"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cuentaBancaria">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="banco" type="xs:int"/>
+      <xs:element minOccurs="0" name="agencia" type="xs:int"/>
+      <xs:element minOccurs="0" name="ctacte" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoCta" type="xs:string"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="estado" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuentaSueldo" type="xs:string"/>
+      <xs:element minOccurs="0" name="titular" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getConciliacion">
+    <xs:sequence>
+      <xs:element name="request" type="tns:conciliacionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conciliacionRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+      <xs:element name="tipo" type="tns:estadoPartida"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getConciliacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:conciliacionResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="conciliacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaConciliacion"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaConciliacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="programa" type="xs:int"/>
+      <xs:element minOccurs="0" name="proyecto" type="xs:int"/>
+      <xs:element minOccurs="0" name="objetoDelGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="auxiliar" type="xs:int"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeCredito" type="xs:int"/>
+      <xs:element minOccurs="0" name="montoAfectado" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoComprometido" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoObligado" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="montoAjustado" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerNroLoteObligacion">
+    <xs:sequence>
+      <xs:element name="obligacion" type="tns:obligacionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerNroLoteObligacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:nroLoteObligacionResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="nroLoteObligacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroLoteObj" type="xs:int"/>
+      <xs:element minOccurs="0" name="estadoDelLote" type="tns:estadoLote"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerTasaCambioPorMoneda">
+    <xs:sequence>
+      <xs:element name="tasaDeCambio" type="tns:tasaCambioRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tasaCambioRequest">
+    <xs:sequence>
+      <xs:element name="moneda">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fecha" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerTasaCambioPorMonedaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:tasaCambioResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="tasaCambioResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="tasaDeCambio" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="priorizar">
+    <xs:sequence>
+      <xs:element name="priorizacion" type="tns:priorizacionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="priorizacionRequest">
+    <xs:sequence>
+      <xs:element name="anio">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="unidadEjecutora">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nroDocAfectacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nroDocCompromiso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nroDocObligacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="secObligacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="999"/>
+            <xs:minInclusive value="0"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="anioPriorizacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="mesPriorizacion">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="12"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="claseId">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:length value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ruc">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="12"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="tipoPriorizacion" type="tns:tipoPriorizacion"/>
+      <xs:element name="montoPriorizado">
+        <xs:simpleType>
+          <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="0"/>
+            <xs:maxInclusive value="999999999999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="priorizarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:priorizacionResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="priorizacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="secPriorizacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="descripcionError" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="version">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="versionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerPagosEntregadosPorObl">
+    <xs:sequence>
+      <xs:element name="obligacion" type="tns:obligacionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="obtenerPagosEntregadosPorOblResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:pagosEntregadosOblResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pagosEntregadosOblResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="resultado" type="xs:int"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="pagosRealizadosYEntregados" nillable="true" type="tns:pago"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pago">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioPago" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroPago" type="xs:int"/>
+      <xs:element minOccurs="0" name="formaDePago" type="xs:string"/>
+      <xs:element minOccurs="0" name="montoPago" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="fechaEntregado" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="claseId" type="xs:string"/>
+      <xs:element minOccurs="0" name="ruc" type="xs:string"/>
+      <xs:element minOccurs="0" name="banco" type="xs:int"/>
+      <xs:element minOccurs="0" name="agencia" type="xs:int"/>
+      <xs:element minOccurs="0" name="ctaCorriente" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoCuenta" type="xs:string"/>
+      <xs:element minOccurs="0" name="monedaCuenta" type="xs:int"/>
+      <xs:element minOccurs="0" name="tasaDeCambio" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="putSolic">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="putSolicResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getFacturasPagas">
+    <xs:sequence>
+      <xs:element name="request" type="tns:facturasPagasRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="facturasPagasRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getFacturasPagasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:facturasPagasResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="facturasPagasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaFacturasPagas"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaFacturasPagas">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="programa" type="xs:int"/>
+      <xs:element minOccurs="0" name="proyecto" type="xs:int"/>
+      <xs:element minOccurs="0" name="objetoDelGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="auxiliar" type="xs:int"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeCredito" type="xs:int"/>
+      <xs:element minOccurs="0" name="fechaAprobado" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="importe" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="nroDocAfectacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocCompromiso" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocObligacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="monto" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCargaInicialYAjustes">
+    <xs:sequence>
+      <xs:element name="request" type="tns:cargaInicialYAjustesRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cargaInicialYAjustesRequest">
+    <xs:sequence>
+      <xs:element name="anioFiscal">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="9999"/>
+            <xs:minInclusive value="1999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="inciso">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:maxInclusive value="99"/>
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fechaDesde" type="xs:date"/>
+      <xs:element name="fechaHasta" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getCargaInicialYAjustesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:cargaInicialYAjustesResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cargaInicialYAjustesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codResultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineas" nillable="true" type="tns:lineaCargaInicialYAjustes"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="lineaCargaInicialYAjustes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="anioFiscal" type="xs:int"/>
+      <xs:element minOccurs="0" name="inciso" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="programa" type="xs:int"/>
+      <xs:element minOccurs="0" name="proyecto" type="xs:int"/>
+      <xs:element minOccurs="0" name="objetoDelGasto" type="xs:int"/>
+      <xs:element minOccurs="0" name="auxiliar" type="xs:int"/>
+      <xs:element minOccurs="0" name="financiamiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="tipoDeCredito" type="xs:int"/>
+      <xs:element minOccurs="0" name="importe" type="xs:decimal"/>
+      <xs:element minOccurs="0" name="fechaAprobado" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSolicStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="solicXML" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSolicStatusResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="estadoPartida">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="C"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="estadoLote">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="V"/>
+      <xs:enumeration value="I"/>
+      <xs:enumeration value="N"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tipoPriorizacion">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="C"/>
+      <xs:enumeration value="E"/>
+      <xs:enumeration value="O"/>
+      <xs:enumeration value="P"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getIntervenidasResponse">
+    <wsdl:part element="tns:getIntervenidasResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCargaInicialResponse">
+    <wsdl:part element="tns:getCargaInicialResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getIntervenidas">
+    <wsdl:part element="tns:getIntervenidas" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="versionResponse">
+    <wsdl:part element="tns:versionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getModificacionesPresupuestales">
+    <wsdl:part element="tns:getModificacionesPresupuestales" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerCuentasBancariasPorBenef">
+    <wsdl:part element="tns:obtenerCuentasBancariasPorBenef" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConciliacion">
+    <wsdl:part element="tns:getConciliacion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerNroLoteObligacion">
+    <wsdl:part element="tns:obtenerNroLoteObligacion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerTasaCambioPorMoneda">
+    <wsdl:part element="tns:obtenerTasaCambioPorMoneda" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFacturasPagasResponse">
+    <wsdl:part element="tns:getFacturasPagasResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConciliacionResponse">
+    <wsdl:part element="tns:getConciliacionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="priorizarResponse">
+    <wsdl:part element="tns:priorizarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerPagosEntregadosPorOblResponse">
+    <wsdl:part element="tns:obtenerPagosEntregadosPorOblResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSolicStatusResponse">
+    <wsdl:part element="tns:getSolicStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="putSolicResponse">
+    <wsdl:part element="tns:putSolicResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerMotivoIntervObligacion">
+    <wsdl:part element="tns:obtenerMotivoIntervObligacion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPriorizadasResponse">
+    <wsdl:part element="tns:getPriorizadasResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConciliacionCtasFinancieras">
+    <wsdl:part element="tns:getConciliacionCtasFinancieras" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getConciliacionCtasFinancierasResponse">
+    <wsdl:part element="tns:getConciliacionCtasFinancierasResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerTasaCambioPorMonedaResponse">
+    <wsdl:part element="tns:obtenerTasaCambioPorMonedaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFacturasPagasTotalmente">
+    <wsdl:part element="tns:getFacturasPagasTotalmente" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerAfeComOblPorUE">
+    <wsdl:part element="tns:obtenerAfeComOblPorUE" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getModificacionesPresupuestalesResponse">
+    <wsdl:part element="tns:getModificacionesPresupuestalesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerNroLoteObligacionResponse">
+    <wsdl:part element="tns:obtenerNroLoteObligacionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPriorizadas">
+    <wsdl:part element="tns:getPriorizadas" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFacturasPagasTotalmenteResponse">
+    <wsdl:part element="tns:getFacturasPagasTotalmenteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCargaInicial">
+    <wsdl:part element="tns:getCargaInicial" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerCuentasBancariasPorBenefResponse">
+    <wsdl:part element="tns:obtenerCuentasBancariasPorBenefResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerMotivoIntervObligacionResponse">
+    <wsdl:part element="tns:obtenerMotivoIntervObligacionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="priorizar">
+    <wsdl:part element="tns:priorizar" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="version">
+    <wsdl:part element="tns:version" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerAfeComOblPorUEResponse">
+    <wsdl:part element="tns:obtenerAfeComOblPorUEResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerPagosEntregadosPorObl">
+    <wsdl:part element="tns:obtenerPagosEntregadosPorObl" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="putSolic">
+    <wsdl:part element="tns:putSolic" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCargaInicialYAjustesResponse">
+    <wsdl:part element="tns:getCargaInicialYAjustesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFacturasPagas">
+    <wsdl:part element="tns:getFacturasPagas" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCargaInicialYAjustes">
+    <wsdl:part element="tns:getCargaInicialYAjustes" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSolicStatus">
+    <wsdl:part element="tns:getSolicStatus" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CGNSIIFConsultas">
+    <wsdl:operation name="obtenerMotivoIntervObligacion">
+      <wsdl:input message="tns:obtenerMotivoIntervObligacion" name="obtenerMotivoIntervObligacion">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerMotivoIntervObligacionResponse" name="obtenerMotivoIntervObligacionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConciliacionCtasFinancieras">
+      <wsdl:input message="tns:getConciliacionCtasFinancieras" name="getConciliacionCtasFinancieras">
+    </wsdl:input>
+      <wsdl:output message="tns:getConciliacionCtasFinancierasResponse" name="getConciliacionCtasFinancierasResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFacturasPagasTotalmente">
+      <wsdl:input message="tns:getFacturasPagasTotalmente" name="getFacturasPagasTotalmente">
+    </wsdl:input>
+      <wsdl:output message="tns:getFacturasPagasTotalmenteResponse" name="getFacturasPagasTotalmenteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerAfeComOblPorUE">
+      <wsdl:input message="tns:obtenerAfeComOblPorUE" name="obtenerAfeComOblPorUE">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerAfeComOblPorUEResponse" name="obtenerAfeComOblPorUEResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIntervenidas">
+      <wsdl:input message="tns:getIntervenidas" name="getIntervenidas">
+    </wsdl:input>
+      <wsdl:output message="tns:getIntervenidasResponse" name="getIntervenidasResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPriorizadas">
+      <wsdl:input message="tns:getPriorizadas" name="getPriorizadas">
+    </wsdl:input>
+      <wsdl:output message="tns:getPriorizadasResponse" name="getPriorizadasResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCargaInicial">
+      <wsdl:input message="tns:getCargaInicial" name="getCargaInicial">
+    </wsdl:input>
+      <wsdl:output message="tns:getCargaInicialResponse" name="getCargaInicialResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModificacionesPresupuestales">
+      <wsdl:input message="tns:getModificacionesPresupuestales" name="getModificacionesPresupuestales">
+    </wsdl:input>
+      <wsdl:output message="tns:getModificacionesPresupuestalesResponse" name="getModificacionesPresupuestalesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerCuentasBancariasPorBenef">
+      <wsdl:input message="tns:obtenerCuentasBancariasPorBenef" name="obtenerCuentasBancariasPorBenef">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerCuentasBancariasPorBenefResponse" name="obtenerCuentasBancariasPorBenefResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConciliacion">
+      <wsdl:input message="tns:getConciliacion" name="getConciliacion">
+    </wsdl:input>
+      <wsdl:output message="tns:getConciliacionResponse" name="getConciliacionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerNroLoteObligacion">
+      <wsdl:input message="tns:obtenerNroLoteObligacion" name="obtenerNroLoteObligacion">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerNroLoteObligacionResponse" name="obtenerNroLoteObligacionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerTasaCambioPorMoneda">
+      <wsdl:input message="tns:obtenerTasaCambioPorMoneda" name="obtenerTasaCambioPorMoneda">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerTasaCambioPorMonedaResponse" name="obtenerTasaCambioPorMonedaResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="priorizar">
+      <wsdl:input message="tns:priorizar" name="priorizar">
+    </wsdl:input>
+      <wsdl:output message="tns:priorizarResponse" name="priorizarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="version">
+      <wsdl:input message="tns:version" name="version">
+    </wsdl:input>
+      <wsdl:output message="tns:versionResponse" name="versionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerPagosEntregadosPorObl">
+      <wsdl:input message="tns:obtenerPagosEntregadosPorObl" name="obtenerPagosEntregadosPorObl">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerPagosEntregadosPorOblResponse" name="obtenerPagosEntregadosPorOblResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="putSolic">
+      <wsdl:input message="tns:putSolic" name="putSolic">
+    </wsdl:input>
+      <wsdl:output message="tns:putSolicResponse" name="putSolicResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFacturasPagas">
+      <wsdl:input message="tns:getFacturasPagas" name="getFacturasPagas">
+    </wsdl:input>
+      <wsdl:output message="tns:getFacturasPagasResponse" name="getFacturasPagasResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCargaInicialYAjustes">
+      <wsdl:input message="tns:getCargaInicialYAjustes" name="getCargaInicialYAjustes">
+    </wsdl:input>
+      <wsdl:output message="tns:getCargaInicialYAjustesResponse" name="getCargaInicialYAjustesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSolicStatus">
+      <wsdl:input message="tns:getSolicStatus" name="getSolicStatus">
+    </wsdl:input>
+      <wsdl:output message="tns:getSolicStatusResponse" name="getSolicStatusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CGNSiiFSoapBinding" type="tns:CGNSIIFConsultas">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="obtenerMotivoIntervObligacion">
+      <soap:operation soapAction="obtenerMotivoIntervObligacionAction" style="document"/>
+      <wsdl:input name="obtenerMotivoIntervObligacion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerMotivoIntervObligacionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConciliacionCtasFinancieras">
+      <soap:operation soapAction="getConciliacionCtasFinancierasAction" style="document"/>
+      <wsdl:input name="getConciliacionCtasFinancieras">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConciliacionCtasFinancierasResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFacturasPagasTotalmente">
+      <soap:operation soapAction="getFacturasPagasTotalmenteAction" style="document"/>
+      <wsdl:input name="getFacturasPagasTotalmente">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFacturasPagasTotalmenteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerAfeComOblPorUE">
+      <soap:operation soapAction="obtenerAfeComOblPorUEAction" style="document"/>
+      <wsdl:input name="obtenerAfeComOblPorUE">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerAfeComOblPorUEResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getIntervenidas">
+      <soap:operation soapAction="getIntervenidasAction" style="document"/>
+      <wsdl:input name="getIntervenidas">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getIntervenidasResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPriorizadas">
+      <soap:operation soapAction="getPriorizadasAction" style="document"/>
+      <wsdl:input name="getPriorizadas">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPriorizadasResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCargaInicial">
+      <soap:operation soapAction="getCargaInicialAction" style="document"/>
+      <wsdl:input name="getCargaInicial">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCargaInicialResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getModificacionesPresupuestales">
+      <soap:operation soapAction="getModificacionesPresupuestalesAction" style="document"/>
+      <wsdl:input name="getModificacionesPresupuestales">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getModificacionesPresupuestalesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerCuentasBancariasPorBenef">
+      <soap:operation soapAction="obtenerCuentasBancariasPorBenefAction" style="document"/>
+      <wsdl:input name="obtenerCuentasBancariasPorBenef">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerCuentasBancariasPorBenefResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getConciliacion">
+      <soap:operation soapAction="getConciliacionAction" style="document"/>
+      <wsdl:input name="getConciliacion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getConciliacionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerNroLoteObligacion">
+      <soap:operation soapAction="obtenerNroLoteObligacionAction" style="document"/>
+      <wsdl:input name="obtenerNroLoteObligacion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerNroLoteObligacionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerTasaCambioPorMoneda">
+      <soap:operation soapAction="obtenerTasaCambioPorAction" style="document"/>
+      <wsdl:input name="obtenerTasaCambioPorMoneda">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerTasaCambioPorMonedaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="priorizar">
+      <soap:operation soapAction="priorizarAction" style="document"/>
+      <wsdl:input name="priorizar">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="priorizarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="version">
+      <soap:operation soapAction="versionAction" style="document"/>
+      <wsdl:input name="version">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="versionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerPagosEntregadosPorObl">
+      <soap:operation soapAction="obtenerPagosEntregadosPorOblAction" style="document"/>
+      <wsdl:input name="obtenerPagosEntregadosPorObl">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerPagosEntregadosPorOblResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="putSolic">
+      <soap:operation soapAction="putSolicAction" style="document"/>
+      <wsdl:input name="putSolic">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="putSolicResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFacturasPagas">
+      <soap:operation soapAction="getFacturasPagasAction" style="document"/>
+      <wsdl:input name="getFacturasPagas">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFacturasPagasResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCargaInicialYAjustes">
+      <soap:operation soapAction="getCargaInicialYAjustesAction" style="document"/>
+      <wsdl:input name="getCargaInicialYAjustes">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCargaInicialYAjustesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSolicStatus">
+      <soap:operation soapAction="getSolicStatusAction" style="document"/>
+      <wsdl:input name="getSolicStatus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSolicStatusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CGNSiiF">
+    <wsdl:port binding="tns:CGNSiiFSoapBinding" name="CGNSIIFConsultasPort">
+      <soap:address location="http://ws-siif.ambientes.sofis:8080/CGNSiiF/CGNSiiF"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

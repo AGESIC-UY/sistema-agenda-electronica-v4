@@ -34,7 +34,6 @@ import javax.servlet.http.HttpSession;
 
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
 import uy.gub.imm.sae.business.ejb.facade.ConsultasLocal;
-import uy.gub.imm.sae.business.ejb.facade.DisponibilidadesLocal;
 import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
 import uy.gub.imm.sae.common.Utiles;
 import uy.gub.imm.sae.common.VentanaDeTiempo;
@@ -67,9 +66,6 @@ public class ModificarPaso1MBean extends BaseMBean {
 
     @EJB
     private ConsultasLocal consultaEJB;
-
-    @EJB
-    private DisponibilidadesLocal disponibilidadEJB;
 
     @ManagedProperty(value="#{sesionMBean}")
     private SesionMBean sesionMBean;
@@ -739,7 +735,7 @@ public class ModificarPaso1MBean extends BaseMBean {
         VentanaDeTiempo ventana = agendarReservasEJB.obtenerVentanaCalendarioInternet(recurso);
         sesionMBean.setVentanaCalendario(ventana);
         minDateTime = ventana.getFechaInicial();
-        maxDateTime = disponibilidadEJB.ultFechaGenerada(recurso);
+        maxDateTime = ventana.getFechaFinal();
 
         if (minDateTime != null && maxDateTime != null && minDateTime.equals(maxDateTime)) {
             Calendar calMin = Calendar.getInstance();

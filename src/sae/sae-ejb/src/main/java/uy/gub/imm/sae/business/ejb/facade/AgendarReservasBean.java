@@ -1326,7 +1326,7 @@ public class AgendarReservasBean implements AgendarReservasLocal {
 				}
 			}
 		} catch (Exception pEx) {
-			// pEx.printStackTrace();
+			logger.error("Error al cargar las preguntas de captcha, devolviendo mapa vacio", pEx);
 		}
 		return preguntasCaptcha;
 	}

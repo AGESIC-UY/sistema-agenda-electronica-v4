@@ -98,7 +98,7 @@
 					</div>
 				</fieldset>
 
-				<h:panelGroup layout="block">
+				<h:panelGroup layout="block" rendered="#{not multiplePasoFinalMBean.captchaNoDisponible}">
 					<fieldset>
 						<legend>
 							<h:outputText value="#{sesionMBean.textos['verificacion_de_seguridad']}" />
@@ -153,6 +153,7 @@
 							<li>
                 <h:commandButton id="botonConfirmarReservas" styleClass="btn-lg btn-primario"
                   rendered="#{multiplePasoFinalMBean.tokenReserva.estado == 'P' and not empty multiplePasoFinalMBean.reservas}"
+                  disabled="#{multiplePasoFinalMBean.captchaNoDisponible}"
                   value="#{sesionMBean.textos['confirmar_reservas']} #{multiplePasoFinalMBean.simboloSiguiente}" action="#{multiplePasoFinalMBean.confirmarReservas}" />
               </li>
 	            <li>

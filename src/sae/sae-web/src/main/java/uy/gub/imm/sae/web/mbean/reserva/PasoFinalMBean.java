@@ -45,6 +45,7 @@ import uy.gub.imm.sae.entity.Agenda;
 import uy.gub.imm.sae.entity.AgrupacionDato;
 import uy.gub.imm.sae.entity.DatoDelRecurso;
 import uy.gub.imm.sae.entity.DatoReserva;
+import uy.gub.imm.sae.entity.Disponibilidad;
 import uy.gub.imm.sae.entity.Recurso;
 import uy.gub.imm.sae.entity.Reserva;
 import uy.gub.imm.sae.entity.TextoAgenda;
@@ -92,6 +93,31 @@ public class PasoFinalMBean extends BaseMBean {
         this.sesionMBean = sesionMBean;
     }
 
+    /**
+     * Recurso de la reserva efectivamente persistida (no el que esté marcado en
+     * sesionMBean.getRecurso(), que puede haber sido pisado por otra pestaña/acción
+     * concurrente después de crear la reserva).
+     */
+    private Recurso getRecursoConfirmado() {
+        Reserva reserva = sesionMBean.getReservaConfirmada();
+        if (reserva != null && reserva.getDisponibilidades() != null && !reserva.getDisponibilidades().isEmpty()) {
+            return reserva.getDisponibilidades().get(0).getRecurso();
+        }
+        return null;
+    }
+
+    /**
+     * Disponibilidad de la reserva efectivamente persistida (no sesionMBean.getDisponibilidad(),
+     * mismo motivo que getRecursoConfirmado()).
+     */
+    private Disponibilidad getDisponibilidadConfirmada() {
+        Reserva reserva = sesionMBean.getReservaConfirmada();
+        if (reserva != null && reserva.getDisponibilidades() != null && !reserva.getDisponibilidades().isEmpty()) {
+            return reserva.getDisponibilidades().get(0);
+        }
+        return null;
+    }
+
     public String getAgendaNombre() {
         if (sesionMBean.getAgenda() != null) {
             return sesionMBean.getAgenda().getNombre();
@@ -112,9 +138,10 @@ public class PasoFinalMBean extends BaseMBean {
     public List<DatoDelRecurso> getInfoRecurso() {
 
         if (infoRecurso == null) {
-            if (sesionMBean.getRecurso() != null) {
+            Recurso recurso = getRecursoConfirmado();
+            if (recurso != null) {
                 try {
-                    infoRecurso = recursosEJB.consultarDatosDelRecurso(sesionMBean.getRecurso());
+                    infoRecurso = recursosEJB.consultarDatosDelRecurso(recurso);
                     if (infoRecurso.isEmpty()) {
                         infoRecurso = null;
                     }
@@ -136,7 +163,7 @@ public class PasoFinalMBean extends BaseMBean {
 
         String mensajeError = "";
         try {
-            Recurso recurso = sesionMBean.getRecurso();
+            Recurso recurso = getRecursoConfirmado();
             //El chequeo de recurso != null es en caso de un acceso directo a la pagina, es solo
             //para que no salte la excepcion en el log, pues de todas formas sera redirigido a una pagina de error.
             if (campos.getChildCount() == 0 && recurso != null) {
@@ -212,15 +239,17 @@ public class PasoFinalMBean extends BaseMBean {
      * Retorna solo la fecha sin la hora del turno
      */
     public Date getDiaSeleccionado() {
-        if (sesionMBean.getDisponibilidad() != null) {
-            return sesionMBean.getDisponibilidad().getFecha();
+        Disponibilidad disponibilidad = getDisponibilidadConfirmada();
+        if (disponibilidad != null) {
+            return disponibilidad.getFecha();
         }
         return sesionMBean.getDiaSeleccionado();
     }
 
     public Date getHoraSeleccionada() {
-        if (sesionMBean.getDisponibilidad() != null) {
-            return sesionMBean.getDisponibilidad().getHoraInicio();
+        Disponibilidad disponibilidad = getDisponibilidadConfirmada();
+        if (disponibilidad != null) {
+            return disponibilidad.getHoraInicio();
         } else {
             return null;
         }
@@ -234,7 +263,7 @@ public class PasoFinalMBean extends BaseMBean {
     }
 
     public String getRecursoDescripcion() {
-        Recurso recurso = sesionMBean.getRecurso();
+        Recurso recurso = getRecursoConfirmado();
         if (recurso != null) {
             String descripcion = recurso.getNombre();
             if (descripcion != null && !descripcion.equals(recurso.getDireccion())) {
@@ -250,7 +279,7 @@ public class PasoFinalMBean extends BaseMBean {
      * Retorna solo la dirección del recurso
      */
     public String getRecursoDireccion() {
-        Recurso recurso = sesionMBean.getRecurso();
+        Recurso recurso = getRecursoConfirmado();
         if (recurso != null && recurso.getDireccion() != null) {
             return recurso.getDireccion();
         }
@@ -263,7 +292,7 @@ public class PasoFinalMBean extends BaseMBean {
      * @return URL completa con coordenadas o null si no hay coordenadas o URL base no configurada
      */
     public String getUrlGoogleMaps() {
-        Recurso recurso = sesionMBean.getRecurso();
+        Recurso recurso = getRecursoConfirmado();
         if (recurso != null && recurso.getLatitud() != null && recurso.getLongitud() != null) {
             String urlBase = sesionMBean.getTextos().get("url_google_maps");
             if (urlBase != null && !urlBase.isEmpty()) {
@@ -275,7 +304,7 @@ public class PasoFinalMBean extends BaseMBean {
 
     public String generarTicket(boolean imprimir) {
         TicketUtiles ticketUtiles = new TicketUtiles();
-        ticketUtiles.generarTicket(sesionMBean.getEmpresaActual(), sesionMBean.getAgenda(), sesionMBean.getRecurso(), sesionMBean.getTimeZone(),
+        ticketUtiles.generarTicket(sesionMBean.getEmpresaActual(), sesionMBean.getAgenda(), getRecursoConfirmado(), sesionMBean.getTimeZone(),
                 sesionMBean.getReservaConfirmada(), sesionMBean.getFormatoFecha(), sesionMBean.getFormatoHora(), sesionMBean.getTextos(), imprimir);
         return null;
     }

@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.cgn.gub.uy/siif/sisdona" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="SiifSisDonaWS" targetNamespace="http://ws.cgn.gub.uy/siif/sisdona">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://ws.cgn.gub.uy/siif/sisdona" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://ws.cgn.gub.uy/siif/sisdona">
+  <xs:element name="insOpTGNDonacion" type="tns:insOpTGNDonacion"/>
+  <xs:element name="insOpTGNDonacionResponse" type="tns:insOpTGNDonacionResponse"/>
+  <xs:element name="obtCtasCorrientesBenef" type="tns:obtCtasCorrientesBenef"/>
+  <xs:element name="obtCtasCorrientesBenefResponse" type="tns:obtCtasCorrientesBenefResponse"/>
+  <xs:element name="obtTransBancosDonaciones" type="tns:obtTransBancosDonaciones"/>
+  <xs:element name="obtTransBancosDonacionesResponse" type="tns:obtTransBancosDonacionesResponse"/>
+  <xs:element name="obtenerTasaCambioPorMoneda" type="tns:obtenerTasaCambioPorMoneda"/>
+  <xs:element name="obtenerTasaCambioPorMonedaResponse" type="tns:obtenerTasaCambioPorMonedaResponse"/>
+  <xs:element name="pVersion" type="tns:pVersion"/>
+  <xs:element name="pVersionResponse" type="tns:pVersionResponse"/>
+  <xs:complexType name="obtenerTasaCambioPorMoneda">
+    <xs:sequence>
+      <xs:element name="request" type="tns:tasasCambioPorMonedaRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tasasCambioPorMonedaRequest">
+    <xs:sequence>
+      <xs:element name="moneda" type="xs:int"/>
+      <xs:element name="fecha" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerTasaCambioPorMonedaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="simpleExceptionBean">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="obtCtasCorrientesBenef">
+    <xs:sequence>
+      <xs:element name="request" type="tns:ctasCorrientesBenefRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ctasCorrientesBenefRequest">
+    <xs:sequence>
+      <xs:element name="claseDoc" type="xs:string"/>
+      <xs:element name="nroDoc" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtCtasCorrientesBenefResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ResultadoCtasBenef"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ResultadoCtasBenef">
+    <xs:sequence>
+      <xs:element name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="listaCuentasBenef" nillable="true" type="tns:CuentaBenef"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CuentaBenef">
+    <xs:sequence>
+      <xs:element name="banco" type="xs:int"/>
+      <xs:element name="agencia" type="xs:int"/>
+      <xs:element minOccurs="0" name="ctacte" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoCta" type="xs:string"/>
+      <xs:element name="moneda" type="xs:int"/>
+      <xs:element minOccurs="0" name="estado" type="xs:string"/>
+      <xs:element minOccurs="0" name="denominacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuentaSueldo" type="xs:string"/>
+      <xs:element minOccurs="0" name="titular" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pVersion">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="pVersionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insOpTGNDonacion">
+    <xs:sequence>
+      <xs:element name="request" type="tns:opTGNDonacionRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="opTGNDonacionRequest">
+    <xs:sequence>
+      <xs:element name="paIdSisDona" type="xs:long"/>
+      <xs:element name="paTitClaseId" type="xs:string"/>
+      <xs:element name="paTitRuc" type="xs:string"/>
+      <xs:element name="paBenClaseId" type="xs:string"/>
+      <xs:element name="paBenRuc" type="xs:string"/>
+      <xs:element name="paBenCtaBanco" type="xs:int"/>
+      <xs:element name="paBenCtaAgencia" type="xs:int"/>
+      <xs:element name="paBenCtaTipoCta" type="xs:string"/>
+      <xs:element name="paBenCtaCuenta" type="xs:string"/>
+      <xs:element name="paBenCtaMoneda" type="xs:int"/>
+      <xs:element name="paDescripcion" type="xs:string"/>
+      <xs:element name="paMonto" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insOpTGNDonacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ResultadoInsOpTGN"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ResultadoInsOpTGN">
+    <xs:sequence>
+      <xs:element name="anio" type="xs:int"/>
+      <xs:element name="inciso" type="xs:int"/>
+      <xs:element name="unidadEjecutora" type="xs:int"/>
+      <xs:element name="nroDocOctsip" type="xs:int"/>
+      <xs:element name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtTransBancosDonaciones">
+    <xs:sequence>
+      <xs:element name="request" type="tns:transBancosDonacionesRequest"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="transBancosDonacionesRequest">
+    <xs:sequence>
+      <xs:element name="fecha" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtTransBancosDonacionesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:ResultadoTBancosDona"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ResultadoTBancosDona">
+    <xs:sequence>
+      <xs:element name="resultado" type="xs:int"/>
+      <xs:element minOccurs="0" name="descResultado" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="listaTrans" nillable="true" type="tns:TransBancoDona"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TransBancoDona">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fecha" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="correlativo" type="xs:long"/>
+      <xs:element minOccurs="0" name="nroDocTransBanc" type="xs:long"/>
+      <xs:element minOccurs="0" name="monto" type="xs:long"/>
+      <xs:element minOccurs="0" name="concepto" type="xs:int"/>
+      <xs:element minOccurs="0" name="transaccion" type="xs:int"/>
+      <xs:element minOccurs="0" name="causal" type="xs:int"/>
+      <xs:element minOccurs="0" name="movimiento" type="xs:int"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorDeConciliacion" type="xs:int"/>
+      <xs:element minOccurs="0" name="fechaErrorConciliacion" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="conciliado" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaConciliado" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="anulado" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaAnulado" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="depEmisora" type="xs:int"/>
+      <xs:element minOccurs="0" name="encontrado" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaEncontrado" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="verificado" type="xs:string"/>
+      <xs:element minOccurs="0" name="anioDoc" type="xs:int"/>
+      <xs:element minOccurs="0" name="incisoDoc" type="xs:int"/>
+      <xs:element minOccurs="0" name="unidadEjecutora" type="xs:int"/>
+      <xs:element minOccurs="0" name="nroDocErec" type="xs:int"/>
+      <xs:element minOccurs="0" name="secDocErec" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SimpleException" nillable="true" type="tns:simpleExceptionBean"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="insOpTGNDonacionResponse">
+    <wsdl:part element="tns:insOpTGNDonacionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SimpleException">
+    <wsdl:part element="tns:SimpleException" name="SimpleException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pVersion">
+    <wsdl:part element="tns:pVersion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerTasaCambioPorMonedaResponse">
+    <wsdl:part element="tns:obtenerTasaCambioPorMonedaResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="insOpTGNDonacion">
+    <wsdl:part element="tns:insOpTGNDonacion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pVersionResponse">
+    <wsdl:part element="tns:pVersionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerTasaCambioPorMoneda">
+    <wsdl:part element="tns:obtenerTasaCambioPorMoneda" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtCtasCorrientesBenef">
+    <wsdl:part element="tns:obtCtasCorrientesBenef" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtCtasCorrientesBenefResponse">
+    <wsdl:part element="tns:obtCtasCorrientesBenefResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtTransBancosDonacionesResponse">
+    <wsdl:part element="tns:obtTransBancosDonacionesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtTransBancosDonaciones">
+    <wsdl:part element="tns:obtTransBancosDonaciones" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SiifSisDonaWS">
+    <wsdl:operation name="obtenerTasaCambioPorMoneda">
+      <wsdl:input message="tns:obtenerTasaCambioPorMoneda" name="obtenerTasaCambioPorMoneda">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerTasaCambioPorMonedaResponse" name="obtenerTasaCambioPorMonedaResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:SimpleException" name="SimpleException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="obtCtasCorrientesBenef">
+      <wsdl:input message="tns:obtCtasCorrientesBenef" name="obtCtasCorrientesBenef">
+    </wsdl:input>
+      <wsdl:output message="tns:obtCtasCorrientesBenefResponse" name="obtCtasCorrientesBenefResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:SimpleException" name="SimpleException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pVersion">
+      <wsdl:input message="tns:pVersion" name="pVersion">
+    </wsdl:input>
+      <wsdl:output message="tns:pVersionResponse" name="pVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insOpTGNDonacion">
+      <wsdl:input message="tns:insOpTGNDonacion" name="insOpTGNDonacion">
+    </wsdl:input>
+      <wsdl:output message="tns:insOpTGNDonacionResponse" name="insOpTGNDonacionResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:SimpleException" name="SimpleException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="obtTransBancosDonaciones">
+      <wsdl:input message="tns:obtTransBancosDonaciones" name="obtTransBancosDonaciones">
+    </wsdl:input>
+      <wsdl:output message="tns:obtTransBancosDonacionesResponse" name="obtTransBancosDonacionesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:SimpleException" name="SimpleException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SiifSisDonaWSSoapBinding" type="tns:SiifSisDonaWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="obtenerTasaCambioPorMoneda">
+      <soap:operation soapAction="obtenerTasaCambioPorMonedaAction" style="document"/>
+      <wsdl:input name="obtenerTasaCambioPorMoneda">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerTasaCambioPorMonedaResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SimpleException">
+        <soap:fault name="SimpleException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="obtCtasCorrientesBenef">
+      <soap:operation soapAction="obtCtasCorrientesBenefAction" style="document"/>
+      <wsdl:input name="obtCtasCorrientesBenef">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtCtasCorrientesBenefResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SimpleException">
+        <soap:fault name="SimpleException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pVersion">
+      <soap:operation soapAction="pVersionAction" style="document"/>
+      <wsdl:input name="pVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="pVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insOpTGNDonacion">
+      <soap:operation soapAction="insOpTGNDonacionAction" style="document"/>
+      <wsdl:input name="insOpTGNDonacion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="insOpTGNDonacionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SimpleException">
+        <soap:fault name="SimpleException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="obtTransBancosDonaciones">
+      <soap:operation soapAction="obtTransBancosDonacionesAction" style="document"/>
+      <wsdl:input name="obtTransBancosDonaciones">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtTransBancosDonacionesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SimpleException">
+        <soap:fault name="SimpleException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SiifSisDonaWS">
+    <wsdl:port binding="tns:SiifSisDonaWSSoapBinding" name="SiifSisDonaWSPort">
+      <soap:address location="http://localhost:8080/siifSistDona_ws/SiifSisDonaWS"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

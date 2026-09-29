@@ -19,7 +19,10 @@
  */
 package uy.gub.imm.sae.web.mbean.reserva;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -54,6 +57,7 @@ public abstract class BaseMBean {
      * message general.
      */
     private static final String MENSAJE_MANTENIMIENTO = "Sistema en mantenimiento, por favor intente más tarde.";
+    protected static final String CAPTCHA_NO_DISPONIBLE = "No se pudieron recuperar las preguntas de seguridad, intente nuevamente";
 
     /**
      * Si el error que sucede no es esperado o no pude mostrarse una pagina
@@ -203,6 +207,23 @@ public abstract class BaseMBean {
     protected void addAdvertenciaMessage(String mensaje, String idComponente) {
         FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_WARN, mensaje, null);
         FacesContext.getCurrentInstance().addMessage(idComponente, m);
+    }
+
+    protected String seleccionarPreguntaCaptcha(SesionMBean sesionMBean) throws UserException {
+        Map<String, String> preguntasCaptcha = sesionMBean.getPreguntasCaptcha();
+        if (preguntasCaptcha == null || preguntasCaptcha.isEmpty()) {
+            throw new UserException(CAPTCHA_NO_DISPONIBLE);
+        }
+
+        List<String> preguntas = new ArrayList<>(preguntasCaptcha.keySet());
+        String pregunta = preguntas.get(new Random().nextInt(preguntas.size()));
+        String respuesta = preguntasCaptcha.get(pregunta);
+        if (respuesta == null || respuesta.trim().isEmpty()) {
+            throw new UserException(CAPTCHA_NO_DISPONIBLE);
+        }
+
+        sesionMBean.setPaso3Captcha(respuesta);
+        return pregunta;
     }
 
     /*

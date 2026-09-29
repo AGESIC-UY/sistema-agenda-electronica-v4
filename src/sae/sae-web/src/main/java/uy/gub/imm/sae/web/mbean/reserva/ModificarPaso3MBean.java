@@ -71,7 +71,34 @@ public class ModificarPaso3MBean extends BaseMBean {
                 // Se ha apretado el boton de back o algun acceso directo
                 FacesContext ctx = FacesContext.getCurrentInstance();
                 ctx.getApplication().getNavigationHandler().handleNavigation(ctx, "", "pasoAnterior");
+                return;
             }
+            publicarErrorCaptchaSiCorresponde();
+        }
+    }
+
+    void publicarErrorCaptchaSiCorresponde() {
+        if (captchaNoDisponible && !captchaErrorMostrado) {
+            addErrorMessage(BaseMBean.CAPTCHA_NO_DISPONIBLE, FORM_ID);
+            captchaErrorMostrado = true;
+        }
+    }
+
+    void cargarCaptcha() {
+        captchaNoDisponible = false;
+        captchaErrorMostrado = false;
+        try {
+            textoIndicativoCaptcha = seleccionarPreguntaCaptcha(sesionMBean);
+        } catch (UserException ex) {
+            LOGGER.warn("No se pudieron cargar las preguntas del captcha: " + ex.getCodigoError());
+            textoIndicativoCaptcha = "";
+            captchaNoDisponible = true;
+            sesionMBean.setPaso3Captcha(null);
+        } catch (Exception ex) {
+            LOGGER.error("Error inesperado al cargar captcha", ex);
+            textoIndicativoCaptcha = "";
+            captchaNoDisponible = true;
+            sesionMBean.setPaso3Captcha(null);
         }
     }
 
@@ -110,6 +137,11 @@ public class ModificarPaso3MBean extends BaseMBean {
             LOGGER.error("Error al inicializar ModificarPaso3MBean", ex);
             addErrorMessage(sesionMBean.getTextos().get("ha_ocurrido_un_error"));
             errorInit = true;
+        }
+
+        // Cargar captcha en init (solo datos). NO usar errorInit ni addErrorMessage aquí.
+        if (!errorInit) {
+            cargarCaptcha();
         }
     }
 
@@ -561,22 +593,11 @@ public class ModificarPaso3MBean extends BaseMBean {
     // Captcha
     private String textoIndicativoCaptcha;
     private String textoCaptchaUsuario;
+    /** Falla de carga de captcha: NO usar errorInit (oculta toda la página y los mensajes). */
+    private boolean captchaNoDisponible = false;
+    private boolean captchaErrorMostrado = false;
 
     public String getTextoIndicativoCaptcha() {
-        Random rand = new Random();
-
-        //Elegir una frase de todas las disponibles, si no hay ninguna solo se usa la palabra "test"
-        String pregunta = "test";
-        String respuesta = "test";
-        Map<String, String> preguntasCaptcha = sesionMBean.getPreguntasCaptcha();
-        if (preguntasCaptcha != null && !preguntasCaptcha.isEmpty()) {
-            String[] preguntas = preguntasCaptcha.keySet().toArray(new String[preguntasCaptcha.size()]);
-            int ind = rand.nextInt(preguntas.length);
-            pregunta = preguntas[ind];
-            respuesta = preguntasCaptcha.get(pregunta);
-        }
-        textoIndicativoCaptcha = pregunta;
-        sesionMBean.setPaso3Captcha(respuesta);
         return textoIndicativoCaptcha;
     }
 
@@ -588,12 +609,19 @@ public class ModificarPaso3MBean extends BaseMBean {
         this.textoCaptchaUsuario = textoCaptchaUsuario;
     }
 
+    public boolean isCaptchaNoDisponible() {
+        return captchaNoDisponible;
+    }
+
     public void recargarCaptcha() {
-        sesionMBean.setPaso3Captcha(null);
+        textoCaptchaUsuario = null;
+        cargarCaptcha();
+        captchaErrorMostrado = false;
+        publicarErrorCaptchaSiCorresponde();
         HtmlPanelGroup captchaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("formDin:captcha");
         if (captchaGroup != null) {
-            String captchaStyleClass = captchaGroup.getStyleClass();
-            if (captchaStyleClass != null && captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+            String captchaStyleClass = captchaGroup.getStyleClass() == null ? "" : captchaGroup.getStyleClass();
+            if (captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
                 captchaStyleClass = captchaStyleClass.replace(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR, "");
                 captchaGroup.setStyleClass(captchaStyleClass);
             }
@@ -646,8 +674,15 @@ public class ModificarPaso3MBean extends BaseMBean {
 
             // Validar captcha
             HtmlPanelGroup captchaGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getViewRoot().findComponent("formDin:captcha");
-            String captchaStyleClass = captchaGroup != null ? captchaGroup.getStyleClass() : "";
-            if (textoCaptchaUsuario == null || textoCaptchaUsuario.trim().isEmpty()) {
+            String captchaStyleClass = captchaGroup != null ? (captchaGroup.getStyleClass() == null ? "" : captchaGroup.getStyleClass()) : "";
+            if (captchaNoDisponible) {
+                hayError = true;
+                addErrorMessage(BaseMBean.CAPTCHA_NO_DISPONIBLE, FORM_ID, FORMULARIO_ID + ":secureText");
+                if (captchaGroup != null && !captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {
+                    captchaStyleClass = captchaStyleClass + " " + FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR;
+                    captchaGroup.setStyleClass(captchaStyleClass);
+                }
+            } else if (textoCaptchaUsuario == null || textoCaptchaUsuario.trim().isEmpty()) {
                 hayError = true;
                 addErrorMessage(sesionMBean.getTextos().get("debe_responder_la_pregunta_de_seguridad"), FORMULARIO_ID + ":secureText");
                 if (captchaGroup != null && !captchaStyleClass.contains(FormularioDinamicoReserva.STYLE_CLASS_DATO_CON_ERROR)) {

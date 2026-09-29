@@ -341,7 +341,6 @@ CREATE TABLE ae_recursos (
   mi_perfil_rec_hora int4 NULL,
   mi_perfil_rec_dias int4 NULL,
   reserva_pen_tiempo_max integer DEFAULT NULL,
-  reserva_pend_tiempo_max integer DEFAULT null,
   reserva_multiple_pend_tiempo_max int4 NULL
 );
 ALTER TABLE ae_recursos OWNER TO sae;
@@ -662,8 +661,7 @@ CREATE TABLE ae_recursos_aud
    mi_perfil_rec_ven int4 NULL,
    mi_perfil_rec_hora int4 NULL,
    mi_perfil_rec_dias int4 NULL,
-   reserva_pen_tiempo_max integer DEFAULT NULL,
-   reserva_pend_tiempo_max integer DEFAULT NULL, 
+   reserva_pen_tiempo_max integer DEFAULT NULL, 
    reserva_multiple_pend_tiempo_max int4 NULL,
    fecha_modificacion timestamp NULL,
    usuario varchar(45) NULL,
@@ -955,6 +953,8 @@ ALTER TABLE ONLY ae_meses ADD CONSTRAINT fke3736bee9a9bb7b2 FOREIGN KEY (aepl_id
 ALTER TABLE ONLY ae_plantillas ADD CONSTRAINT fkf9c6590b104398e1 FOREIGN KEY (aere_id) REFERENCES ae_recursos(id);
 
 ALTER TABLE ae_valores_del_dato ADD valor_en_traza varchar(50);
+ALTER TABLE ae_reservas ALTER COLUMN ip_origen TYPE varchar(39);
+ALTER TABLE ae_tokens_reservas ALTER COLUMN ip_origen TYPE varchar(39);
 --
 -- PERMISOS
 --

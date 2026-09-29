@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/USUARIO/Desktop/Fabricio/SDE/CGNSiiF-v2.2.39.wsdl" uri="wsdl/CGNSiiF-v2.2.39.wsdl"/>
+    <system systemId="http://ws-siif.ambientes.sofis:8080/CGNSiiF/CGNSiiF?wsdl" uri="wsdl/ws-siif.ambientes.sofis_8080/CGNSiiF/CGNSiiF.wsdl"/>
+    <system systemId="file:/C:/Users/USUARIO/Desktop/Fabricio/SDE/SiifSisDonaWS.wsdl" uri="wsdl/SiifSisDonaWS.wsdl"/>
+</catalog>

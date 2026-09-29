@@ -5,7 +5,7 @@
     <parent>
         <artifactId>sae</artifactId>
         <groupId>uy.com.sofis</groupId>
-        <version>4.7.0</version>
+        <version>4.7.3</version>
     </parent>
     
     <artifactId>sae-loginmodule</artifactId>

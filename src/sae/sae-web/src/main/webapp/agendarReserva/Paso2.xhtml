@@ -100,26 +100,28 @@
                     </div>
                 </fieldset>
 
-                <fieldset>
-                    <legend>
-                        <h:outputText value="#{sesionMBean.textos['verificacion_de_seguridad']}" />
-                    </legend>
-                    <div class="form-horizontal">
-                        <h:panelGroup id="captcha" styleClass="form-group captcha-group" layout="block">
-                            <span class="control-label label formularioCampoRequerido captcha-pregunta">
-                                <h:outputText value="#{paso2MBean.textoIndicativoCaptcha}" />
-                            </span>
-                            <div>
-                                <h:inputText id="secureText" size="10" styleClass="form-control" value="#{paso2MBean.textoCaptchaUsuario}" />
-                                <p:message id="captchaErrorMessage" for="secureText" styleClass="mensajeError"/>
-                                <p:commandLink styleClass="recargarCaptcha" id="btnRecargarCaptcha"
-                                               value="#{sesionMBean.textos['solicitar_otra_frase']}"
-                                               actionListener="#{paso2MBean.recargarCaptcha}"
-                                               update="captcha" style="display: block; margin-top: 10px;" />
-                            </div>
-                        </h:panelGroup>
-                    </div>
-                </fieldset>
+                <h:panelGroup layout="block" rendered="#{not paso2MBean.captchaNoDisponible}">
+                    <fieldset>
+                        <legend>
+                            <h:outputText value="#{sesionMBean.textos['verificacion_de_seguridad']}" />
+                        </legend>
+                        <div class="form-horizontal">
+                            <h:panelGroup id="captcha" styleClass="form-group captcha-group" layout="block">
+                                <span class="control-label label formularioCampoRequerido captcha-pregunta">
+                                    <h:outputText value="#{paso2MBean.textoIndicativoCaptcha}" />
+                                </span>
+                                <div>
+                                    <h:inputText id="secureText" size="10" styleClass="form-control" value="#{paso2MBean.textoCaptchaUsuario}" />
+                                    <p:message id="captchaErrorMessage" for="secureText" styleClass="mensajeError"/>
+                                    <p:commandLink styleClass="recargarCaptcha" id="btnRecargarCaptcha"
+                                                   value="#{sesionMBean.textos['solicitar_otra_frase']}"
+                                                   actionListener="#{paso2MBean.recargarCaptcha}"
+                                                   update="captcha" style="display: block; margin-top: 10px;" />
+                                </div>
+                            </h:panelGroup>
+                        </div>
+                    </fieldset>
+                </h:panelGroup>
 
                 <div class="container-fluid">
                     <div class="row">
@@ -128,7 +130,8 @@
                         </div>
                         <div class="col-6 d-flex justify-content-end">
                             <h:commandButton styleClass="btn-lg btn-primario" value="#{sesionMBean.textos['confirmar_reserva']}"
-                                             action="#{paso2MBean.confirmarReserva}" ajax="false"/>
+                                             action="#{paso2MBean.confirmarReserva}" ajax="false"
+                                             disabled="#{paso2MBean.captchaNoDisponible}"/>
                         </div>
                     </div>
                 </div>

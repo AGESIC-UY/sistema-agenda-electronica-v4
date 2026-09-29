@@ -102,8 +102,8 @@
                     </div>
                 </fieldset>
 
-                <!-- Verificación de seguridad (CAPTCHA) -->
-                <h:panelGroup layout="block">
+                <!-- Verificación de seguridad (CAPTCHA): ocultar si no hay preguntas -->
+                <h:panelGroup layout="block" rendered="#{not modificarPaso3MBean.captchaNoDisponible}">
                     <fieldset>
                         <legend>
                             <h:outputText value="#{sesionMBean.textos['verificacion_de_seguridad']}" />
@@ -133,7 +133,8 @@
                 </div>
                 <div class="col-6 d-flex justify-content-end">
                     <h:commandButton styleClass="btn-lg btn-primario" value="#{sesionMBean.textos['confirmar_modificacion']}"
-                                     action="#{modificarPaso3MBean.confirmarModificacion}" process="formDin,@this,@all"/>
+                                     action="#{modificarPaso3MBean.confirmarModificacion}" process="formDin,@this,@all"
+                                     disabled="#{modificarPaso3MBean.captchaNoDisponible}"/>
                 </div>
             </div>
         </div>

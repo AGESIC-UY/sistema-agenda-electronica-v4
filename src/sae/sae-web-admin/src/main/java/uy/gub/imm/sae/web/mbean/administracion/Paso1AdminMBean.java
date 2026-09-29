@@ -3,7 +3,6 @@ package uy.gub.imm.sae.web.mbean.administracion;
 import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservasLocal;
-import uy.gub.imm.sae.business.ejb.facade.DisponibilidadesLocal;
 import uy.gub.imm.sae.business.ejb.facade.RecursosLocal;
 import uy.gub.imm.sae.common.Utiles;
 import uy.gub.imm.sae.common.VentanaDeTiempo;
@@ -37,7 +36,6 @@ public class Paso1AdminMBean extends BaseMBean {
     public static final String MSG_ID = "pantalla";
 
     @EJB private AgendarReservasLocal agendarReservasEJB;
-    @EJB private DisponibilidadesLocal disponibilidadEJB;
     @EJB private RecursosLocal recursosEJB;
 
     @ManagedProperty(value = "#{sessionMBean}")
@@ -313,7 +311,7 @@ public class Paso1AdminMBean extends BaseMBean {
         VentanaDeTiempo ventana = agendarReservasEJB.obtenerVentanaCalendarioIntranet(recurso);
         sessionMBean.setVentanaCalendario(ventana);
         minDateTime = ventana.getFechaInicial();
-        maxDateTime = disponibilidadEJB.ultFechaGenerada(recurso);
+        maxDateTime = ventana.getFechaFinal();
 
         if (minDateTime != null && maxDateTime != null && minDateTime.equals(maxDateTime)) {
             Calendar calMin = Calendar.getInstance();

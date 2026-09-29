@@ -141,10 +141,10 @@ public class AgendarReservasHelperBean implements AgendarReservasHelperLocal {
         //Calcular la fecha final: fecha inicial + getDiasVentanaInternet (tener en cuenta los días no hábiles)
         try {
             for (int i = 0; i < recurso.getDiasVentanaIntranet() - 1;) {
+                cal.add(Calendar.DAY_OF_MONTH, 1);
                 if (Calendario.esDiaHabil(cal.getTime(), recurso)) {
                     i++;
                 }
-                cal.add(Calendar.DAY_OF_MONTH, 1);
             }
         } catch (Exception ex) {
             cal.add(Calendar.DAY_OF_MONTH, recurso.getDiasVentanaIntranet());
@@ -190,10 +190,10 @@ public class AgendarReservasHelperBean implements AgendarReservasHelperLocal {
         //Calcular la fecha final: fecha inicial + getDiasVentanaInternet (tener en cuenta los días no hábiles)
         try {
             for (int i = 0; i < recurso.getDiasVentanaInternet() - 1;) {
+                cal.add(Calendar.DAY_OF_MONTH, 1);
                 if (Calendario.esDiaHabil(cal.getTime(), recurso)) {
                     i++;
                 }
-                cal.add(Calendar.DAY_OF_MONTH, 1);
             }
         } catch (Exception ex) {
             cal.add(Calendar.DAY_OF_MONTH, recurso.getDiasVentanaInternet());

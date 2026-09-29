@@ -1,0 +1,213 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"                 
+                xmlns="http://www.w3.org/1999/xhtml"                 
+                xmlns:c="http://java.sun.com/jsp/jstl/core"                 
+                xmlns:f="http://java.sun.com/jsf/core"                 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">    
+
+    <h:form id="form">          
+        <f:passThroughAttribute name="autocomplete" value="off"/>   	
+	
+		<nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#{ConstantesPaginas.INICIO}.xhtml">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">#{msg.gestionusuario}</li>
+            </ol>
+        </nav>
+	
+        <p:outputPanel styleClass="panel-titulo-pagina">
+            <h2 class="page-header"><h:outputText value="#{msg.gestionusuario}"/></h2>
+
+            <p:outputPanel styleClass="float-right">
+                <p:commandButton value="#{msg.nuevousuario}" icon="glyphicon glyphicon-plus" 
+                                 action="#{usuarioBean.agregar()}" 
+                                 update=":form:dialog" oncomplete="PF('itemDialog').show()"  
+                                 id="btnAgregaruario" styleClass="btn btn-secondary" />
+            </p:outputPanel>
+        </p:outputPanel>
+
+        <h3><h:outputText value="#{msg.busqueda}"/></h3>
+        <p:panel header="#{msg.filtro}" toggleable="true" toggleSpeed="500" closeSpeed="500" styleClass="panel-filtro">
+            <p:outputPanel id="pnlSearch" styleClass="row">
+                <p:outputPanel styleClass="col-md-6">
+                
+                    <p:outputPanel styleClass="form-group row">                        
+                        <h:outputLabel value="#{msg.organismos}" for="fltr_organismo" styleClass="col-sm-4 col-form-label"/>
+                        <p:outputPanel styleClass="col-sm-8"> 
+                            <p:selectOneMenu id="fltr_organismo" styleClass="ui-selectonemenu ui-widget ui-state-default ui-corner-all form-control" value="#{usuarioBean.comboOrganismoBus.selected}"  filter="true" filterMatchMode="contains">
+                                <f:selectItems value="#{usuarioBean.comboOrganismoBus.items}"/>
+                            </p:selectOneMenu>                       
+                        </p:outputPanel>                    
+                    </p:outputPanel>
+                    
+                    <p:outputPanel styleClass="form-group row">
+                        <h:outputLabel value="#{msg.nombreApellido}" for="b_nombre" styleClass="col-sm-4 col-form-label"/>
+                        <p:outputPanel styleClass="col-sm-8">
+                            <h:inputText autocomplete="off" styleClass="form-control" id="b_nombre" value="#{usuarioBean.filtroUsuario.nombreYApellido}" />
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    
+                    <p:outputPanel styleClass="form-group row">
+                        <h:outputText value="#{msg.administrador}" styleClass="col-sm-4 col-form-label"/>                
+                        <p:outputPanel styleClass="col-sm-8">
+                            <p:selectOneRadio layout="responsive" columns="3" id="b_habilitado" value="#{usuarioBean.filtroUsuario.administrador}">
+                                <f:selectItems value="#{applicationBean.habilitadoValues}" />
+                                <f:selectItem itemValue="#{null}" itemLabel="Todos"/>
+                            </p:selectOneRadio>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                </p:outputPanel>
+
+                <p:outputPanel styleClass="col-md-6">
+                    
+                    <p:outputPanel styleClass="form-group row" >
+                        <h:outputLabel value="#{msg.codigoUsuario}" for="b_codigo" styleClass="col-sm-4 col-form-label"/>
+                        <p:outputPanel styleClass="col-sm-8">
+                            <h:inputText autocomplete="off" styleClass="form-control" id="b_codigo" value="#{usuarioBean.filtroUsuario.codigo}" />                 
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    
+                    <p:outputPanel styleClass="form-group row">
+                        <h:outputLabel value="#{msg.correoElectronico}" for="b_correo" styleClass="col-sm-4 col-form-label"/>
+                        <p:outputPanel styleClass="col-sm-8">
+                            <h:inputText autocomplete="off" styleClass="form-control" id="b_correo" value="#{usuarioBean.filtroUsuario.correo}" />
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <p:outputPanel styleClass="form-group pull-right">
+                        <p:outputPanel styleClass="col-sm-12">
+                            <p:commandButton value="#{msg.buscar}" id="btnBuscar" styleClass="btn btn-primary" icon="glyphicon glyphicon-search" action="#{usuarioBean.buscar()}" update="pnlResultado"/>
+                            <p:commandLink value="#{msg.limpiar}" action="#{usuarioBean.limpiar()}" update="pnlSearch pnlResultado" immediate="true" styleClass="btn btn-link">
+                                <p:resetInput target="pnlSearch pnlResultado" />
+                            </p:commandLink>
+                                <p:defaultCommand target="btnBuscar" scope="pnlSearch"/>
+                                <p:blockUI block="@form" trigger="btnBuscar" /> 
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:outputPanel>
+        </p:panel>
+
+        <p:outputPanel id="pnlResultado" >
+            <p:dataTable id="basicDT"                         
+                         widgetVar="widResultado"                         
+                         var="elem"                          
+                         value="#{usuarioBean.listUsuarios}"                          
+                         emptyMessage="#{msg.noHayResultados}"		
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         currentPageReportTemplate="#{msg.pagina} {currentPage} #{msg.de_m} {totalPages}"
+                         paginatorTemplate="#{applicationBean.paginatorTemplate}"
+                         rowsPerPageTemplate="#{applicationBean.rowsPerPageTemplate}"
+                         rows="#{usuarioBean.paginado}"
+                         reflow="true" >
+                <f:facet name="{anterior}">
+                    <h:outputText styleClass="ui-paginator-prev  ui-state-disabled" value="&lt; #{msg.anterior}"/>
+                </f:facet>
+                <f:facet name="{siguiente}">
+                    <h:outputText styleClass="#{usuarioBean.totalResultados lt (usuarioBean.paginado+1) ? 'ui-paginator-next ui-state-disabled' : 'ui-paginator-next'}" value="#{msg.siguiente} &gt;"/>
+                </f:facet>
+
+                <f:facet name="header">
+                    <p:outputPanel id="pnlHeaderTabla" styleClass="row">
+                        <p:outputPanel styleClass="col-md-6">
+                            <h3><h:outputText value="#{msg.resultadoBusqueda}" /><h:outputText styleClass="cantidad" value="#{usuarioBean.totalResultados} #{msg.elementos}" /></h3>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="col-md-6">
+                            <p:outputPanel styleClass="form-inline float-right panel-exportar">
+                                <h:commandLink value="Exportar" styleClass="btn btn-link my-1">
+                                    <p:dataExporter type="csv" target="basicDT" fileName="usuarios" pageOnly="false"/>
+                                </h:commandLink>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </f:facet>
+                <p:column headerText="#{msg.organismo}" sortBy="#{elem.nombreOrganismo}">
+                    <h:outputText value="#{elem.nombreOrganismo}" />
+                </p:column>
+                <p:column headerText="#{msg.hcodigoUsuario}" sortBy="#{elem.codigo}">
+                    <h:outputText value="#{elem.codigo}" />
+                </p:column>
+                <p:column headerText="#{msg.hnombreApellido}" sortBy="#{elem.nombre}">
+                    <h:outputText value="#{elem.nombre}" />
+                </p:column>
+                <p:column headerText="#{msg.hcorreoElectronico}" sortBy="#{elem.correoe}">
+                    <h:outputText value="#{elem.correoe}"/>
+                </p:column>
+                <p:column headerText="#{msg.hadministrador}" sortBy="#{elem.administrador}">
+                    <h:outputText value="#{elem.administrador}" converter="#{booleanConverter}"/>
+                </p:column>
+                <p:column headerText="" styleClass="columnaAcciones" exportable="false">
+                    <p:commandButton update=":form:dialog" oncomplete="PF('itemDialog').show()" icon="glyphicon glyphicon-pencil" styleClass="btn btn-icono" title="#{msg.editar}" action="#{usuarioBean.actualizar(elem)}"/>
+                </p:column>
+            </p:dataTable>
+        </p:outputPanel>
+		
+		<h:panelGroup styleClass="volverLink" layout="block">
+            <p:commandLink value="#{msg.volver}" onclick="history.go(-1)" styleClass="btn btn-link"/> 
+        </h:panelGroup>
+
+
+        <p:dialog header="#{usuarioBean.tituloDialog}" id="dialog" widgetVar="itemDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">             
+            <p:outputPanel id="itemDetail">                                                             
+                <h:panelGroup rendered="#{not empty usuarioBean.entidadEnEdicion}">                    
+                    <p:messages id="popupmsg" showDetail="true" globalOnly="false" for="popupmsg" closable="true"/>                
+                    <p:outputPanel id="formulariouario">
+                        <p:outputPanel styleClass="form-group row" id="fila_input_org" >                        
+                            <h:outputLabel value="#{msg.organismos}" for="input_org"  styleClass="col-sm-4 col-form-label obligatorio"/>                        
+                            <p:outputPanel styleClass="col-sm-8">
+                                <p:selectOneMenu id="input_org" styleClass="ui-selectonemenu ui-widget ui-state-default ui-corner-all form-control" value="#{usuarioBean.comboOrganismo.selected}" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{usuarioBean.comboOrganismo.items}"/>
+                                </p:selectOneMenu>                    
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="form-group row" id="fila_codigoUsuario" >                        
+                            <h:outputLabel value="#{msg.codigo}" for="codigoUsuario"  styleClass="col-sm-4 col-form-label obligatorio"/>                        
+                            <p:outputPanel styleClass="col-sm-8">
+                                <p:inputText id="codigoUsuario" value="#{usuarioBean.entidadEnEdicion.codigo}" 
+                                             maxlength="25" disabled="#{usuarioBean.entidadEnEdicion.id != null}" styleClass="form-control"> 
+                                    <p:ajax event="blur" update=":form:codigoUsuario :form:input_nombre :form:input_correo" listener="#{usuarioBean.cambioCodigoUsuario}" />
+                                </p:inputText>
+                                <h:outputText styleClass="input-msg" value="este campo sera su código de usuario" />
+                                <p:message for="codigoUsuario" />
+                            </p:outputPanel>                    
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="form-group row" id="fila_input_nombre">
+                            <h:outputLabel value="#{msg.nombreApellido}" for="input_nombre" styleClass="col-sm-4 col-form-label obligatorio"/>
+                            <p:outputPanel styleClass="col-sm-8">
+                                <h:inputText autocomplete="off" id="input_nombre" styleClass="form-control" value="#{usuarioBean.entidadEnEdicion.nombre}" />                     
+                            </p:outputPanel>                    
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="form-group row">
+                            <h:outputLabel value="#{msg.correoElectronico}" for="fila_input_correo" styleClass="col-sm-4 col-form-label obligatorio"/>
+                            <p:outputPanel styleClass="col-sm-8">
+                                <h:inputText  autocomplete="off" styleClass="form-control" id="input_correo" value="#{usuarioBean.entidadEnEdicion.correoe}">
+                                </h:inputText>
+                            </p:outputPanel>
+                        </p:outputPanel>
+                        <p:outputPanel styleClass="form-group row">   
+                            <h:outputText value="#{msg.administrador}" styleClass="col-sm-4 col-form-label obligatorio"/>
+                            <p:outputPanel styleClass="form-check">
+                                <p:selectBooleanCheckbox id="es_administrador" styleClass="form-check-input" 
+                                                         value="#{usuarioBean.entidadEnEdicion.isAdministrador}" >
+                                </p:selectBooleanCheckbox>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <p:outputPanel styleClass="control-group">
+                            <p:outputPanel styleClass="float-right">
+                                <p:commandButton id="btnGuardar"  value="#{msg.guardar}" action="#{usuarioBean.guardar()}" update="form:itemDetail form:pnlResultado" styleClass="btn btn-primary" icon="glyphicon glyphicon-floppy-disk"/>                             
+                                <p:commandLink value="#{msg.cancelar}" oncomplete="PF('itemDialog').hide();"  update=":form:dialog" styleClass="btn btn-link"/>                        
+                            </p:outputPanel>                    
+                        </p:outputPanel>                     
+                        <p:blockUI block="@form" trigger="btnGuardar" /> 
+                        <p:defaultCommand target="btnGuardar" scope="dialog"/>  						
+                    </p:outputPanel>         
+                </h:panelGroup>            
+            </p:outputPanel>        
+        </p:dialog>       
+    
+    </h:form>
+</ui:composition>

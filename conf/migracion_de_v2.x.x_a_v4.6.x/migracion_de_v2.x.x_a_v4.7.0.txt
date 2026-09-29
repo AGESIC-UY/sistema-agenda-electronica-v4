@@ -71,3 +71,12 @@ A contiuación se enumeran pasos a tener en cuenta:
    Ej: <simple name="java:global/iduruguayhttphandler/nidsHabilitados" value=":nid:2,:nid:3" type="java.lang.String"/>,
    Los nids van separados por coma (,), el valor por defecto sino se agrega es ":nid:2, :nid:3".
 -- =======================================================================================================================
+-- 4.7.1
+-- Nada para hacer. Solo desplegar el nuevo EAR.
+-- =======================================================================================================================
+-- 4.7.2
+-- Desplegar el nuevo EAR.
+-- =======================================================================================================================
+-- 4.7.3
+-- Desplegar el nuevo EAR.
+-- =======================================================================================================================
